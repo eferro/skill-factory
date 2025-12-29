@@ -7,9 +7,10 @@
 import requests
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).parent.parent
+SCRIPT_DIR = Path(__file__).parent
+REPO_ROOT = SCRIPT_DIR.parent
 DOCS_DIR = REPO_ROOT / "docs" / "knowledge" / "anthropic-skill-docs"
-SOURCES_FILE = DOCS_DIR / "sources.txt"
+SOURCES_FILE = SCRIPT_DIR / "sources.txt"
 OUTPUT_DIR = DOCS_DIR
 
 def fetch_docs():

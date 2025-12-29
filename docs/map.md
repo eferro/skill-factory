@@ -3,17 +3,17 @@
 ```
 skill-factory/
 ├── CLAUDE.md                           # Agent instructions for this project
+├── update-docs                         # Bash wrapper to update documentation
 ├── scripts/                            # Automation scripts
 │   └── fetch_anthropic_skill_docs.py   # Fetch latest Anthropic docs
 ├── docs/                               # All knowledge about creating skills
 │   ├── knowledge/
 │   │   └── anthropic-skill-docs/       # Official Anthropic skill documentation
-│   │       ├── map.md                  # Guide to this folder
 │   │       ├── sources.txt             # URLs to fetch docs from
-│   │       ├── overview.md             # (fetched)
-│   │       ├── skills.md               # (fetched)
-│   │       ├── best-practices.md       # (fetched)
-│   │       └── quickstart.md           # (fetched)
+│   │       ├── overview.md             # What skills are, why they exist, core concepts
+│   │       ├── skills.md               # Implementation syntax, structure, usage patterns
+│   │       ├── best-practices.md       # Proven patterns, common pitfalls, guidelines
+│   │       └── quickstart.md           # Quick start guide to first skill
 │   ├── map.md                          # This file - repository structure
 │   └── project.md                      # Project-specific information
 └── output_skills/                      # Created skills organized by name
