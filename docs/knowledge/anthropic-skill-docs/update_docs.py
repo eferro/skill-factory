@@ -7,8 +7,9 @@
 import requests
 from pathlib import Path
 
-SOURCES_FILE = Path("docs/knowledge/anthropic-skill-docs/sources.txt")
-OUTPUT_DIR = Path("docs/knowledge/anthropic-skill-docs")
+SCRIPT_DIR = Path(__file__).parent
+SOURCES_FILE = SCRIPT_DIR / "sources.txt"
+OUTPUT_DIR = SCRIPT_DIR
 
 def fetch_docs():
     if not SOURCES_FILE.exists():
