@@ -5,6 +5,8 @@ description: Refactoring process. Use when improving code structure, cleaning up
 
 # Refactoring Production Code
 
+STARTER_CHARACTER = 🟣
+
 Ask one question at a time and wait for a response.
 
 Confirm file names and locations if unsure.
@@ -19,7 +21,7 @@ For each refactor:
 1. Ensure all tests pass
 2. Choose and perform the simplest possible refactoring (one at a time)
 3. Ensure all tests pass after the change
-4. Commit with message format: `- r <refactoring>` (Arlo's Commit Notation - lowercase `r` indicates safe refactoring)
+4. Commit each successful refactor with the message format: "- r <refactoring>" (quotes must include the - r).
 5. Provide a status update after each refactor
 
 If a refactor fails three times or no further refactoring is found, pause and check with the user.
