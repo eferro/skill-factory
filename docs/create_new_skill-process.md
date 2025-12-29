@@ -71,12 +71,21 @@ description: [What it does]. Use when [trigger phrases user would say].
 
 Keep references one level deep from SKILL.md.
 
-### 7. Test
+### 7. Review Against Best Practices
+Re-read `docs/knowledge/anthropic-skill-docs/best-practices.md` and `skills.md` (troubleshooting section). Compare to what you created:
+- Does the description include clear trigger words?
+- Is the body concise? Remove anything Claude already knows.
+- Are references one level deep?
+- Any anti-patterns present?
+
+Suggest improvements before proceeding.
+
+### 8. Test
 - Ask Claude to do a task that should trigger the skill
 - Verify: Does it trigger? Does Claude follow instructions correctly?
 - Try edge cases
 
-### 8. Iterate
+### 9. Iterate
 - Skill doesn't trigger → improve description with better trigger words
 - Claude misses steps → make instructions more prominent
 - Too verbose → remove what Claude already knows
