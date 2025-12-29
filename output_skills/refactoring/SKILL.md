@@ -36,3 +36,7 @@ Prefer self-explanatory, readable code over comments.
 - Use better variable names
 - Remove unused imports
 - Remove unhelpful local variables
+
+## Language-Specific
+
+For Java: See [references/java.md](references/java.md)
