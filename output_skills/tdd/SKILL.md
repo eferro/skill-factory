@@ -5,6 +5,8 @@ description: Follows test-driven development process when writing code. Use when
 
 # Test-Driven Development
 
+**Thoroughness over speed.** Complete test coverage matters more than quick delivery. Don't skip tests or cut corners to reach the goal faster.
+
 When starting, announce: "Using TDD skill in mode: [auto|human]"
 
 MODE (user specifies, default: auto)
@@ -66,7 +68,9 @@ STARTER_CHARACTER = 🔴 for red test, 🌱 for green, 🌀 when refactoring, al
     - Run tests after each simplification
     - Repeat until every line is justified by a test
 12. Refactor.
-    - Think about improvements to expressiveness, clarity, simplicity - without changing behavior
+    - Reflect on the domain: Is there a missing concept that would make the code more expressive? An object waiting to be extracted? A better way to model the problem?
+    - You may introduce domain concepts (new classes, enums, abstractions) as long as you add NO new behavior. Tests must still pass.
+    - Think about improvements to expressiveness, clarity, simplicity
     - Say `🧹 Starting refactoring stage` and list planned refactorings
     - Implement one at a time, run tests after each
     - When done (or if none needed), say "🧹 Refactoring complete"
