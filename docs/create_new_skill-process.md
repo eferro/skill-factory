@@ -26,8 +26,8 @@ Read the official documentation in `docs/knowledge/anthropic-skill-docs/`:
 ### 2. Clarify the Goal
 Ask the user:
 - What specific task should Claude be able to do?
-- What does Claude NOT already know that this skill needs to provide?
-- Do you have examples that should be included as reference material?
+- Think about what does Claude NOT already know that this skill needs to provide. Show it as a suggestion to the user.
+- Are there examples that should be included as reference material? You can search online or ask for the user input.
 
 ### 3. Propose Name and Description
 Based on what the user described, SUGGEST:
