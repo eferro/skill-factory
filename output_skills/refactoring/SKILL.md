@@ -1,6 +1,6 @@
 ---
 name: refactoring
-description: Refactoring process. Invoke immediately when user or document mentions refactoring, or proactively when code gets too complex or messy.
+description: Refactoring process. Invoke immediately when user or document mentions refactoring, or proactively when code shows the first signs of becoming too complex or messy.
 ---
 
 # Refactoring Production Code
@@ -51,6 +51,7 @@ Follow this process for each refactoring:
 2. Choose and perform the simplest possible refactoring (one at a time)
 3. Ensure all tests pass after the change
 4. Commit each successful refactor with the message format: "- r <refactoring>" (the message must include the "- r" prefix)
+   Prefer small granular commits. If applying the same refactoring pattern to multiple locations, change one location at a time and commit each separately.
 5. Provide a status update after each refactor
 
 If a refactor fails three times or no further refactoring is found, pause and check with the user.
