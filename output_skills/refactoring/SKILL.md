@@ -17,6 +17,7 @@ Work autonomously as much as possible. Start with the simplest thing or file and
 2. Main Refactoring
 3. Final Evaluation
 4. Cleanup
+5. Summary
 
 ## Test Code Policy
 
@@ -32,6 +33,8 @@ Search for ./test.sh script in the project root and run it for all tests.
 If it's not present, create it and ensure it runs all tests.
 Verify all tests pass before starting any refactoring.
 
+Remove all comments from the target files as initial cleanup. This can be done in one commit per file.
+
 ## 2. Main Refactoring
 
 ### Code Style
@@ -39,7 +42,7 @@ Verify all tests pass before starting any refactoring.
 Prefer self-explanatory, readable code over comments.
 
 - Use functional helper methods for clarity
-- Remove comments and dead code
+- Remove dead code
 - Extract paragraphs into methods
 - Use better variable names
 - Remove unused imports
@@ -77,6 +80,12 @@ If any exist:
 - List them clearly
 - Ask the user: "Should I update tests to use the new names and remove the compatibility aliases?"
 - Only proceed with user approval
+
+## 5. Summary
+
+Provide a high-level summary of the refactoring:
+- List each file that was touched
+- Describe the key improvements made in each file
 
 ## Language-Specific
 
