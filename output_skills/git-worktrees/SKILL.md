@@ -1,6 +1,6 @@
 ---
 name: git-worktrees
-description: Creates git worktrees for parallel development. Use when creating worktrees, setting up multiple working directories, or working on features in parallel.
+description: Creates git worktrees for parallel development. Use when creating a git worktree, setting up multiple working directories, or working on features in parallel.
 ---
 
 # Git Worktrees
