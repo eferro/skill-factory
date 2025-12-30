@@ -1,0 +1,1021 @@
+
+╭─── Claude Code v2.0.76 ──────────────────────────────────────────────────────╮
+│                                                    │ Tips for getting        │
+│                Welcome back Archie!                │ started                 │
+│                                                    │ Run /init to create a … │
+│                     * ▐▛███▜▌ *                    │ ─────────────────────── │
+│                    * ▝▜█████▛▘ *                   │ Recent activity         │
+│                     *  ▘▘ ▝▝  *                    │ No recent activity      │
+│                                                    │                         │
+│      Opus 4.5 · Claude Max ·                       │                         │
+│      archie.kesseler@gmail.com's Organization      │                         │
+│        ~/…/skill_3/s9_code_quality_exercise        │                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+  A gift for you
+  Your rate limits are 2x higher through 12/31. Enjoy the extra room to think!
+
+> I want you to refactor the following files:
+
+  s9_code_quality_exercise/src/
+  ├── natural_language_calculator.py
+  ├── processor.py
+  └── utils.py
+
+Run Tests:
+
+  cd s9_code_quality_exercise
+  ./docs/scripts/run_tests.sh 
+
+⏺ 🍀 Let me invoke the refactoring skill since that's directly relevant here.
+
+⏺ /refactoring
+
+⏺ 🟣Using REFACTORING skill
+
+  Let me start by reading the source files and finding the test file.
+
+⏺ Read(src/natural_language_calculator.py)
+  ⎿  Read 46 lines
+
+⏺ Read(src/processor.py)
+  ⎿  Read 130 lines
+
+⏺ Read(src/utils.py)
+  ⎿  Read 25 lines
+
+⏺ Search(pattern: "**/test*.py", path: "~/workspace/exploratorium/refactoring/py
+        thon-exercises_worktrees/skill_3/s9_code_quality_exercise")
+  ⎿  Found 2 files (ctrl+o to expand)
+
+⏺ Let me read the test files and check for the test script:
+
+⏺ Read(tests/test_calculator.py)
+  ⎿  Read 293 lines
+
+⏺ Read(tests/test_file_operations.py)
+  ⎿  Read 261 lines
+
+⏺ Search(pattern: "**/test.sh", path: "~/workspace/exploratorium/refactoring/pyt
+        hon-exercises_worktrees/skill_3/s9_code_quality_exercise")
+  ⎿  Found 0 files 
+
+⏺ No test.sh found. Let me check the run_tests.sh script and create test.sh:
+
+⏺ Read(docs/scripts/run_tests.sh)
+  ⎿  Read 9 lines
+  ⎿  Loaded docs/CLAUDE.md
+
+⏺ Let me create test.sh and run the tests:
+
+⏺ Write(test.sh)
+  ⎿  Wrote 6 lines to test.sh   
+     #!/usr/bin/env bash
+     set -euo pipefail
+     cd "$(dirname "$0")"
+     ./docs/scripts/run_tests.sh
+
+⏺ Bash(chmod +x /Users/ladak/workspace/exploratorium/refactoring/python-exercise
+      s_worktrees/skill_3/s9_code_quality_exercise/test.sh &&
+      /Users/ladak/workspace/explorat…)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ All 50 tests pass. Let me analyze the code structure:
+
+  ┌─────────────────────────────────────┐
+  │  natural_language_calculator.py     │
+  │  (main entry point, file I/O)       │
+  └─────────────┬───────────────────────┘
+                │
+                ▼
+  ┌─────────────────────────────────────┐
+  │  processor.py                       │
+  │  (process_line, calc_simple)        │
+  │  - LOTS of duplication              │
+  └─────────────┬───────────────────────┘
+                │
+                ▼
+  ┌─────────────────────────────────────┐
+  │  utils.py                           │
+  │  (get_num - word to number)         │
+  └─────────────────────────────────────┘
+
+  Starting with the simplest refactoring - removing comments from processor.py:
+
+⏺ Update(src/processor.py)
+  ⎿  Removed 2 lines                                                     
+      11  def process_line(line):                                        
+      12      line = normalize_line(line)                                
+      13                                                                 
+      14 -    # Check if it has nested result                            
+      14      if ', minus the result of ' in line or ', plus the result  
+          of ' in line or ', times the result of ' in line or ', divided 
+           by the result of ' in line or ' minus the result of ' in line 
+           or ' plus the result of ' in line or ' times the result of '  
+          in line or ' divided by the result of ' in line:               
+      15 -        # Handle nested operations                             
+      15          if ', minus the result of ' in line:                   
+      16              parts = line.split(', minus the result of ')       
+      17              left = parts[0]                                    
+  ⎿  PostToolUse:Edit hook returned blocking error
+
+⏺ 🟣 Need to remove all remaining comments. Let me read the current file and remove them all:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 128 lines
+
+⏺ Update(src/processor.py)
+  ⎿  Removed 2 lines                                                     
+      69              right_val = calc_simple(right)                     
+      70              result = left_val / right_val                      
+      71      else:                                                      
+      72 -        # Simple operation                                     
+      72          result = calc_simple(line)                             
+      73                                                                 
+      74 -    # Format the result                                        
+      74      if result == int(result):                                  
+      75          return int(result)                                     
+      76      else:                                                      
+  ⎿  PostToolUse:Edit hook returned blocking error
+
+⏺ Update(src/processor.py)
+  ⎿  Removed 1 line                                                      
+      79  def calc_simple(expression):                                   
+      80      expression = expression.strip()                            
+      81                                                                 
+      82 -    # Handle comma-separated operations (precedence)           
+      82      if ', ' in expression:                                     
+      83          parts = expression.split(', ')                         
+      84          left = parts[0]                                        
+  ⎿  PostToolUse:Edit hook returned blocking error
+
+⏺ Update(src/processor.py)
+  ⎿  Removed 1 line                                                      
+      84          left = parts[0]                                        
+      85          rest = parts[1]                                        
+      86          left_val = calc_simple(left)                           
+      87 -        # Now parse the rest to see what operation             
+      87          if rest.startswith('minus '):                          
+      88              right_val = get_num(rest[6:])                      
+      89              return left_val - right_val                        
+  ⎿  PostToolUse:Edit hook returned blocking error
+
+⏺ Update(src/processor.py)
+  ⎿  Removed 1 line                                                      
+       97              right_val = get_num(rest[11:])                    
+       98              return left_val / right_val                       
+       99                                                                
+      100 -    # Try to parse the expression                             
+      100      if ' plus ' in expression:                                
+      101          parts = expression.split(' plus ')                    
+      102          num1 = get_num(parts[0].strip())                      
+  ⎿  PostToolUse:Edit hook returned blocking error
+
+⏺ Update(src/processor.py)
+  ⎿  Removed 1 line                                                      
+      118          num2 = get_num(parts[1].strip())                      
+      119          return num1 / num2                                    
+      120      else:                                                     
+      121 -        # Might be just a number                              
+      121          return get_num(expression)                            
+
+⏺ 🟣 Let me re-read and remove all remaining comments:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 122 lines
+
+⏺ All comments are now removed. Let me run the tests:
+
+⏺ Bash(/Users/ladak/workspace/exploratorium/refactoring/python-exercises_worktre
+      es/skill_3/s9_code_quality_exercise/test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Tests pass. Committing:
+
+⏺ Bash(git add -A && git commit -m "- r remove comments from processor.py…)
+  ⎿  [skill_3 2b8e8c3] - r remove comments from processor.py
+      3 files changed, 5 insertions(+), 8 deletions(-)
+      create mode 100755 s9_code_quality_exercise/test.sh
+
+⏺ Status: ✅ Removed comments from processor.py
+
+  Next refactoring - the massive duplication in process_line. I see 8 nearly identical blocks like:
+  parts = line.split('SEPARATOR')
+  left = parts[0]
+  right = parts[1]
+  left_val = calc_simple(left)
+  right_val = calc_simple(right)
+  result = left_val OP right_val
+
+  Let me extract a helper function for nested operations:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 6 lines                                                       
+       2                                                                 
+       3  RESULT_PREFIX = 'the result of '                               
+       4                                                                 
+       5 +def calculate_nested(line, separator, operation):              
+       6 +    parts = line.split(separator)                              
+       7 +    left_val = calc_simple(parts[0])                           
+       8 +    right_val = calc_simple(parts[1])                          
+       9 +    return operation(left_val, right_val)                      
+      10 +                                                               
+      11  def normalize_line(line):                                      
+      12      line = line.lower()                                        
+      13      if line.startswith(RESULT_PREFIX):                         
+
+⏺ Bash(/Users/ladak/workspace/exploratorium/refactoring/python-exercises_worktre
+      es/skill_3/s9_code_quality_exercise/test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Now let me use the helper to replace the first duplicate block:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 128 lines
+
+⏺ Let me replace all 8 duplicate blocks using the helper:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 8 lines, removed 48 lines                                     
+      19                                                                 
+      20      if ', minus the result of ' in line or ', plus the result  
+          of ' in line or ', times the result of ' in line or ', divided 
+           by the result of ' in line or ' minus the result of ' in line 
+           or ' plus the result of ' in line or ' times the result of '  
+          in line or ' divided by the result of ' in line:               
+      21          if ', minus the result of ' in line:                   
+      22 -            parts = line.split(', minus the result of ')       
+      23 -            left = parts[0]                                    
+      24 -            right = parts[1]                                   
+      25 -            left_val = calc_simple(left)                       
+      26 -            right_val = calc_simple(right)                     
+      27 -            result = left_val - right_val                      
+      22 +            result = calculate_nested(line, ', minus the       
+         +result of ', lambda a, b: a - b)                               
+      23          elif ' minus the result of ' in line:                  
+      24 -            parts = line.split(' minus the result of ')        
+      25 -            left = parts[0]                                    
+      26 -            right = parts[1]                                   
+      27 -            left_val = calc_simple(left)                       
+      28 -            right_val = calc_simple(right)                     
+      29 -            result = left_val - right_val                      
+      24 +            result = calculate_nested(line, ' minus the result 
+         + of ', lambda a, b: a - b)                                     
+      25          elif ', plus the result of ' in line:                  
+      26 -            parts = line.split(', plus the result of ')        
+      27 -            left = parts[0]                                    
+      28 -            right = parts[1]                                   
+      29 -            left_val = calc_simple(left)                       
+      30 -            right_val = calc_simple(right)                     
+      31 -            result = left_val + right_val                      
+      26 +            result = calculate_nested(line, ', plus the result 
+         + of ', lambda a, b: a + b)                                     
+      27          elif ' plus the result of ' in line:                   
+      28 -            parts = line.split(' plus the result of ')         
+      29 -            left = parts[0]                                    
+      30 -            right = parts[1]                                   
+      31 -            left_val = calc_simple(left)                       
+      32 -            right_val = calc_simple(right)                     
+      33 -            result = left_val + right_val                      
+      28 +            result = calculate_nested(line, ' plus the result  
+         +of ', lambda a, b: a + b)                                      
+      29          elif ', times the result of ' in line:                 
+      30 -            parts = line.split(', times the result of ')       
+      31 -            left = parts[0]                                    
+      32 -            right = parts[1]                                   
+      33 -            left_val = calc_simple(left)                       
+      34 -            right_val = calc_simple(right)                     
+      35 -            result = left_val * right_val                      
+      30 +            result = calculate_nested(line, ', times the       
+         +result of ', lambda a, b: a * b)                               
+      31          elif ' times the result of ' in line:                  
+      32 -            parts = line.split(' times the result of ')        
+      33 -            left = parts[0]                                    
+      34 -            right = parts[1]                                   
+      35 -            left_val = calc_simple(left)                       
+      36 -            right_val = calc_simple(right)                     
+      37 -            result = left_val * right_val                      
+      32 +            result = calculate_nested(line, ' times the result 
+         + of ', lambda a, b: a * b)                                     
+      33          elif ', divided by the result of ' in line:            
+      34 -            parts = line.split(', divided by the result of ')  
+      35 -            left = parts[0]                                    
+      36 -            right = parts[1]                                   
+      37 -            left_val = calc_simple(left)                       
+      38 -            right_val = calc_simple(right)                     
+      39 -            result = left_val / right_val                      
+      34 +            result = calculate_nested(line, ', divided by the  
+         +result of ', lambda a, b: a / b)                               
+      35          elif ' divided by the result of ' in line:             
+      36 -            parts = line.split(' divided by the result of ')   
+      37 -            left = parts[0]                                    
+      38 -            right = parts[1]                                   
+      39 -            left_val = calc_simple(left)                       
+      40 -            right_val = calc_simple(right)                     
+      41 -            result = left_val / right_val                      
+      36 +            result = calculate_nested(line, ' divided by the   
+         +result of ', lambda a, b: a / b)                               
+      37      else:                                                      
+      38          result = calc_simple(line)                             
+      39                                                                 
+
+⏺ Bash(/Users/ladak/workspace/exploratorium/refactoring/python-exercises_worktre
+      es/skill_3/s9_code_quality_exercise/test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Excellent! Tests pass. Code reduced from 110 to 75 statements. Committing:
+
+⏺ Bash(git add -A && git commit -m "- r extract calculate_nested helper to
+      reduce duplication…)
+  ⎿ [skill_3 c9a66cc] - r extract calculate_nested helper to reduce duplica
+    tion
+     2 files changed, 14 insertions(+), 48 deletions(-)
+
+
+⏺ Status: ✅ Extracted calculate_nested helper - reduced 48 lines of duplication
+
+  Next refactoring - replace the long if/elif chain with a data-driven loop:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 88 lines
+
+⏺ Update(src/processor.py)
+  ⎿  Added 11 lines                                                      
+       2                                                                 
+       3  RESULT_PREFIX = 'the result of '                               
+       4                                                                 
+       5 +NESTED_OPERATIONS = [                                          
+       6 +    (', minus the result of ', lambda a, b: a - b),            
+       7 +    (' minus the result of ', lambda a, b: a - b),             
+       8 +    (', plus the result of ', lambda a, b: a + b),             
+       9 +    (' plus the result of ', lambda a, b: a + b),              
+      10 +    (', times the result of ', lambda a, b: a * b),            
+      11 +    (' times the result of ', lambda a, b: a * b),             
+      12 +    (', divided by the result of ', lambda a, b: a / b),       
+      13 +    (' divided by the result of ', lambda a, b: a / b),        
+      14 +]                                                              
+      15 +                                                               
+      16  def calculate_nested(line, separator, operation):              
+      17      parts = line.split(separator)                              
+      18      left_val = calc_simple(parts[0])                           
+
+⏺ Now replace the if/elif chain with a loop:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 9 lines, removed 17 lines                                     
+      25          line = line[len(RESULT_PREFIX):]                       
+      26      return line                                                
+      27                                                                 
+      28 +def find_nested_operation(line):                               
+      29 +    for separator, operation in NESTED_OPERATIONS:             
+      30 +        if separator in line:                                  
+      31 +            return separator, operation                        
+      32 +    return None, None                                          
+      33 +                                                               
+      34  def process_line(line):                                        
+      35      line = normalize_line(line)                                
+      36                                                                 
+      37 -    if ', minus the result of ' in line or ', plus the result  
+         -of ' in line or ', times the result of ' in line or ', divided 
+         - by the result of ' in line or ' minus the result of ' in line 
+         - or ' plus the result of ' in line or ' times the result of '  
+         -in line or ' divided by the result of ' in line:               
+      38 -        if ', minus the result of ' in line:                   
+      39 -            result = calculate_nested(line, ', minus the       
+         -result of ', lambda a, b: a - b)                               
+      40 -        elif ' minus the result of ' in line:                  
+      41 -            result = calculate_nested(line, ' minus the result 
+         - of ', lambda a, b: a - b)                                     
+      42 -        elif ', plus the result of ' in line:                  
+      43 -            result = calculate_nested(line, ', plus the result 
+         - of ', lambda a, b: a + b)                                     
+      44 -        elif ' plus the result of ' in line:                   
+      45 -            result = calculate_nested(line, ' plus the result  
+         -of ', lambda a, b: a + b)                                      
+      46 -        elif ', times the result of ' in line:                 
+      47 -            result = calculate_nested(line, ', times the       
+         -result of ', lambda a, b: a * b)                               
+      48 -        elif ' times the result of ' in line:                  
+      49 -            result = calculate_nested(line, ' times the result 
+         - of ', lambda a, b: a * b)                                     
+      50 -        elif ', divided by the result of ' in line:            
+      51 -            result = calculate_nested(line, ', divided by the  
+         -result of ', lambda a, b: a / b)                               
+      52 -        elif ' divided by the result of ' in line:             
+      53 -            result = calculate_nested(line, ' divided by the   
+         -result of ', lambda a, b: a / b)                               
+      37 +    separator, operation = find_nested_operation(line)         
+      38 +    if separator:                                              
+      39 +        result = calculate_nested(line, separator, operation)  
+      40      else:                                                      
+      41          result = calc_simple(line)                             
+      42                                                                 
+
+⏺ Bash(/Users/ladak/workspace/exploratorium/refactoring/python-exercises_worktre
+      es/skill_3/s9_code_quality_exercise/test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Tests pass. Now 67 statements. Committing:
+
+⏺ Bash(git add -A && git commit -m "- r replace if/elif chain with data-driven
+      loop for nested operations…)
+  ⎿ [skill_3 9a3682b] - r replace if/elif chain with data-driven loop for n
+    ested operations
+     2 files changed, 20 insertions(+), 17 deletions(-)
+
+
+⏺ Status: ✅ Replaced if/elif chain with data-driven loop
+
+  Now let me apply the same pattern to calc_simple which also has duplicate blocks. Let me read the current state:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 91 lines
+
+⏺ I see duplication in calc_simple. Let me apply the same data-driven pattern:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 27 lines, removed 8 lines                                     
+       2                                                                 
+       3  RESULT_PREFIX = 'the result of '                               
+       4                                                                 
+       5 +SUBTRACT = lambda a, b: a - b                                  
+       6 +ADD = lambda a, b: a + b                                       
+       7 +MULTIPLY = lambda a, b: a * b                                  
+       8 +DIVIDE = lambda a, b: a / b                                    
+       9 +                                                               
+      10  NESTED_OPERATIONS = [                                          
+      11 -    (', minus the result of ', lambda a, b: a - b),            
+      12 -    (' minus the result of ', lambda a, b: a - b),             
+      13 -    (', plus the result of ', lambda a, b: a + b),             
+      14 -    (' plus the result of ', lambda a, b: a + b),              
+      15 -    (', times the result of ', lambda a, b: a * b),            
+      16 -    (' times the result of ', lambda a, b: a * b),             
+      17 -    (', divided by the result of ', lambda a, b: a / b),       
+      18 -    (' divided by the result of ', lambda a, b: a / b),        
+      11 +    (', minus the result of ', SUBTRACT),                      
+      12 +    (' minus the result of ', SUBTRACT),                       
+      13 +    (', plus the result of ', ADD),                            
+      14 +    (' plus the result of ', ADD),                             
+      15 +    (', times the result of ', MULTIPLY),                      
+      16 +    (' times the result of ', MULTIPLY),                       
+      17 +    (', divided by the result of ', DIVIDE),                   
+      18 +    (' divided by the result of ', DIVIDE),                    
+      19  ]                                                              
+      20                                                                 
+      21 +SIMPLE_OPERATIONS = [                                          
+      22 +    (' plus ', ADD),                                           
+      23 +    (' minus ', SUBTRACT),                                     
+      24 +    (' times ', MULTIPLY),                                     
+      25 +    (' divided by ', DIVIDE),                                  
+      26 +]                                                              
+      27 +                                                               
+      28 +COMMA_OPERATIONS = [                                           
+      29 +    ('minus ', 6, SUBTRACT),                                   
+      30 +    ('plus ', 5, ADD),                                         
+      31 +    ('times ', 6, MULTIPLY),                                   
+      32 +    ('divided by ', 11, DIVIDE),                               
+      33 +]                                                              
+      34 +                                                               
+      35  def calculate_nested(line, separator, operation):              
+      36      parts = line.split(separator)                              
+      37      left_val = calc_simple(parts[0])                           
+
+⏺ Now update calc_simple to use the data:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 13 lines, removed 36 lines                                    
+       69                                                                
+       70      if ', ' in expression:                                    
+       71          parts = expression.split(', ')                        
+       72 -        left = parts[0]                                       
+       72 +        left_val = calc_simple(parts[0])                      
+       73          rest = parts[1]                                       
+       74 -        left_val = calc_simple(left)                          
+       75 -        if rest.startswith('minus '):                         
+       76 -            right_val = get_num(rest[6:])                     
+       77 -            return left_val - right_val                       
+       78 -        elif rest.startswith('plus '):                        
+       79 -            right_val = get_num(rest[5:])                     
+       80 -            return left_val + right_val                       
+       81 -        elif rest.startswith('times '):                       
+       82 -            right_val = get_num(rest[6:])                     
+       83 -            return left_val * right_val                       
+       84 -        elif rest.startswith('divided by '):                  
+       85 -            right_val = get_num(rest[11:])                    
+       86 -            return left_val / right_val                       
+       74 +        for prefix, length, operation in COMMA_OPERATIONS:    
+       75 +            if rest.startswith(prefix):                       
+       76 +                right_val = get_num(rest[length:])            
+       77 +                return operation(left_val, right_val)         
+       78                                                                
+       79 -    if ' plus ' in expression:                                
+       80 -        parts = expression.split(' plus ')                    
+       81 -        num1 = get_num(parts[0].strip())                      
+       82 -        num2 = get_num(parts[1].strip())                      
+       83 -        return num1 + num2                                    
+       84 -    elif ' minus ' in expression:                             
+       85 -        parts = expression.split(' minus ')                   
+       86 -        num1 = get_num(parts[0].strip())                      
+       87 -        num2 = get_num(parts[1].strip())                      
+       88 -        return num1 - num2                                    
+       89 -    elif ' times ' in expression:                             
+       90 -        parts = expression.split(' times ')                   
+       91 -        num1 = get_num(parts[0].strip())                      
+       92 -        num2 = get_num(parts[1].strip())                      
+       93 -        return num1 * num2                                    
+       94 -    elif ' divided by ' in expression:                        
+       95 -        parts = expression.split(' divided by ')              
+       96 -        num1 = get_num(parts[0].strip())                      
+       97 -        num2 = get_num(parts[1].strip())                      
+       98 -        return num1 / num2                                    
+       99 -    else:                                                     
+      100 -        return get_num(expression)                            
+       79 +    for separator, operation in SIMPLE_OPERATIONS:            
+       80 +        if separator in expression:                           
+       81 +            parts = expression.split(separator)               
+       82 +            num1 = get_num(parts[0].strip())                  
+       83 +            num2 = get_num(parts[1].strip())                  
+       84 +            return operation(num1, num2)                      
+       85 +                                                              
+       86 +    return get_num(expression)                                
+
+⏺ Bash(/Users/ladak/workspace/exploratorium/refactoring/python-exercises_worktre
+      es/skill_3/s9_code_quality_exercise/test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Excellent! Down to 50 statements (from 110). Committing:
+
+⏺ Bash(git add -A && git commit -m "- r extract operation constants and apply
+      data-driven pattern to calc_simple…)
+  ⎿ [skill_3 6705d42] - r extract operation constants and apply data-driven
+     pattern to calc_simple
+     2 files changed, 40 insertions(+), 44 deletions(-)
+
+
+⏺ Status: ✅ Extracted operation constants and refactored calc_simple
+
+  Let me check the current state and look for more opportunities:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 87 lines
+
+⏺ I see COMMA_OPERATIONS has magic numbers for prefix lengths. Let me simplify by using len():
+
+⏺ Update(src/processor.py)
+  ⎿  Added 4 lines, removed 4 lines                                      
+      26  ]                                                              
+      27                                                                 
+      28  COMMA_OPERATIONS = [                                           
+      29 -    ('minus ', 6, SUBTRACT),                                   
+      30 -    ('plus ', 5, ADD),                                         
+      31 -    ('times ', 6, MULTIPLY),                                   
+      32 -    ('divided by ', 11, DIVIDE),                               
+      29 +    ('minus ', SUBTRACT),                                      
+      30 +    ('plus ', ADD),                                            
+      31 +    ('times ', MULTIPLY),                                      
+      32 +    ('divided by ', DIVIDE),                                   
+      33  ]                                                              
+      34                                                                 
+      35  def calculate_nested(line, separator, operation):              
+
+⏺ Update(src/processor.py)
+  ⎿  Added 2 lines, removed 2 lines                                      
+      71          parts = expression.split(', ')                         
+      72          left_val = calc_simple(parts[0])                       
+      73          rest = parts[1]                                        
+      74 -        for prefix, length, operation in COMMA_OPERATIONS:     
+      74 +        for prefix, operation in COMMA_OPERATIONS:             
+      75              if rest.startswith(prefix):                        
+      76 -                right_val = get_num(rest[length:])             
+      76 +                right_val = get_num(rest[len(prefix):])        
+      77                  return operation(left_val, right_val)          
+      78                                                                 
+      79      for separator, operation in SIMPLE_OPERATIONS:             
+
+⏺ Bash(/Users/ladak/workspace/exploratorium/refactoring/python-exercises_worktre
+      es/skill_3/s9_code_quality_exercise/test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Bash(git add -A && git commit -m "- r remove magic numbers from
+      COMMA_OPERATIONS using len()…)
+  ⎿  [skill_3 ed12f8a] - r remove magic numbers from COMMA_OPERATIONS using
+     len()
+      1 file changed, 6 insertions(+), 6 deletions(-)
+
+⏺ Status: ✅ Removed magic numbers
+
+  Next - I see process_line does two things: calculation and formatting. Let me extract format_result:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 6 lines, removed 4 lines                                      
+      50              return separator, operation                        
+      51      return None, None                                          
+      52                                                                 
+      53 +def format_result(result):                                     
+      54 +    if result == int(result):                                  
+      55 +        return int(result)                                     
+      56 +    return round(result, 2)                                    
+      57 +                                                               
+      58  def process_line(line):                                        
+      59      line = normalize_line(line)                                
+      60                                                                 
+     ...
+      59      else:                                                      
+      60          result = calc_simple(line)                             
+      61                                                                 
+      62 -    if result == int(result):                                  
+      63 -        return int(result)                                     
+      64 -    else:                                                      
+      65 -        return round(result, 2)                                
+      62 +    return format_result(result)                               
+      63                                                                 
+      64  def calc_simple(expression):                                   
+      65      expression = expression.strip()                            
+
+⏺ Bash(/Users/ladak/workspace/exploratorium/refactoring/python-exercises_worktre
+      es/skill_3/s9_code_quality_exercise/test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Bash(git add -A && git commit -m "- r extract format_result function…)
+  ⎿  [skill_3 02ef4c3] - r extract format_result function
+      2 files changed, 6 insertions(+), 4 deletions(-)
+
+⏺ Status: ✅ Extracted format_result function
+
+  Let me check natural_language_calculator.py for opportunities:
+
+⏺ Read(src/natural_language_calculator.py)
+  ⎿  Read 46 lines
+
+⏺ I see opportunities to extract functions from the long main function. Let me extract read_input_file:
+
+⏺ Update(src/natural_language_calculator.py)
+  ⎿  Added 5 lines, removed 2 lines                                      
+       4                                                                 
+       5  from processor import process_line                             
+       6                                                                 
+       7 +def read_input_file(input_file):                               
+       8 +    with open(input_file, 'r') as f:                           
+       9 +        return f.readlines()                                   
+      10 +                                                               
+      11  def main(input_file=None):                                     
+      12      if input_file is None:                                     
+      13          if len(sys.argv) < 2:                                  
+     ...
+      12          input_file = sys.argv[1]                               
+      13                                                                 
+      14      try:                                                       
+      15 -        with open(input_file, 'r') as f:                       
+      16 -            lines = f.readlines()                              
+      15 +        lines = read_input_file(input_file)                    
+      16      except:                                                    
+      17          print("Error")                                         
+      18          return 1                                               
+
+⏺ Bash(/Users/ladak/workspace/exploratorium/refactoring/python-exercises_worktre
+      es/skill_3/s9_code_quality_exercise/test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Bash(git add -A && git commit -m "- r extract read_input_file function…)
+  ⎿  [skill_3 9907824] - r extract read_input_file function
+      2 files changed, 5 insertions(+), 2 deletions(-)
+
+⏺ Now extract write_results:
+
+⏺ Read(src/natural_language_calculator.py)
+  ⎿  Read 49 lines
+
+⏺ Update(src/natural_language_calculator.py)
+  ⎿  Added 5 lines                                                       
+       8      with open(input_file, 'r') as f:                           
+       9          return f.readlines()                                   
+      10                                                                 
+      11 +def write_results(output_file, results):                       
+      12 +    with open(output_file, 'w') as f:                          
+      13 +        for result in results:                                 
+      14 +            f.write(str(result) + '\n')                        
+      15 +                                                               
+      16  def main(input_file=None):                                     
+      17      if input_file is None:                                     
+      18          if len(sys.argv) < 2:                                  
+
+⏺ Update(src/natural_language_calculator.py)
+  ⎿  Added 1 line, removed 3 lines                                       
+      39                                                                 
+      40      output_file = input_file.replace('.txt', '_results.txt')   
+      41      try:                                                       
+      42 -        with open(output_file, 'w') as f:                      
+      43 -            for r in results:                                  
+      44 -                f.write(str(r) + '\n')                         
+      42 +        write_results(output_file, results)                    
+      43      except:                                                    
+      44          print("Error")                                         
+      45          return 1                                               
+
+⏺ Bash(/Users/ladak/workspace/exploratorium/refactoring/python-exercises_worktre
+      es/skill_3/s9_code_quality_exercise/test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Bash(git add -A && git commit -m "- r extract write_results function…)
+  ⎿  [skill_3 95d273d] - r extract write_results function
+      2 files changed, 6 insertions(+), 3 deletions(-)
+
+⏺ Let me check utils.py:
+
+⏺ Read(src/utils.py)
+  ⎿  Read 25 lines
+
+⏺ utils.py looks clean. Let me do a final review of processor.py:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 89 lines
+
+⏺ I can use the operator module instead of lambdas - more idiomatic Python:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 5 lines, removed 4 lines                                      
+       1 +import operator                                                
+       2  from utils import get_num                                      
+       3                                                                 
+       4  RESULT_PREFIX = 'the result of '                               
+       5                                                                 
+       6 -SUBTRACT = lambda a, b: a - b                                  
+       7 -ADD = lambda a, b: a + b                                       
+       8 -MULTIPLY = lambda a, b: a * b                                  
+       9 -DIVIDE = lambda a, b: a / b                                    
+       6 +SUBTRACT = operator.sub                                        
+       7 +ADD = operator.add                                             
+       8 +MULTIPLY = operator.mul                                        
+       9 +DIVIDE = operator.truediv                                      
+      10                                                                 
+      11  NESTED_OPERATIONS = [                                          
+      12      (', minus the result of ', SUBTRACT),                      
+
+⏺ Bash(/Users/ladak/workspace/exploratorium/refactoring/python-exercises_worktre
+      es/skill_3/s9_code_quality_exercise/test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Bash(git add -A && git commit -m "- r use operator module instead of lambdas…)
+  ⎿  [skill_3 9f64d0c] - r use operator module instead of lambdas
+      2 files changed, 5 insertions(+), 4 deletions(-)
+
+⏺ 🔍Entering final evaluation
+
+  Let me carefully review all three files for domain language and clarity:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 90 lines
+
+⏺ Read(src/natural_language_calculator.py)
+  ⎿  Read 52 lines
+
+⏺ Read(src/utils.py)
+  ⎿  Read 25 lines
+
+⏺ CODE PURPOSE: Natural language calculator that parses English expressions like "one plus three" or "the result of four plus one, minus five" and computes numeric results.
+
+  Domain language improvements I see:
+  1. calc_simple → calculate_expression (better expresses what it does)
+  2. get_num → parse_number (clearer intent)
+
+  Let me rename calc_simple:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 1 line, removed 1 line                                        
+      67                                                                 
+      68      return format_result(result)                               
+      69                                                                 
+      70 -def calc_simple(expression):                                   
+      70 +def calculate_expression(expression):                          
+      71      expression = expression.strip()                            
+      72                                                                 
+      73      if ', ' in expression:                                     
+
+⏺ Update(src/processor.py)
+  ⎿  Added 2 lines, removed 2 lines                                      
+      35                                                                 
+      36  def calculate_nested(line, separator, operation):              
+      37      parts = line.split(separator)                              
+      38 -    left_val = calc_simple(parts[0])                           
+      39 -    right_val = calc_simple(parts[1])                          
+      38 +    left_val = calculate_expression(parts[0])                  
+      39 +    right_val = calculate_expression(parts[1])                 
+      40      return operation(left_val, right_val)                      
+      41                                                                 
+      42  def normalize_line(line):                                      
+
+⏺ Update(src/processor.py)
+  ⎿  Added 1 line, removed 1 line                                        
+      63      if separator:                                              
+      64          result = calculate_nested(line, separator, operation)  
+      65      else:                                                      
+      66 -        result = calc_simple(line)                             
+      66 +        result = calculate_expression(line)                    
+      67                                                                 
+      68      return format_result(result)                               
+      69                                                                 
+
+⏺ Update(src/processor.py)
+  ⎿  Added 1 line, removed 1 line                                        
+      72                                                                 
+      73      if ', ' in expression:                                     
+      74          parts = expression.split(', ')                         
+      75 -        left_val = calc_simple(parts[0])                       
+      75 +        left_val = calculate_expression(parts[0])              
+      76          rest = parts[1]                                        
+      77          for prefix, operation in COMMA_OPERATIONS:             
+      78              if rest.startswith(prefix):                        
+
+⏺ Need to check if tests import calc_simple:
+
+⏺ Search(pattern: "calc_simple", path: "tests", output_mode: "content")
+  ⎿  Found 15 lines (ctrl+o to expand)
+
+⏺ Tests import calc_simple - I'll add an alias to maintain backwards compatibility (skill says not to change tests):
+
+⏺ Read(src/processor.py)
+  ⎿  Read 90 lines
+
+⏺ Update(src/processor.py)
+  ⎿  Added 2 lines                                                       
+      87              return operation(num1, num2)                       
+      88                                                                 
+      89      return get_num(expression)                                 
+      90 +                                                               
+      91 +calc_simple = calculate_expression                             
+
+⏺ Bash(/Users/ladak/workspace/exploratorium/refactoring/python-exercises_worktre
+      es/skill_3/s9_code_quality_exercise/test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Bash(git add -A && git commit -m "- r rename calc_simple to
+      calculate_expression for clarity…)
+  ⎿ [skill_3 9703934] - r rename calc_simple to calculate_expression for cl
+    arity
+     2 files changed, 7 insertions(+), 5 deletions(-)
+
+
+⏺ Now rename get_num to parse_number:
+
+⏺ Update(src/utils.py)
+  ⎿  Added 3 lines, removed 1 line                                       
+      12      'ten': 10, '10': 10                                        
+      13  }                                                              
+      14                                                                 
+      15 -def get_num(word):                                             
+      15 +def parse_number(word):                                        
+      16      word = word.strip().lower()                                
+      17                                                                 
+      18      if word in WORD_TO_NUMBER:                                 
+     ...
+      22          return int(word)                                       
+      23      except:                                                    
+      24          raise ValueError("Unknown number")                     
+      25 +                                                               
+      26 +get_num = parse_number                                         
+
+⏺ Update(src/processor.py)
+  ⎿  Added 1 line, removed 1 line                                        
+      1  import operator                                                 
+      2 -from utils import get_num                                       
+      2 +from utils import parse_number                                  
+      3                                                                  
+      4  RESULT_PREFIX = 'the result of '                                
+      5                                                                  
+
+⏺ Update(src/processor.py)
+  ⎿  Added 4 lines, removed 4 lines                                      
+      76          rest = parts[1]                                        
+      77          for prefix, operation in COMMA_OPERATIONS:             
+      78              if rest.startswith(prefix):                        
+      79 -                right_val = get_num(rest[len(prefix):])        
+      79 +                right_val = parse_number(rest[len(prefix):])   
+      80                  return operation(left_val, right_val)          
+      81                                                                 
+      82      for separator, operation in SIMPLE_OPERATIONS:             
+      83          if separator in expression:                            
+      84              parts = expression.split(separator)                
+      85 -            num1 = get_num(parts[0].strip())                   
+      86 -            num2 = get_num(parts[1].strip())                   
+      85 +            num1 = parse_number(parts[0].strip())              
+      86 +            num2 = parse_number(parts[1].strip())              
+      87              return operation(num1, num2)                       
+      88                                                                 
+      89 -    return get_num(expression)                                 
+      89 +    return parse_number(expression)                            
+      90                                                                 
+      91  calc_simple = calculate_expression                             
+
+⏺ Bash(/Users/ladak/workspace/exploratorium/refactoring/python-exercises_worktre
+      es/skill_3/s9_code_quality_exercise/test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Bash(git add -A && git commit -m "- r rename get_num to parse_number for
+      clarity…)
+  ⎿  [skill_3 8cb731e] - r rename get_num to parse_number for clarity
+      3 files changed, 8 insertions(+), 6 deletions(-)
+
+⏺ Let me do one final read of all files:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 92 lines
+
+⏺ Read(src/natural_language_calculator.py)
+  ⎿  Read 52 lines
+
+⏺ Read(src/utils.py)
+  ⎿  Read 27 lines
+
+⏺ The code looks clean now. Let me verify final state:
+
+⏺ Bash(/Users/ladak/workspace/exploratorium/refactoring/python-exercises_worktre
+      es/skill_3/s9_code_quality_exercise/test.sh && git log --oneline skill_3
+      ^main)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +83 lines (ctrl+o to expand)
+
+
+⏺ ♻️ Main rules re-read
+
+  Refactoring Complete!
+
+  50 tests pass with 99% coverage.
+
+  Summary of refactorings (11 commits):
+
+  | Commit | Refactoring                                                            |
+  |--------|------------------------------------------------------------------------|
+  | 1      | Remove comments from processor.py                                      |
+  | 2      | Extract calculate_nested helper (reduced 48 lines of duplication)      |
+  | 3      | Replace if/elif chain with data-driven loop for nested operations      |
+  | 4      | Extract operation constants + apply data-driven pattern to calc_simple |
+  | 5      | Remove magic numbers from COMMA_OPERATIONS using len()                 |
+  | 6      | Extract format_result function                                         |
+  | 7      | Extract read_input_file function                                       |
+  | 8      | Extract write_results function                                         |
+  | 9      | Use operator module instead of lambdas                                 |
+  | 10     | Rename calc_simple → calculate_expression                              |
+  | 11     | Rename get_num → parse_number                                          |
+
+  Code reduction:
+
+  - processor.py: 110 statements → 54 statements (~50% reduction)
+  - Eliminated massive duplication in nested operation handling
+  - Code now uses domain language and is self-documenting
+
+
+

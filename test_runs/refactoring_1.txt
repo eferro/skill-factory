@@ -1,0 +1,988 @@
+
+╭─── Claude Code v2.0.76 ──────────────────────────────────────────────────────╮
+│                                                    │ Tips for getting        │
+│                Welcome back Archie!                │ started                 │
+│                                                    │ Run /init to create a … │
+│                     * ▐▛███▜▌ *                    │ ─────────────────────── │
+│                    * ▝▜█████▛▘ *                   │ Recent activity         │
+│                     *  ▘▘ ▝▝  *                    │ No recent activity      │
+│                                                    │                         │
+│      Opus 4.5 · Claude Max ·                       │                         │
+│      archie.kesseler@gmail.com's Organization      │                         │
+│        ~/…/skill_1/s9_code_quality_exercise        │                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+  A gift for you
+  Your rate limits are 2x higher through 12/31. Enjoy the extra room to think!
+
+> I want you to refactor the following files:
+
+  s9_code_quality_exercise/src/
+  ├── natural_language_calculator.py
+  ├── processor.py
+  └── utils.py
+
+Run Tests:
+
+  cd s9_code_quality_exercise
+  ./docs/scripts/run_tests.sh 
+
+⏺ 🍀 Let me invoke the refactoring skill for this task.
+
+⏺ /refactoring
+
+⏺ 🟣Using REFACTORING skill
+
+  Let me first read the source files and locate the tests.
+
+⏺ Read(src/natural_language_calculator.py)
+  ⎿  Read 46 lines
+
+⏺ Read(src/processor.py)
+  ⎿  Read 130 lines
+
+⏺ Read(src/utils.py)
+  ⎿  Read 25 lines
+
+⏺ Search(pattern: "**/test*.py", path: "~/workspace/exploratorium/refactoring/py
+        thon-exercises_worktrees/skill_1/s9_code_quality_exercise")
+  ⎿  Found 2 files (ctrl+o to expand)
+
+⏺ Read(tests/test_calculator.py)
+  ⎿  Read 293 lines
+
+⏺ Read(tests/test_file_operations.py)
+  ⎿  Read 261 lines
+
+⏺ Search(pattern: "test.sh", path: "~/workspace/exploratorium/refactoring/python
+        -exercises_worktrees/skill_1/s9_code_quality_exercise")
+  ⎿  Found 0 files 
+
+⏺ Read(docs/scripts/run_tests.sh)
+  ⎿  Read 9 lines
+  ⎿  Loaded docs/CLAUDE.md
+
+⏺ Let me create a test.sh in the exercise root and run the tests:
+
+⏺ Write(test.sh)
+  ⎿  Wrote 5 lines to test.sh   
+     #!/usr/bin/env bash
+     set -euo pipefail
+     cd "$(dirname "$0")"
+     ./docs/scripts/run_tests.sh
+
+⏺ Bash(chmod +x /Users/ladak/workspace/exploratorium/refactoring/python-exercise
+      s_worktrees/skill_1/s9_code_quality_exercise/test.sh && ./test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ All 50 tests pass. Let me first commit the test.sh I created, then start the refactoring.
+
+⏺ Bash(git add test.sh && git commit -m "Add test.sh runner script")
+  ⎿  [skill_1 146d06f] Add test.sh runner script         
+      1 file changed, 4 insertions(+)
+      create mode 100755 s9_code_quality_exercise/test.sh
+
+⏺ Now examining the code structure. The biggest issues are in processor.py:
+
+  process_line()
+  ├── normalize_line()      [ok]
+  ├── massive if/elif block [DUPLICATE CODE - 8 nearly identical branches]
+  │   - ", minus the result of"
+  │   - " minus the result of"
+  │   - ", plus the result of"
+  │   - " plus the result of"
+  │   - ... (4 more)
+  └── calc_simple()         [some duplication]
+
+  Starting with simplest refactoring first - remove comments in processor.py:
+
+⏺ Update(src/processor.py)
+  ⎿  Removed 2 lines                                                     
+      11  def process_line(line):                                        
+      12      line = normalize_line(line)                                
+      13                                                                 
+      14 -    # Check if it has nested result                            
+      14      if ', minus the result of ' in line or ', plus the result  
+          of ' in line or ', times the result of ' in line or ', divided 
+           by the result of ' in line or ' minus the result of ' in line 
+           or ' plus the result of ' in line or ' times the result of '  
+          in line or ' divided by the result of ' in line:               
+      15 -        # Handle nested operations                             
+      15          if ', minus the result of ' in line:                   
+      16              parts = line.split(', minus the result of ')       
+      17              left = parts[0]                                    
+  ⎿  PostToolUse:Edit hook returned blocking error
+
+⏺ 🟣 The hook caught remaining comments. Let me remove all of them:
+
+⏺ Update(src/processor.py)
+  ⎿  Removed 2 lines                                                     
+      69              right_val = calc_simple(right)                     
+      70              result = left_val / right_val                      
+      71      else:                                                      
+      72 -        # Simple operation                                     
+      72          result = calc_simple(line)                             
+      73                                                                 
+      74 -    # Format the result                                        
+      74      if result == int(result):                                  
+      75          return int(result)                                     
+      76      else:                                                      
+  ⎿  PostToolUse:Edit hook returned blocking error
+
+⏺ 🟣 Let me read the file and remove all comments in one go:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 126 lines
+
+⏺ Update(src/processor.py)
+  ⎿  Removed 4 lines                                                     
+      79  def calc_simple(expression):                                   
+      80      expression = expression.strip()                            
+      81                                                                 
+      82 -    # Handle comma-separated operations (precedence)           
+      82      if ', ' in expression:                                     
+      83          parts = expression.split(', ')                         
+      84          left = parts[0]                                        
+      85          rest = parts[1]                                        
+      86          left_val = calc_simple(left)                           
+      87 -        # Now parse the rest to see what operation             
+      87          if rest.startswith('minus '):                          
+      88              right_val = get_num(rest[6:])                      
+      89              return left_val - right_val                        
+     ...
+       99              right_val = get_num(rest[11:])                    
+      100              return left_val / right_val                       
+      101                                                                
+      102 -    # Try to parse the expression                             
+      102      if ' plus ' in expression:                                
+      103          parts = expression.split(' plus ')                    
+      104          num1 = get_num(parts[0].strip())                      
+     ...
+      121          num2 = get_num(parts[1].strip())                      
+      122          return num1 / num2                                    
+      123      else:                                                     
+      124 -        # Might be just a number                              
+      124          return get_num(expression)                            
+
+⏺ Bash(./test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Tests pass. Committing:
+
+⏺ Bash(git add -A && git commit -m "- r remove comments from processor.py")
+  ⎿  [skill_1 62cc10b] - r remove comments from processor.py
+      2 files changed, 8 deletions(-)
+
+⏺ Status: ✅ Removed comments from processor.py
+
+  Now tackling the massive duplication. The 8 branches in process_line all follow this pattern:
+  parts = line.split(separator)
+  left_val = calc_simple(parts[0])
+  right_val = calc_simple(parts[1])
+  result = left_val <op> right_val
+
+  Simplest refactoring: Extract a helper to split and evaluate both sides:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 6 lines                                                       
+       8          line = line[len(RESULT_PREFIX):]                       
+       9      return line                                                
+      10                                                                 
+      11 +def split_and_evaluate(line, separator):                       
+      12 +    parts = line.split(separator)                              
+      13 +    left_val = calc_simple(parts[0])                           
+      14 +    right_val = calc_simple(parts[1])                          
+      15 +    return left_val, right_val                                 
+      16 +                                                               
+      17  def process_line(line):                                        
+      18      line = normalize_line(line)                                
+      19                                                                 
+
+⏺ Now use the helper in the first branch:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 1 line, removed 5 lines                                       
+      19                                                                 
+      20      if ', minus the result of ' in line or ', plus the result  
+          of ' in line or ', times the result of ' in line or ', divided 
+           by the result of ' in line or ' minus the result of ' in line 
+           or ' plus the result of ' in line or ' times the result of '  
+          in line or ' divided by the result of ' in line:               
+      21          if ', minus the result of ' in line:                   
+      22 -            parts = line.split(', minus the result of ')       
+      23 -            left = parts[0]                                    
+      24 -            right = parts[1]                                   
+      25 -            left_val = calc_simple(left)                       
+      26 -            right_val = calc_simple(right)                     
+      22 +            left_val, right_val = split_and_evaluate(line, ',  
+         +minus the result of ')                                         
+      23              result = left_val - right_val                      
+      24          elif ' minus the result of ' in line:                  
+      25              parts = line.split(' minus the result of ')        
+
+⏺ Bash(./test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Now apply to remaining 7 branches:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 1 line, removed 5 lines                                       
+      22              left_val, right_val = split_and_evaluate(line, ',  
+          minus the result of ')                                         
+      23              result = left_val - right_val                      
+      24          elif ' minus the result of ' in line:                  
+      25 -            parts = line.split(' minus the result of ')        
+      26 -            left = parts[0]                                    
+      27 -            right = parts[1]                                   
+      28 -            left_val = calc_simple(left)                       
+      29 -            right_val = calc_simple(right)                     
+      25 +            left_val, right_val = split_and_evaluate(line, '   
+         +minus the result of ')                                         
+      26              result = left_val - right_val                      
+      27          elif ', plus the result of ' in line:                  
+      28              parts = line.split(', plus the result of ')        
+
+⏺ Update(src/processor.py)
+  ⎿  Added 1 line, removed 5 lines                                       
+      25              left_val, right_val = split_and_evaluate(line, '   
+          minus the result of ')                                         
+      26              result = left_val - right_val                      
+      27          elif ', plus the result of ' in line:                  
+      28 -            parts = line.split(', plus the result of ')        
+      29 -            left = parts[0]                                    
+      30 -            right = parts[1]                                   
+      31 -            left_val = calc_simple(left)                       
+      32 -            right_val = calc_simple(right)                     
+      28 +            left_val, right_val = split_and_evaluate(line, ',  
+         +plus the result of ')                                          
+      29              result = left_val + right_val                      
+      30          elif ' plus the result of ' in line:                   
+      31              parts = line.split(' plus the result of ')         
+
+⏺ Update(src/processor.py)
+  ⎿  Added 1 line, removed 5 lines                                       
+      28              left_val, right_val = split_and_evaluate(line, ',  
+          plus the result of ')                                          
+      29              result = left_val + right_val                      
+      30          elif ' plus the result of ' in line:                   
+      31 -            parts = line.split(' plus the result of ')         
+      32 -            left = parts[0]                                    
+      33 -            right = parts[1]                                   
+      34 -            left_val = calc_simple(left)                       
+      35 -            right_val = calc_simple(right)                     
+      31 +            left_val, right_val = split_and_evaluate(line, '   
+         +plus the result of ')                                          
+      32              result = left_val + right_val                      
+      33          elif ', times the result of ' in line:                 
+      34              parts = line.split(', times the result of ')       
+
+⏺ Update(src/processor.py)
+  ⎿  Added 1 line, removed 5 lines                                       
+      31              left_val, right_val = split_and_evaluate(line, '   
+          plus the result of ')                                          
+      32              result = left_val + right_val                      
+      33          elif ', times the result of ' in line:                 
+      34 -            parts = line.split(', times the result of ')       
+      35 -            left = parts[0]                                    
+      36 -            right = parts[1]                                   
+      37 -            left_val = calc_simple(left)                       
+      38 -            right_val = calc_simple(right)                     
+      34 +            left_val, right_val = split_and_evaluate(line, ',  
+         +times the result of ')                                         
+      35              result = left_val * right_val                      
+      36          elif ' times the result of ' in line:                  
+      37              parts = line.split(' times the result of ')        
+
+⏺ Update(src/processor.py)
+  ⎿  Added 1 line, removed 5 lines                                       
+      34              left_val, right_val = split_and_evaluate(line, ',  
+          times the result of ')                                         
+      35              result = left_val * right_val                      
+      36          elif ' times the result of ' in line:                  
+      37 -            parts = line.split(' times the result of ')        
+      38 -            left = parts[0]                                    
+      39 -            right = parts[1]                                   
+      40 -            left_val = calc_simple(left)                       
+      41 -            right_val = calc_simple(right)                     
+      37 +            left_val, right_val = split_and_evaluate(line, '   
+         +times the result of ')                                         
+      38              result = left_val * right_val                      
+      39          elif ', divided by the result of ' in line:            
+      40              parts = line.split(', divided by the result of ')  
+
+⏺ Update(src/processor.py)
+  ⎿  Added 1 line, removed 5 lines                                       
+      37              left_val, right_val = split_and_evaluate(line, '   
+          times the result of ')                                         
+      38              result = left_val * right_val                      
+      39          elif ', divided by the result of ' in line:            
+      40 -            parts = line.split(', divided by the result of ')  
+      41 -            left = parts[0]                                    
+      42 -            right = parts[1]                                   
+      43 -            left_val = calc_simple(left)                       
+      44 -            right_val = calc_simple(right)                     
+      40 +            left_val, right_val = split_and_evaluate(line,     
+         +', divided by the result of ')                                 
+      41              result = left_val / right_val                      
+      42          elif ' divided by the result of ' in line:             
+      43              parts = line.split(' divided by the result of ')   
+
+⏺ Update(src/processor.py)
+  ⎿  Added 1 line, removed 5 lines                                       
+      40              left_val, right_val = split_and_evaluate(line, ',  
+          divided by the result of ')                                    
+      41              result = left_val / right_val                      
+      42          elif ' divided by the result of ' in line:             
+      43 -            parts = line.split(' divided by the result of ')   
+      44 -            left = parts[0]                                    
+      45 -            right = parts[1]                                   
+      46 -            left_val = calc_simple(left)                       
+      47 -            right_val = calc_simple(right)                     
+      43 +            left_val, right_val = split_and_evaluate(line,     
+         +' divided by the result of ')                                  
+      44              result = left_val / right_val                      
+      45      else:                                                      
+      46          result = calc_simple(line)                             
+
+⏺ Bash(./test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Tests pass. processor.py went from 110 to 83 statements. Committing:
+
+⏺ Bash(git add -A && git commit -m "- r extract split_and_evaluate helper")
+  ⎿  [skill_1 cfa0309] - r extract split_and_evaluate helper
+      2 files changed, 14 insertions(+), 40 deletions(-)
+
+⏺ Status: ✅ Extracted split_and_evaluate helper
+
+  Now the 8 branches differ only by separator and operator. I'll convert to a data-driven approach:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 96 lines
+
+⏺ I'll define nested operations as data and use a loop:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 12 lines                                                      
+       1 +import operator                                                
+       2  from utils import get_num                                      
+       3                                                                 
+       4  RESULT_PREFIX = 'the result of '                               
+       5                                                                 
+       6 +NESTED_OPERATIONS = [                                          
+       7 +    (', minus the result of ', operator.sub),                  
+       8 +    (' minus the result of ', operator.sub),                   
+       9 +    (', plus the result of ', operator.add),                   
+      10 +    (' plus the result of ', operator.add),                    
+      11 +    (', times the result of ', operator.mul),                  
+      12 +    (' times the result of ', operator.mul),                   
+      13 +    (', divided by the result of ', operator.truediv),         
+      14 +    (' divided by the result of ', operator.truediv),          
+      15 +]                                                              
+      16 +                                                               
+      17  def normalize_line(line):                                      
+      18      line = line.lower()                                        
+      19      if line.startswith(RESULT_PREFIX):                         
+
+⏺ Now replace the massive if/elif block with a loop:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 8 lines, removed 26 lines                                     
+      29  def process_line(line):                                        
+      30      line = normalize_line(line)                                
+      31                                                                 
+      32 -    if ', minus the result of ' in line or ', plus the result  
+         -of ' in line or ', times the result of ' in line or ', divided 
+         - by the result of ' in line or ' minus the result of ' in line 
+         - or ' plus the result of ' in line or ' times the result of '  
+         -in line or ' divided by the result of ' in line:               
+      33 -        if ', minus the result of ' in line:                   
+      34 -            left_val, right_val = split_and_evaluate(line, ',  
+         -minus the result of ')                                         
+      35 -            result = left_val - right_val                      
+      36 -        elif ' minus the result of ' in line:                  
+      37 -            left_val, right_val = split_and_evaluate(line, '   
+         -minus the result of ')                                         
+      38 -            result = left_val - right_val                      
+      39 -        elif ', plus the result of ' in line:                  
+      40 -            left_val, right_val = split_and_evaluate(line, ',  
+         -plus the result of ')                                          
+      41 -            result = left_val + right_val                      
+      42 -        elif ' plus the result of ' in line:                   
+      43 -            left_val, right_val = split_and_evaluate(line, '   
+         -plus the result of ')                                          
+      44 -            result = left_val + right_val                      
+      45 -        elif ', times the result of ' in line:                 
+      46 -            left_val, right_val = split_and_evaluate(line, ',  
+         -times the result of ')                                         
+      47 -            result = left_val * right_val                      
+      48 -        elif ' times the result of ' in line:                  
+      49 -            left_val, right_val = split_and_evaluate(line, '   
+         -times the result of ')                                         
+      50 -            result = left_val * right_val                      
+      51 -        elif ', divided by the result of ' in line:            
+      52 -            left_val, right_val = split_and_evaluate(line, ',  
+         -divided by the result of ')                                    
+      53 -            result = left_val / right_val                      
+      54 -        elif ' divided by the result of ' in line:             
+      55 -            left_val, right_val = split_and_evaluate(line, '   
+         -divided by the result of ')                                    
+      56 -            result = left_val / right_val                      
+      57 -    else:                                                      
+      32 +    result = None                                              
+      33 +    for separator, operation in NESTED_OPERATIONS:             
+      34 +        if separator in line:                                  
+      35 +            left_val, right_val = split_and_evaluate(line,     
+         +separator)                                                     
+      36 +            result = operation(left_val, right_val)            
+      37 +            break                                              
+      38 +                                                               
+      39 +    if result is None:                                         
+      40          result = calc_simple(line)                             
+      41                                                                 
+      42      if result == int(result):                                  
+
+⏺ Bash(./test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Tests pass. 83 → 67 statements. Committing:
+
+⏺ Bash(git add -A && git commit -m "- r replace nested operations if/elif with
+      data-driven loop")
+  ⎿ [skill_1 6a572c3] - r replace nested operations if/elif with data-drive
+    n loop
+     2 files changed, 20 insertions(+), 26 deletions(-)
+
+
+⏺ Status: ✅ Data-driven nested operations
+
+  Now let me look at calc_simple which still has duplication:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 90 lines
+
+⏺ calc_simple has similar duplication (lines 68-87). Let me apply same pattern:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 7 lines                                                       
+      14      (' divided by the result of ', operator.truediv),          
+      15  ]                                                              
+      16                                                                 
+      17 +BINARY_OPERATIONS = [                                          
+      18 +    (' plus ', operator.add),                                  
+      19 +    (' minus ', operator.sub),                                 
+      20 +    (' times ', operator.mul),                                 
+      21 +    (' divided by ', operator.truediv),                        
+      22 +]                                                              
+      23 +                                                               
+      24  def normalize_line(line):                                      
+      25      line = line.lower()                                        
+      26      if line.startswith(RESULT_PREFIX):                         
+
+⏺ Now replace the if/elif with a loop:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 8 lines, removed 22 lines                                     
+      72              right_val = get_num(rest[11:])                     
+      73              return left_val / right_val                        
+      74                                                                 
+      75 -    if ' plus ' in expression:                                 
+      76 -        parts = expression.split(' plus ')                     
+      77 -        num1 = get_num(parts[0].strip())                       
+      78 -        num2 = get_num(parts[1].strip())                       
+      79 -        return num1 + num2                                     
+      80 -    elif ' minus ' in expression:                              
+      81 -        parts = expression.split(' minus ')                    
+      82 -        num1 = get_num(parts[0].strip())                       
+      83 -        num2 = get_num(parts[1].strip())                       
+      84 -        return num1 - num2                                     
+      85 -    elif ' times ' in expression:                              
+      86 -        parts = expression.split(' times ')                    
+      87 -        num1 = get_num(parts[0].strip())                       
+      88 -        num2 = get_num(parts[1].strip())                       
+      89 -        return num1 * num2                                     
+      90 -    elif ' divided by ' in expression:                         
+      91 -        parts = expression.split(' divided by ')               
+      92 -        num1 = get_num(parts[0].strip())                       
+      93 -        num2 = get_num(parts[1].strip())                       
+      94 -        return num1 / num2                                     
+      95 -    else:                                                      
+      96 -        return get_num(expression)                             
+      75 +    for separator, operation in BINARY_OPERATIONS:             
+      76 +        if separator in expression:                            
+      77 +            parts = expression.split(separator)                
+      78 +            num1 = get_num(parts[0].strip())                   
+      79 +            num2 = get_num(parts[1].strip())                   
+      80 +            return operation(num1, num2)                       
+      81 +                                                               
+      82 +    return get_num(expression)                                 
+
+⏺ Bash(./test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Tests pass. 67 → 54 statements. Committing:
+
+⏺ Bash(git add -A && git commit -m "- r replace binary operations if/elif with
+      data-driven loop")
+  ⎿ [skill_1 f1ec5a5] - r replace binary operations if/elif with data-drive
+    n loop
+     2 files changed, 15 insertions(+), 22 deletions(-)
+
+
+⏺ Status: ✅ Data-driven binary operations
+
+  Now let me tackle the comma-separated operations duplication (the rest.startswith section):
+
+⏺ Read(src/processor.py)
+  ⎿  Read 83 lines
+
+⏺ Lines 62-73 follow same pattern. Let me add a data structure and loop:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 7 lines                                                       
+      21      (' divided by ', operator.truediv),                        
+      22  ]                                                              
+      23                                                                 
+      24 +CONTINUATION_OPERATIONS = [                                    
+      25 +    ('minus ', operator.sub),                                  
+      26 +    ('plus ', operator.add),                                   
+      27 +    ('times ', operator.mul),                                  
+      28 +    ('divided by ', operator.truediv),                         
+      29 +]                                                              
+      30 +                                                               
+      31  def normalize_line(line):                                      
+      32      line = line.lower()                                        
+      33      if line.startswith(RESULT_PREFIX):                         
+
+⏺ Update(src/processor.py)
+  ⎿  Added 4 lines, removed 12 lines                                     
+      66          left = parts[0]                                        
+      67          rest = parts[1]                                        
+      68          left_val = calc_simple(left)                           
+      69 -        if rest.startswith('minus '):                          
+      70 -            right_val = get_num(rest[6:])                      
+      71 -            return left_val - right_val                        
+      72 -        elif rest.startswith('plus '):                         
+      73 -            right_val = get_num(rest[5:])                      
+      74 -            return left_val + right_val                        
+      75 -        elif rest.startswith('times '):                        
+      76 -            right_val = get_num(rest[6:])                      
+      77 -            return left_val * right_val                        
+      78 -        elif rest.startswith('divided by '):                   
+      79 -            right_val = get_num(rest[11:])                     
+      80 -            return left_val / right_val                        
+      69 +        for prefix, operation in CONTINUATION_OPERATIONS:      
+      70 +            if rest.startswith(prefix):                        
+      71 +                right_val = get_num(rest[len(prefix):])        
+      72 +                return operation(left_val, right_val)          
+      73                                                                 
+      74      for separator, operation in BINARY_OPERATIONS:             
+      75          if separator in expression:                            
+
+⏺ Bash(./test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Tests pass. 54 → 47 statements. Committing:
+
+⏺ Bash(git add -A && git commit -m "- r replace continuation operations if/elif
+      with data-driven loop")
+  ⎿ [skill_1 0d6921c] - r replace continuation operations if/elif with data
+    -driven loop
+     2 files changed, 11 insertions(+), 12 deletions(-)
+
+
+⏺ Status: ✅ Data-driven continuation operations
+
+  Let me look at the current state of all files:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 82 lines
+
+⏺ Read(src/utils.py)
+  ⎿  Read 25 lines
+
+⏺ Read(src/natural_language_calculator.py)
+  ⎿  Read 46 lines
+
+⏺ Looking at the code now:
+
+  utils.py - The digit strings in WORD_TO_NUMBER are redundant since int() handles them already:
+
+⏺ Update(src/utils.py)
+  ⎿  Added 11 lines, removed 11 lines                                    
+       1  WORD_TO_NUMBER = {                                             
+       2 -    'zero': 0, '0': 0,                                         
+       3 -    'one': 1, '1': 1,                                          
+       4 -    'two': 2, '2': 2,                                          
+       5 -    'three': 3, '3': 3,                                        
+       6 -    'four': 4, '4': 4,                                         
+       7 -    'five': 5, '5': 5,                                         
+       8 -    'six': 6, '6': 6,                                          
+       9 -    'seven': 7, '7': 7,                                        
+      10 -    'eight': 8, '8': 8,                                        
+      11 -    'nine': 9, '9': 9,                                         
+      12 -    'ten': 10, '10': 10                                        
+       2 +    'zero': 0,                                                 
+       3 +    'one': 1,                                                  
+       4 +    'two': 2,                                                  
+       5 +    'three': 3,                                                
+       6 +    'four': 4,                                                 
+       7 +    'five': 5,                                                 
+       8 +    'six': 6,                                                  
+       9 +    'seven': 7,                                                
+      10 +    'eight': 8,                                                
+      11 +    'nine': 9,                                                 
+      12 +    'ten': 10,                                                 
+      13  }                                                              
+      14                                                                 
+      15  def get_num(word):                                             
+
+⏺ Bash(./test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Tests pass. Committing:
+
+⏺ Bash(git add -A && git commit -m "- r remove redundant digit strings from
+      WORD_TO_NUMBER")
+  ⎿ [skill_1 555fc24] - r remove redundant digit strings from WORD_TO_NUMBE
+    R
+     1 file changed, 11 insertions(+), 11 deletions(-)
+
+
+⏺ Status: ✅ Removed redundant digit strings
+
+  Looking at process_line, the result formatting logic (lines 56-59) could be clearer:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 5 lines                                                       
+      34          line = line[len(RESULT_PREFIX):]                       
+      35      return line                                                
+      36                                                                 
+      37 +def format_result(result):                                     
+      38 +    if result == int(result):                                  
+      39 +        return int(result)                                     
+      40 +    return round(result, 2)                                    
+      41 +                                                               
+      42  def split_and_evaluate(line, separator):                       
+      43      parts = line.split(separator)                              
+      44      left_val = calc_simple(parts[0])                           
+
+⏺ Update(src/processor.py)
+  ⎿  Added 1 line, removed 4 lines                                       
+      58      if result is None:                                         
+      59          result = calc_simple(line)                             
+      60                                                                 
+      61 -    if result == int(result):                                  
+      62 -        return int(result)                                     
+      63 -    else:                                                      
+      64 -        return round(result, 2)                                
+      61 +    return format_result(result)                               
+      62                                                                 
+      63  def calc_simple(expression):                                   
+      64      expression = expression.strip()                            
+
+⏺ Bash(./test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Tests pass. Committing:
+
+⏺ Bash(git add -A && git commit -m "- r extract format_result helper")
+  ⎿  [skill_1 72cac9a] - r extract format_result helper
+      2 files changed, 6 insertions(+), 4 deletions(-)
+
+⏺ Status: ✅ Extracted format_result helper
+
+  Let me read the current state and look for more opportunities:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 84 lines
+
+⏺ I see inconsistent naming: num1/num2 vs left_val/right_val elsewhere. Let me fix:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 3 lines, removed 3 lines                                      
+      76      for separator, operation in BINARY_OPERATIONS:             
+      77          if separator in expression:                            
+      78              parts = expression.split(separator)                
+      79 -            num1 = get_num(parts[0].strip())                   
+      80 -            num2 = get_num(parts[1].strip())                   
+      81 -            return operation(num1, num2)                       
+      79 +            left_val = get_num(parts[0].strip())               
+      80 +            right_val = get_num(parts[1].strip())              
+      81 +            return operation(left_val, right_val)              
+      82                                                                 
+      83      return get_num(expression)                                 
+
+⏺ Bash(./test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Tests pass. Committing:
+
+⏺ Bash(git add -A && git commit -m "- r rename num1/num2 to left_val/right_val
+      for consistency")
+  ⎿ [skill_1 58a7840] - r rename num1/num2 to left_val/right_val for consis
+    tency
+     1 file changed, 3 insertions(+), 3 deletions(-)
+
+
+⏺ Status: ✅ Consistent variable naming
+
+  🔍Entering final evaluation
+
+  Let me examine the code carefully to assess domain language and clarity:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 84 lines
+
+⏺ Read(src/utils.py)
+  ⎿  Read 25 lines
+
+⏺ Read(src/natural_language_calculator.py)
+  ⎿  Read 46 lines
+
+⏺ CODE PURPOSE: A natural language calculator that parses English mathematical expressions (like "one plus three" or "the result of four plus one, minus five") and evaluates them.
+
+  The code expresses this purpose reasonably well. However, I see some domain language improvements:
+
+  1. calc_simple is misleading - it handles both simple AND precedence-grouped expressions
+  2. Variable r in natural_language_calculator.py is too terse
+
+  Let me rename calc_simple to evaluate_expression:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 2 lines, removed 2 lines                                      
+      41                                                                 
+      42  def split_and_evaluate(line, separator):                       
+      43      parts = line.split(separator)                              
+      44 -    left_val = calc_simple(parts[0])                           
+      45 -    right_val = calc_simple(parts[1])                          
+      44 +    left_val = evaluate_expression(parts[0])                   
+      45 +    right_val = evaluate_expression(parts[1])                  
+      46      return left_val, right_val                                 
+      47                                                                 
+      48  def process_line(line):                                        
+
+⏺ Update(src/processor.py)
+  ⎿  Added 1 line, removed 1 line                                        
+      56              break                                              
+      57                                                                 
+      58      if result is None:                                         
+      59 -        result = calc_simple(line)                             
+      59 +        result = evaluate_expression(line)                     
+      60                                                                 
+      61      return format_result(result)                               
+      62                                                                 
+
+⏺ Update(src/processor.py)
+  ⎿  Added 2 lines, removed 2 lines                                      
+      60                                                                 
+      61      return format_result(result)                               
+      62                                                                 
+      63 -def calc_simple(expression):                                   
+      63 +def evaluate_expression(expression):                           
+      64      expression = expression.strip()                            
+      65                                                                 
+      66      if ', ' in expression:                                     
+      67          parts = expression.split(', ')                         
+      68          left = parts[0]                                        
+      69          rest = parts[1]                                        
+      70 -        left_val = calc_simple(left)                           
+      70 +        left_val = evaluate_expression(left)                   
+      71          for prefix, operation in CONTINUATION_OPERATIONS:      
+      72              if rest.startswith(prefix):                        
+      73                  right_val = get_num(rest[len(prefix):])        
+
+⏺ The tests import calc_simple directly. Let me check:
+
+⏺ Search(pattern: "calc_simple", path: "~/workspace/exploratorium/refactoring/py
+        thon-exercises_worktrees/skill_1/s9_code_quality_exercise", output_mode:
+         "content")
+  ⎿  Found 15 lines (ctrl+o to expand)
+
+⏺ Tests import calc_simple directly. I need to keep it as an alias since I can't modify tests:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 2 lines                                                       
+      81              return operation(left_val, right_val)              
+      82                                                                 
+      83      return get_num(expression)                                 
+      84 +                                                               
+      85 +calc_simple = evaluate_expression                              
+
+⏺ Bash(./test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Tests pass. Committing:
+
+⏺ Bash(git add -A && git commit -m "- r rename calc_simple to
+      evaluate_expression for clarity")
+  ⎿ [skill_1 3879fe1] - r rename calc_simple to evaluate_expression for cla
+    rity
+     2 files changed, 7 insertions(+), 5 deletions(-)
+
+
+⏺ Now let me improve the terse variable name in natural_language_calculator.py:
+
+⏺ Update(src/natural_language_calculator.py)
+  ⎿  Added 2 lines, removed 2 lines                                      
+      32      output_file = input_file.replace('.txt', '_results.txt')   
+      33      try:                                                       
+      34          with open(output_file, 'w') as f:                      
+      35 -            for r in results:                                  
+      36 -                f.write(str(r) + '\n')                         
+      35 +            for result in results:                             
+      36 +                f.write(str(result) + '\n')                    
+      37      except:                                                    
+      38          print("Error")                                         
+      39          return 1                                               
+
+⏺ Bash(./test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Tests pass. Committing:
+
+⏺ Bash(git add -A && git commit -m "- r rename variable r to result in main
+      loop")
+  ⎿  [skill_1 ce0870b] - r rename variable r to result in main loop
+      1 file changed, 2 insertions(+), 2 deletions(-)
+
+⏺ Let me look for any remaining opportunities:
+
+⏺ Read(src/processor.py)
+  ⎿  Read 86 lines
+
+⏺ The variable names left and rest in evaluate_expression could be clearer:
+
+⏺ Update(src/processor.py)
+  ⎿  Added 5 lines, removed 5 lines                                      
+      65                                                                 
+      66      if ', ' in expression:                                     
+      67          parts = expression.split(', ')                         
+      68 -        left = parts[0]                                        
+      69 -        rest = parts[1]                                        
+      70 -        left_val = evaluate_expression(left)                   
+      68 +        left_expression = parts[0]                             
+      69 +        continuation = parts[1]                                
+      70 +        left_val = evaluate_expression(left_expression)        
+      71          for prefix, operation in CONTINUATION_OPERATIONS:      
+      72 -            if rest.startswith(prefix):                        
+      73 -                right_val = get_num(rest[len(prefix):])        
+      72 +            if continuation.startswith(prefix):                
+      73 +                right_val = get_num(continuation[len(prefix):])
+      74                  return operation(left_val, right_val)          
+      75                                                                 
+      76      for separator, operation in BINARY_OPERATIONS:             
+
+⏺ Bash(./test.sh)
+  ⎿ ============================= test session starts =====================
+    =========
+    platform darwin -- Python 3.12.5, pytest-9.0.2, pluggy-1.6.0
+    … +33 lines (ctrl+o to expand)
+
+
+⏺ Tests pass. Committing:
+
+⏺ Bash(git add -A && git commit -m "- r rename left/rest to
+      left_expression/continuation")
+  ⎿  [skill_1 1b59350] - r rename left/rest to left_expression/continuation
+      1 file changed, 5 insertions(+), 5 deletions(-)
+
+⏺ Let me check if there are any remaining improvements for get_num naming:
+
+⏺ Search(pattern: "get_num", path: "~/workspace/exploratorium/refactoring/python
+        -exercises_worktrees/skill_1/s9_code_quality_exercise", output_mode:
+        "content")
+  ⎿  Found 21 lines (ctrl+o to expand)
+
+⏺ Tests use get_num directly, and the name is reasonable ("get number from word"). I think the refactoring is complete.
+
+  Let me show a summary of what was accomplished:
+
+⏺ Bash(git log --oneline HEAD~12..HEAD)
+  ⎿  1b59350 - r rename left/rest to left_expression/continuation     
+     ce0870b - r rename variable r to result in main loop
+     3879fe1 - r rename calc_simple to evaluate_expression for clarity
+     … +10 lines (ctrl+o to expand)
+
+⏺ Bash(wc -l src/*.py)
+  ⎿        45 src/natural_language_calculator.py
+           85 src/processor.py
+           24 src/utils.py
+          154 total
+
+⏺ 🟣 Refactoring complete!
+
+  Summary of changes:
+
+  | Before                  | After    | Change |
+  |-------------------------|----------|--------|
+  | processor.py: 130 lines | 85 lines | -35%   |
+  | Statements: 110         | 50       | -55%   |
+
+  11 refactorings performed:
+  1. Remove comments
+  2. Extract split_and_evaluate helper
+  3. Replace nested operations if/elif → data-driven loop
+  4. Replace binary operations if/elif → data-driven loop
+  5. Replace continuation operations if/elif → data-driven loop
+  6. Remove redundant digit strings from WORD_TO_NUMBER
+  7. Extract format_result helper
+  8. Consistent variable names (left_val/right_val)
+  9. Rename calc_simple → evaluate_expression
+  10. Rename r → result in main loop
+  11. Rename left/rest → left_expression/continuation
+
+  Key structural improvement:
+  BEFORE: 8 nearly-identical if/elif branches (70+ lines)
+  AFTER:  1 data structure + 1 loop (15 lines)
+
+
+
