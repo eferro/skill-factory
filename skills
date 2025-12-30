@@ -1,42 +1,37 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["pyyaml"]
 # ///
 
 import curses
-import os
-import sys
 from pathlib import Path
 
-import yaml
-
 REPO_ROOT = Path(__file__).parent.resolve()
-REGISTRY_FILE = REPO_ROOT / "skills.yaml"
+SKILLS_SOURCE_DIR = REPO_ROOT / "output_skills"
 GLOBAL_SKILLS_DIR = Path.home() / ".claude" / "skills"
 
 
-def load_registry():
-    with open(REGISTRY_FILE) as f:
-        return yaml.safe_load(f)
+def discover_skills():
+    if not SKILLS_SOURCE_DIR.exists():
+        return []
+    return sorted([d.name for d in SKILLS_SOURCE_DIR.iterdir() if d.is_dir()])
 
 
-def get_skill_source(skill_info):
-    return REPO_ROOT / skill_info["source"]
-
-
-def is_installed(skill_name, skill_info):
-    source = get_skill_source(skill_info)
+def is_installed(skill_name):
+    source = SKILLS_SOURCE_DIR / skill_name
     target = GLOBAL_SKILLS_DIR / skill_name
     return target.is_symlink() and target.resolve() == source
 
 
-def install_skill(skill_name, skill_info):
-    source = get_skill_source(skill_info)
+def install_skill(skill_name):
+    source = SKILLS_SOURCE_DIR / skill_name
     target = GLOBAL_SKILLS_DIR / skill_name
 
     if target.exists() or target.is_symlink():
-        target.unlink() if target.is_symlink() else None
+        if target.is_symlink():
+            target.unlink()
+        else:
+            return
 
     GLOBAL_SKILLS_DIR.mkdir(parents=True, exist_ok=True)
     target.symlink_to(source)
@@ -52,11 +47,10 @@ def main(stdscr):
     curses.curs_set(0)
     curses.use_default_colors()
 
-    registry = load_registry()
-    skills = list(registry.get("skills", {}).items())
+    skills = discover_skills()
 
     if not skills:
-        stdscr.addstr(0, 0, "No skills in registry. Press any key to exit.")
+        stdscr.addstr(0, 0, "No skills found in output_skills/. Press any key to exit.")
         stdscr.getch()
         return
 
@@ -67,8 +61,8 @@ def main(stdscr):
         stdscr.addstr(0, 0, "Skills Manager")
         stdscr.addstr(1, 0, "─" * 40)
 
-        for i, (name, info) in enumerate(skills):
-            installed = is_installed(name, info)
+        for i, name in enumerate(skills):
+            installed = is_installed(name)
             checkbox = "[x]" if installed else "[ ]"
             prefix = "→ " if i == selected else "  "
             line = f"{prefix}{checkbox} {name}"
@@ -86,11 +80,11 @@ def main(stdscr):
         elif key == curses.KEY_DOWN and selected < len(skills) - 1:
             selected += 1
         elif key == ord(" "):
-            name, info = skills[selected]
-            if is_installed(name, info):
+            name = skills[selected]
+            if is_installed(name):
                 uninstall_skill(name)
             else:
-                install_skill(name, info)
+                install_skill(name)
 
 
 if __name__ == "__main__":
