@@ -132,6 +132,8 @@ def print_usage():
     print("  ./skills install <name>   Install a skill")
     print("  ./skills uninstall <name> Uninstall a skill")
     print("  ./skills toggle           Interactive mode (TUI)")
+    print("  ./skills on               Interactive mode (TUI)")
+    print("  ./skills off              Interactive mode (TUI)")
 
 
 def main():
@@ -145,7 +147,7 @@ def main():
         cli_install(args[1])
     elif args[0] == "uninstall" and len(args) == 2:
         cli_uninstall(args[1])
-    elif args[0] == "toggle":
+    elif args[0] in ("toggle", "on", "off"):
         curses.wrapper(interactive_mode)
     else:
         print_usage()

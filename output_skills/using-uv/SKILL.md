@@ -5,7 +5,7 @@ description: Python package and project management with UV. Use when creating Py
 
 # UV
 
-UV is a fast Python package manager from Astral. Two modes:
+UV is a fast Python package manager. Two modes:
 
 ## Scripts vs Projects
 
