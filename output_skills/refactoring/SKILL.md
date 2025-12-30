@@ -1,6 +1,6 @@
 ---
 name: refactoring
-description: Refactoring process. Invoke immediately when user or document mentions refactoring, or proactively when code shows the first signs of becoming too complex or messy.
+description: Refactoring process. Invoke immediately when user or document mentions refactoring, or proactively when code gets too complex or messy.
 ---
 
 # Refactoring Production Code
@@ -46,10 +46,12 @@ Write self-explanatory, readable code.
 - Remove unused imports
 - Remove unhelpful local variables
 - Look for opportunities to simplify
-- Generalize similar structures where it makes sense
+- Use domain language - name things for what they ARE, not how they're implemented
+- Keep consistent abstraction levels within methods
 
 ### Refactoring Process
-Follow this process for each refactoring:
+
+For each refactor:
 1. Ensure all tests pass
 2. Choose and perform the simplest possible refactoring (one at a time)
 3. Ensure all tests pass after the change
@@ -63,16 +65,7 @@ If a refactor fails three times or no further refactoring is found, pause and ch
 
 When you see no more obvious refactoring opportunities, say "🔍 Entering final evaluation".
 
-Examine each file in scope. For each file:
-
-1. State "CODE PURPOSE: [summary]" - express what the code does, fully and succinctly
-2. List whether the code expresses that purpose clearly for a reader
-3. List opportunities to use domain language over implementation details. Express what things ARE and why they exist, instead of how they're implemented.
-4. Consider different layers of abstraction: the whole file, methods, or parts of methods
-5. List methods where levels of abstraction are mixed: too much detail vs more abstract blocks. Note opportunities to raise abstraction in detailed sections.
-6. List specific refactorings that would improve the code
-
-If you identified improvements, apply them using the same refactoring process (test, change, test, commit).
+Re-read Code Style guidelines. Look at the code again. If you see improvements, apply them using the same refactoring process.
 
 ## 4. Summary
 
