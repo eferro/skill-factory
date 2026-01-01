@@ -45,7 +45,7 @@ If you are giving options, give a list to choose from.
 1. Read the provided file, and ask for the [FILE_NAME] if not provided.
 2. Ask for the [HEADER] for the file.
 3. Ask for a small [DESCRIPTION] of what this process is going to achieve.
-4. Ask for the [STARTER_CHARACTER] emoji, give relevant choices.
+4. Ask for the [STARTER_CHARACTER] emoji. A STARTER_CHARACTER is a marker (usually an emoji) that appears at the beginning of each response to indicate that the context window is intact and rules are being followed. Suggest 5-8 appropriate emoji based on the process topic.
 5. We need a list of steps. Ask for each step in the process, one at a time. If anything is unclear about a step, ask clarifying questions.
 6. Identify any missing steps that would achieve the stated description of the process.
 
