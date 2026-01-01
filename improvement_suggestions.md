@@ -7,16 +7,6 @@ Analysis based on:
 
 ---
 
-## Reference Navigation Could Be Clearer
-
-**Current:** The "Reference Files" section lists files with descriptions.
-
-**For Claude:** When encountering edge cases (event-driven code, migration from mocks), Claude needs to know which reference to consult.
-
-- [ ] Consider grouping references by use case: "For event-driven code, see event-driven.md" rather than listing all files equally
-
----
-
 ## Missing Key Terminology from Shore's Pattern Language
 
 Shore's article defines specific terms that the skill sometimes uses different names for:
@@ -37,19 +27,6 @@ Shore's article defines specific terms that the skill sometimes uses different n
 
 ---
 
-## Examples Follow "Good Example" Pattern - Consider Anti-Examples
-
-Best practices: *"Use principles + anti-examples, not good examples to copy (avoids collapsing solution space)"*
-
-**Current:** The skill uses good examples heavily.
-
-**Observation:** The anti-patterns section already does this well. But the main examples could benefit from brief "don't do this" contrasts inline.
-
-- [ ] The existing BAD/GOOD patterns in anti-patterns are good
-- [ ] Consider adding brief anti-examples to the Core Pattern section showing what NOT to do in `createNull()`
-
----
-
 ## Language Focus is JavaScript - Consider Noting Applicability
 
 **Current:** All examples are JavaScript.
@@ -61,30 +38,3 @@ Best practices: *"Use principles + anti-examples, not good examples to copy (avo
 - [ ] Add a brief note: "Examples use JavaScript. The pattern applies to any language - see embedded-stubs.md for Java example"
 - [ ] Or: Add Python example in a reference file
 
----
-
-## Structural Recommendation: Proposed Reordering
-
-Current order front-loads architecture (A-Frame) before the actionable pattern.
-
-Suggested flow:
-```
-1. Core Insight (2 lines) - "production code with an off switch"
-2. When to Use / When NOT to Use
-3. Core Pattern: Two Factory Methods
-4. Testing with Nullables (brief example)
-5. Three Supporting Patterns (brief with links)
-6. A-Frame Architecture (condensed, or moved to reference)
-7. Anti-Patterns
-8. Reference Navigation
-```
-
----
-
-## Summary: Priority Order
-
-**Medium (polish):**
-- [ ] Add tradeoffs discussion (so Claude knows when NOT to suggest Nullables)
-
-**Low (nice to have):**
-- [ ] Note cross-language applicability
