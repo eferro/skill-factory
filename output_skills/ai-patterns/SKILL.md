@@ -13,6 +13,7 @@ Pull latest patterns:
 ```bash
 git -C /Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns pull
 ```
+If you notice some new patterns not in the list below authored by lexler, suggest to add them to this skill to the user.
 
 ## Patterns Location
 
