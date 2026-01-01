@@ -21,27 +21,13 @@ Best practices say: *"SKILL.md serves as an overview that points Claude to detai
 
 ---
 
-## CommandLine Example is Verbose for SKILL.md
-
-**Current:** ~40 lines for a complete CommandLine wrapper.
-
-**Problem:** Full implementations belong in references. SKILL.md should show the essence.
-
-Best practices: *"Keep SKILL.md body under 500 lines for optimal performance."* (Current is ~274, so not critical, but trimming helps focus.)
-
-- [ ] Trim to show just the skeleton pattern (create/createNull/constructor)
-- [ ] Move complete CommandLine to `references/building/infrastructure-wrappers.md` (already has FileSystem example)
-- [ ] Or: Add framing like "// Full example - the pattern is lines 6-14"
-
----
-
 ## OutputListener Appears Without Introduction
 
 **Line 96:** `import { OutputListener } from "./output_listener.js";`
 
 **Problem:** OutputListener is used in the example before it's explained. The explanation comes later in "Three Supporting Patterns."
 
-- [ ] Add a brief inline comment: `// OutputListener is a reusable helper - see output-tracking.md`
+- [x] Add a brief inline comment: `// Reusable tracking helper - see output-tracking.md`
 - [ ] Or: Reorder so "Output Tracking" brief intro appears before the CommandLine example
 
 ---
@@ -73,21 +59,6 @@ Shore's article defines specific terms that the skill sometimes uses different n
 
 - [ ] Consider adding a terminology box linking to Shore's pattern language
 - [ ] Or: Add brief definitions for "narrow tests" and "state-based tests" since these are foundational
-
----
-
-## The Tradeoff Discussion is Missing
-
-**Problem:** Shore explicitly discusses a key tradeoff: *"do you want that in your production code?"* - referring to embedded stubs and factory methods.
-
-**Why it matters for Claude:** Claude needs to know when Nullables are NOT appropriate so it doesn't suggest them in contexts where they'd be rejected.
-
-- [ ] Add a brief "Tradeoffs" section:
-  ```
-  ## Tradeoffs
-
-  Nullables put test-supporting code in production. The factory methods and embedded stubs ship with your app. This is intentional: they enable features like dry-run mode and cache warming. If the codebase forbids test code in production, Nullables aren't a fit.
-  ```
 
 ---
 

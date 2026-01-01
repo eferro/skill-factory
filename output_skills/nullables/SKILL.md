@@ -96,7 +96,7 @@ class StubbedDate {
 ## Complete Example: Command Line Wrapper
 
 ```javascript
-import { OutputListener } from "./output_listener.js";
+import { OutputListener } from "./output_listener.js";  // Reusable tracking helper - see output-tracking.md
 
 export class CommandLine {
   static create() {
