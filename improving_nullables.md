@@ -96,36 +96,3 @@ Line 322-330 mentions `expect.any(Number)` is Jest-specific. Good awareness, but
 9. **Add "When NOT to use" to supporting patterns**
 10. **Provide cleaner patterns for dynamic field assertion** across test frameworks
 
-## Structural Recommendation
-
-```
-Current:
-SKILL.md (272 lines)
-├── references/
-│   ├── infrastructure-wrappers.md (295 lines)
-│   ├── output-tracking.md (215 lines)
-│   ├── configurable-responses.md (258 lines)
-│   ├── embedded-stubs.md (317 lines)
-│   ├── test-patterns.md (331 lines)
-│   ├── logic-sandwich.md (110 lines)
-│   ├── event-driven.md (112 lines)
-│   └── migration.md (158 lines)
-
-Suggested restructure:
-SKILL.md
-├── references/
-│   ├── architecture/
-│   │   ├── a-frame.md (merge logic-sandwich + event-driven concepts)
-│   │   └── logic-sandwich.md (examples only)
-│   ├── building/
-│   │   ├── infrastructure-wrappers.md
-│   │   ├── output-tracking.md
-│   │   ├── configurable-responses.md
-│   │   └── embedded-stubs.md
-│   ├── testing/
-│   │   ├── test-patterns.md
-│   │   └── time-and-events.md (split from test-patterns)
-│   └── migration.md
-```
-
-This makes the reference hierarchy clearer and keeps related content together.
