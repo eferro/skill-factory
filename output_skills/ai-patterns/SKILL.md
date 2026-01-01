@@ -24,6 +24,18 @@ Base path: `/Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-l
 
 Managing AI context, knowledge, and focus.
 
+### Obstacles
+
+- **cannot-learn** - LLMs can't learn from interactions; fixed weights prevent adaptation
+- **context-rot** - Earlier instructions lose influence as conversation grows
+- **limited-context-window** - Fixed context size forces choices about what to keep loaded
+- **limited-focus** - Too much context causes diluted or misdirected attention
+- **excess-verbosity** - AI defaults to verbose output with low signal-to-noise ratio
+
+### Anti-patterns
+
+- **distracted-agent** - Using one agent for everything spreads attention; instructions inconsistently followed
+
 ### Patterns
 
 - **context-management** - Treat context as scarce resource requiring active append/reset operations
@@ -34,21 +46,7 @@ Managing AI context, knowledge, and focus.
 - **knowledge-composition** - Split knowledge into focused, composable files with single responsibilities
 - **noise-cancellation** - Explicitly ask AI to be succinct and strip filler from responses
 - **semantic-zoom** - Control abstraction levels—zoom out for overview or zoom in for details
-- **knowledge-checkpoint** - Checkpoint planning before implementation to preserve thinking investment
-- **text-native** - Keep everything as text; enables direct editing, version control, instant iteration
 - **focused-agent** - Single narrow responsibility gives AI cognitive space to follow rules better
-
-### Anti-patterns
-
-- **distracted-agent** - Using one agent for everything spreads attention; instructions inconsistently followed
-
-### Obstacles
-
-- **cannot-learn** - LLMs can't learn from interactions; fixed weights prevent adaptation
-- **context-rot** - Earlier instructions lose influence as conversation grows
-- **limited-context-window** - Fixed context size forces choices about what to keep loaded
-- **limited-focus** - Too much context causes diluted or misdirected attention
-- **excess-verbosity** - AI defaults to verbose output with low signal-to-noise ratio
 
 ---
 
@@ -56,8 +54,22 @@ Managing AI context, knowledge, and focus.
 
 Handling non-determinism, complexity, and verification.
 
+### Obstacles
+
+- **non-determinism** - Same input produces different outputs; results unpredictable
+- **hallucinations** - AI invents non-existent APIs, methods, or syntax
+- **degrades-under-complexity** - AI performance drops with complex multi-step tasks
+- **selective-hearing** - AI ignores certain instructions; training data overrides explicit directives
+
+### Anti-patterns
+
+- **perfect-recall-fallacy** - Expecting AI to perfectly remember library details instead of letting it discover
+- **unvalidated-leaps** - Building on unverified assumptions instead of validating each step
+
 ### Patterns
 
+- **knowledge-checkpoint** - Checkpoint planning before implementation to preserve thinking investment
+- **text-native** - Keep everything as text; enables direct editing, version control, instant iteration
 - **chain-of-small-steps** - Break complex goals into small, focused, verifiable steps
 - **parallel-implementations** - Run multiple implementations in parallel; pick best or combine
 - **playgrounds** - Create isolated folders for AI to experiment and test assumptions safely
@@ -67,23 +79,23 @@ Handling non-determinism, complexity, and verification.
 - **hooks** - Lifecycle event hooks intercept workflow; inject targeted corrections
 - **reminders** - Repeat critical instructions as explicit steps; structural compliance
 
-### Anti-patterns
-
-- **perfect-recall-fallacy** - Expecting AI to perfectly remember library details instead of letting it discover
-- **unvalidated-leaps** - Building on unverified assumptions instead of validating each step
-
-### Obstacles
-
-- **non-determinism** - Same input produces different outputs; results unpredictable
-- **hallucinations** - AI invents non-existent APIs, methods, or syntax
-- **degrades-under-complexity** - AI performance drops with complex multi-step tasks
-- **selective-hearing** - AI ignores certain instructions; training data overrides explicit directives
-
 ---
 
 ## Steering
 
 Directing AI behavior, getting honest feedback, and alignment.
+
+### Obstacles
+
+- **compliance-bias** - AI prioritizes following instructions over questioning unclear requests
+- **black-box-ai** - AI's reasoning is hidden; you can only see inputs and outputs
+
+### Anti-patterns
+
+- **silent-misalignment** - AI accepts nonsensical instructions instead of asking clarifying questions
+- **answer-injection** - Putting solutions in questions limits AI's breadth and better approaches
+- **tell-me-a-lie** - Forcing AI to provide answers that don't exist causes fabrication
+- **ai-slop** - Using AI output without human judgment, just light editing
 
 ### Patterns
 
@@ -97,18 +109,6 @@ Directing AI behavior, getting honest feedback, and alignment.
 - **shared-canvas** - Markdown files as shared specs/docs; all humans and AI collaborate together
 - **softest-prototype** - Use markdown instructions + AI agent instead of code for flexible exploration
 - **take-all-paths** - Build multiple prototypes not one; test all, pick best through exploration
-
-### Anti-patterns
-
-- **silent-misalignment** - AI accepts nonsensical instructions instead of asking clarifying questions
-- **answer-injection** - Putting solutions in questions limits AI's breadth and better approaches
-- **tell-me-a-lie** - Forcing AI to provide answers that don't exist causes fabrication
-- **ai-slop** - Using AI output without human judgment, just light editing
-
-### Obstacles
-
-- **compliance-bias** - AI prioritizes following instructions over questioning unclear requests
-- **black-box-ai** - AI's reasoning is hidden; you can only see inputs and outputs
 
 ---
 
