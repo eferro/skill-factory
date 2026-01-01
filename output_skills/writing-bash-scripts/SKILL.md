@@ -1,6 +1,6 @@
 ---
 name: writing-bash-scripts
-description: Bash script style guide. Always use when writing bash scripts, shell scripts, or CLI tools.
+description: Bash script style guide. Always use when writing bash scripts, shell scripts, or CLI bash tools.
 ---
 
 # Bash Script Style Guide
