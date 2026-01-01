@@ -53,6 +53,8 @@ For event-driven code (WebSockets, queues), each event handler is a Logic Sandwi
 
 ## Core Pattern: Two Factory Methods
 
+Unlike mocks, Nullables are production code. They can power real features like dry-run mode or cache warming.
+
 Every infrastructure wrapper has two creation paths:
 
 ```javascript
@@ -164,7 +166,7 @@ describe("App", () => {
 
 ### 1. Output Tracking
 
-Observe what your code does without real I/O:
+Test what was *produced*, not what methods were *called*. Refactoring internals won't break your tests because they are not coupled to implementation details.
 
 ```javascript
 const log = Log.createNull();
@@ -182,7 +184,7 @@ See [references/output-tracking.md](references/output-tracking.md) for implement
 
 ### 2. Configurable Responses
 
-Control what your code receives from external systems:
+Configure at *your* abstraction level, not the implementation's. When internals change, tests stay meaningful.
 
 ```javascript
 // Single response (repeats forever)
@@ -199,7 +201,7 @@ See [references/configurable-responses.md](references/configurable-responses.md)
 
 ### 3. Embedded Stubs
 
-Minimal fakes for third-party code, living inside your wrapper:
+Stubs live in production code, not test files. They're maintained alongside the wrapper and implement only what's actually used.
 
 ```javascript
 class HttpClient {
