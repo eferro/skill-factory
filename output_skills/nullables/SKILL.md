@@ -220,7 +220,7 @@ class StubbedHttp {  // Implements only what HttpClient actually uses
 
 ## Anti-Patterns
 
-**Using mock libraries** - Don't import sinon, jest.mock, etc. Nullables replace them entirely.
+**Using mock libraries** - Often couples tests to implementation (specific method calls), making tests brittle. Don't import sinon, jest.mock, etc. Nullables replace them entirely.
 
 **Writing broad integration tests** - Sociable unit tests with Nullables provide coverage without slow, flaky end-to-end tests.
 
