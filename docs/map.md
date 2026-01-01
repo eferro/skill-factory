@@ -12,8 +12,7 @@ skill-factory/
 │   │   └── anthropic-skill-docs/       # Official Anthropic skill documentation
 │   │       ├── overview.md             # What skills are, why they exist, core concepts
 │   │       ├── skills.md               # Implementation syntax, structure, usage patterns
-│   │       ├── best-practices.md       # Proven patterns, common pitfalls, guidelines
-│   │       └── quickstart.md           # Quick start guide to first skill
+│   │       └── best-practices.md       # Proven patterns, common pitfalls, guidelines
 │   ├── creating-skills.md              # Instructions for creating skills
 │   ├── map.md                          # This file - repository structure
 │   └── project.md                      # Project-specific information
