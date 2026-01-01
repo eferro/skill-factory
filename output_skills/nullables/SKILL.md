@@ -95,6 +95,23 @@ class StubbedDate {
 
 **Key principle**: `createNull()` takes parameters at the caller's abstraction level. Clock accepts ISO strings, not milliseconds.
 
+**Common mistakes with `createNull()`:**
+
+```javascript
+// BAD: Parameter exposes implementation (milliseconds instead of ISO string)
+static createNull(timestamp = Date.now()) {
+  return new Clock(new StubbedDate(timestamp));
+}
+
+// BAD: createNull still calls real infrastructure
+static createNull() {
+  return new Clock(Date);  // This defeats the purpose - still uses real Date
+}
+
+// BAD: No factory method - forces tests to know about StubbedDate
+const clock = new Clock(new StubbedDate("2020-01-01"));  // Leaks internals to callers
+```
+
 ## Complete Example: Command Line Wrapper
 
 ```javascript

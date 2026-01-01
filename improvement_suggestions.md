@@ -79,25 +79,12 @@ Suggested flow:
 8. Reference Navigation
 ```
 
-- [ ] Discuss reordering with Archie before implementing
-
 ---
 
 ## Summary: Priority Order
 
-**Critical (affects triggering):**
-- [x] Improve description with trigger words (done)
-
-**High (affects Claude's application of the pattern):**
-- [ ] Lead with core insight ("production code with off switch")
-- [ ] Trim or relocate A-Frame section
-- [ ] Add OutputListener introduction before it's used
-
 **Medium (polish):**
 - [ ] Add tradeoffs discussion (so Claude knows when NOT to suggest Nullables)
-- [ ] Trim CommandLine example
-- [ ] Merge with nullable_todo.md
 
 **Low (nice to have):**
 - [ ] Note cross-language applicability
-- [ ] Tighten anti-patterns section
