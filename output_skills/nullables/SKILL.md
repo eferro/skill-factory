@@ -49,7 +49,7 @@ async processOrder(orderId) {
 }
 ```
 
-For event-driven code (WebSockets, queues), each event handler is a Logic Sandwich. See [architecture.md](references/architecture.md) for Traffic Cop pattern.
+For event-driven code (WebSockets, queues), each event handler is a Logic Sandwich. See [event-driven.md](references/event-driven.md) for Traffic Cop pattern.
 
 ## Core Pattern: Two Factory Methods
 
@@ -268,9 +268,10 @@ LoginClient.createNull({ email: "user@example.com", verified: true });
 - [configurable-responses.md](references/configurable-responses.md) - Response sequences, error simulation, the ConfigurableResponses helper
 - [embedded-stubs.md](references/embedded-stubs.md) - Async/event patterns, keeping stubs minimal
 
-**Testing and Architecture:**
+**Testing and Patterns:**
 - [test-patterns.md](references/test-patterns.md) - Signature Shielding protects tests from constructor changes; sociable and overlapping tests
-- [architecture.md](references/architecture.md) - Traffic Cop pattern for event-driven code (WebSockets, queues)
+- [logic-sandwich.md](references/logic-sandwich.md) - Detailed examples of read → process → write pattern
+- [event-driven.md](references/event-driven.md) - Traffic Cop + Behavior Simulation for WebSockets, queues
 
 **Migrating Existing Code:**
 - [migration.md](references/migration.md) - Descend/Climb the Ladder strategies for incremental conversion
