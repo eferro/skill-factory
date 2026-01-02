@@ -269,3 +269,18 @@ with verify_logging():
     logging.info("Something happened")
     logging.warning("Watch out")
 ```
+
+## CLI Usage
+
+Run approvals from command line for cross-stack integration:
+
+```bash
+python -m approvaltests -t TEST_ID -r "received output"
+```
+
+Or pipe via stdin:
+```bash
+echo "received output" | python -m approvaltests -t TEST_ID
+```
+
+Useful when approval logic runs in Python but the output comes from another language/process.
