@@ -222,6 +222,28 @@ with verify_storyboard() as story:
     story.add_frame(state2)
 ```
 
+## MarkdownTable
+
+Test multiple inputs against multiple functions in one approval:
+
+```python
+from approvaltests.utilities.markdown_table import MarkdownTable
+
+inputs = ["hello world", "foo_bar", "CamelCase"]
+table = MarkdownTable.with_headers("Input", "Upper", "Lower", "Title")
+table.add_rows_for_inputs(inputs, str.upper, str.lower, str.title)
+verify(table)
+```
+
+Output:
+```
+| Input       | Upper       | Lower       | Title       |
+| ----------- | ----------- | ----------- | ----------- |
+| hello world | HELLO WORLD | hello world | Hello World |
+| foo_bar     | FOO_BAR     | foo_bar     | Foo_Bar     |
+| CamelCase   | CAMELCASE   | camelcase   | Camelcase   |
+```
+
 ## Command Line Testing
 
 ```python
