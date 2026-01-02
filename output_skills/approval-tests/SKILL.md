@@ -98,3 +98,7 @@ Detect language from project files, then read the appropriate reference:
 **Don't over-verify** - One approval per logical behavior, not one per line of output.
 
 **Don't hand-edit .approved files** - Always generate through running tests.
+
+**Don't use verify_all for structured data** - Use `verify_as_json({"items": items})` not `verify_all("items", items)`. JSON shows structure and diffs better.
+
+**Don't mix approvals with assertions** - If you write `verify(result)`, don't also add `assert result.count == 5`. The approval captures everything.
