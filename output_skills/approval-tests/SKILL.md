@@ -61,7 +61,7 @@ Non-deterministic data (timestamps, GUIDs) must be scrubbed before verification.
 
 ## Language References
 
-Detect language from project files, then read the appropriate reference:
+Detect language from project files, then read the appropriate reference for installation, quick start, core patterns, and links to deeper reference files:
 
 - [python.md](python.md) - Python (`pyproject.toml`, `setup.py`, `requirements.txt`)
 - [nodejs.md](nodejs.md) - JavaScript/TypeScript (`package.json`)
