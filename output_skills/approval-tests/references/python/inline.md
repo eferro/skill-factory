@@ -1,6 +1,6 @@
 # Python Inline Approvals
 
-Inline approvals store the expected output directly in the test's docstring instead of separate `.approved` files.
+Store expected output in the test's docstring instead of separate `.approved` files.
 
 ## Contents
 
@@ -28,30 +28,29 @@ def test_fizz_buzz():
 ```
 
 The docstring IS the approved output. When the test runs:
-- If output matches docstring → pass
-- If output differs → reporter shows diff, can auto-update docstring
+- Output matches docstring: pass
+- Output differs: reporter shows diff, can auto-update docstring
 
 ## InlineOptions
-
-Control inline approval behavior:
 
 ```python
 from approvaltests import verify, Options
 from approvaltests.inline.inline_options import InlineOptions
 
-# Automatic mode - auto-approves without confirmation
-options = Options().inline(InlineOptions.automatic())
+# Automatic - auto-approves without confirmation
+verify(result, options=Options().inline(InlineOptions.automatic()))
 
-# Semi-automatic - requires manual deletion of marker to approve
-options = Options().inline(InlineOptions.semi_automatic())
+# Semi-automatic - adds marker you must delete to approve
+verify(result, options=Options().inline(InlineOptions.semi_automatic()))
 
-# Shows previous approved alongside current result
-options = Options().inline(InlineOptions.semi_automatic_with_previous_approved())
+# Shows previous alongside new
+verify(result, options=Options().inline(InlineOptions.semi_automatic_with_previous_approved()))
 ```
 
 ### Semi-Automatic Marker
 
 When using `semi_automatic()`, the docstring gets a marker:
+
 ```python
 def test_example():
     """
@@ -60,11 +59,11 @@ def test_example():
     """
 ```
 
-Delete the marker line to approve the new result.
+Delete the marker line to approve.
 
 ## Parse Class
 
-For input → output style tests:
+For input/output mapping tests:
 
 ```python
 from approvaltests.inline.parse import Parse
@@ -75,6 +74,12 @@ def test_uppercase():
     world -> WORLD
     """
     Parse.doc_string().verify_all(lambda s: s.upper())
+```
+
+With type transforms:
+
+```python
+from approvaltests.inline.parse import Parse
 
 def test_add():
     """
@@ -84,7 +89,11 @@ def test_add():
     Parse.doc_string().transform2(int, int).verify_all(lambda a, b: a + b)
 ```
 
-For auto-approve: `Parse.doc_string(auto_approve=True)`
+With auto-approve:
+
+```python
+Parse.doc_string(auto_approve=True).verify_all(lambda s: s.upper())
+```
 
 ## With Combinations
 
@@ -111,6 +120,8 @@ def test_combinations():
 Use marker for leading whitespace:
 
 ```python
+from approvaltests import verify, Options
+
 def test_indented():
     """
     <<approvaltests:preserve-leading-whitespace>>
@@ -122,12 +133,12 @@ def test_indented():
 
 ## When to Use
 
-Inline approvals:
+Inline approvals work best for:
 - Short output (few lines)
-- Input→output mapping tests
-- Tests and expectations co-located
+- Input/output mapping tests
+- Tests where expectation should be visible alongside code
 
-File approvals:
+File approvals work best for:
 - Long or complex output
 - Binary data
-- JSON/XML benefiting from syntax highlighting
+- JSON/XML where syntax highlighting helps
