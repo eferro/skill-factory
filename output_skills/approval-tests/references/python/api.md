@@ -12,6 +12,7 @@ from approvaltests import (
     verify_file,
     verify_exception,
     verify_binary,
+    verify_argument_parser,
     verify_all_combinations,
     verify_all_combinations_with_labeled_input,
     verify_best_covering_pairs,
@@ -65,6 +66,13 @@ verify_exception(lambda: divide(1, 0))
 Binary data (images, PDFs).
 ```python
 verify_binary(image_bytes, ".png")
+```
+
+### verify_argument_parser()
+Verify argparse help output.
+```python
+from approvaltests import verify_argument_parser
+verify_argument_parser(parser)
 ```
 
 ## Combination Testing
