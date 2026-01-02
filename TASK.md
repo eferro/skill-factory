@@ -4,18 +4,6 @@ Understand very well how to create Claude Code skills:
 [create_new_skill-process.md](docs/create_new_skill-process.md)
 [anthropic-skill-docs](docs/knowledge/anthropic-skill-docs)
 
-I want you to then read and understand the context management patterns because the point of making really good Claude Code skills is context management:
-- /Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/obstacles/context-rot.md
-- /Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/obstacles/cannot-learn.md
-- /Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/obstacles/limited-focus.md
-- /Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/patterns/ground-rules.md
-- /Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/patterns/focused-agent.md
-- /Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/patterns/knowledge-composition.md
-- /Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/patterns/reference-docs.md
-- /Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/patterns/semantic-zoom.md
-- /Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/patterns/noise-cancellation.md
-- /Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/obstacles/limited-context-window.md
-
 Also note [important.md](important.md) and make sure to follow what it says.
 
 - The skill we're improving is [approval-tests](output_skills/approval-tests) for python.
