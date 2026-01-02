@@ -73,6 +73,7 @@ description: [What it does]. Use when [trigger phrases user would say].
 **Body:**
 - Concise instructions. Assume Claude is smart.
 - Use principles + anti-examples, not good examples to copy (avoids collapsing solution space)
+- Avoid markdown tables - use lists or prose instead (tables require rendering to read easily)
 
 ### 7. Add Supporting Files (if multi-file)
 
