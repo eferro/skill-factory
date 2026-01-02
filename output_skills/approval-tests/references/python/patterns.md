@@ -24,6 +24,15 @@ Multiple scenarios in one test?
 - Use `NamerFactory.with_parameters()` for separate approval files
 - Not multiple `verify()` calls (they overwrite each other)
 
+Testing function with many input combinations?
+- See [combinations.md](combinations.md) for `verify_all_combinations_with_labeled_input`
+
+Verifying state changes over time?
+- Use Storyboard - see [api.md](api.md)
+
+Need to capture log output?
+- See [logging.md](logging.md) for SimpleLogger and verify_logging
+
 ## Characterization Tests
 
 Capture existing behavior before refactoring:
