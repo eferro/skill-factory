@@ -17,12 +17,7 @@ Once you have an imporvement plan, work through it and implement until you see n
 Commit every improvement as a separate commit.
 
 I want you to focus on thinking about what the user needs to know about this - the user is Claude Code!
-I currently see shit like:
-```
-### Supported Python versions
 
-3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14
-```
-Claude Code can search by itself and this is good for something that's a comprehensive doc. But the point of the skill is not to build a comprehensive doc, it is to teach CC to be effective in this and provide gradual exposure of information. Shit like the above is in no way helping us. If we need to look at what python version this lib supports, we can look online.
+Think about simplicity and also it's very important to do that exposure step by step and also I want to make sure that AI knows when to look deeper - that that deeper exists, and what it contains, and for that my understanding is to achive that the higher level docs need to mention the deeper doc with some info on what's in there. Go through everything and double check that's the case for all reference files.
 
-This needs to be hand picked information that is distilled and is amazing for making Claude Code really efficient in writing approval tests, specifically in python right now.
+Then think about other improvements we need to make, what we never thought about? What could be better? We can reconsider anything we've done before.
