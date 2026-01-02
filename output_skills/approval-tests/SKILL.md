@@ -11,17 +11,15 @@ STARTER_CHARACTER = 📸
 
 "A picture's worth 1000 assertions."
 
-Approval tests compare actual output against a saved "golden master" instead of writing individual assertions. One verify() call captures everything.
+Approval tests verify complex output by comparing against a saved "golden master" file instead of writing individual assertions. You capture the output once, review it, approve it, and future runs compare against that approved snapshot.
 
-Key insight: you don't need to know the expected output upfront. Run the code, see what it produces, review it, approve if correct. This makes approvals ideal for exploratory testing and characterizing existing behavior.
-
-Whoever writes the code reviews the output. When writing approval tests, review the .received file and approve it by copying to .approved.
+You don't need to know the expected output upfront. Run the code, see what it produces, approve if correct. Whoever writes the code reviews the output.
 
 **Use approval tests when:**
-- Output is complex - one approval replaces 20 assertions
-- Refactoring - lock down existing behavior, then change code safely
-- Exploratory - run code, see output, approve what's correct
-- Combinations - test many input permutations at once
+- Output is complex - instead of 20 assertions, one approval captures everything
+- Characterizing legacy code - snapshot behavior, then refactor safely
+- Combinatorial testing - test all input combinations in one approval
+- Assertions would be tedious or brittle
 
 **Use assertions when:**
 - Simple values or specific edge cases
@@ -50,7 +48,7 @@ Whoever writes the code reviews the output. When writing approval tests, review 
 - `.received` files are temporary - add `*.received.*` to .gitignore
 - Never edit `.approved` files by hand - always generate via test
 
-**Diff tools are central.** When a test fails, a diff tool opens showing approved vs received. This is how you review changes and decide whether to approve. Reporters configure which diff tool to use.
+When a test fails, a diff tool opens showing approved vs received. This is how you review changes. Reporters configure which diff tool to use.
 
 ## Core API Pattern
 
