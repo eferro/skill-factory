@@ -1,5 +1,22 @@
 # Python Testing Patterns
 
+## Contents
+
+- Quick Decision Guide
+- Characterization Tests
+- JSON Verification
+- Collection Verification
+- Scrubbing Non-Deterministic Data
+- Storyboard Pattern
+- Exception Verification
+- File Verification
+- XML/HTML Pretty-Print
+- Inline Approvals
+- Multiple Approvals Per Test
+- Custom Naming
+- Verifying Logs and Results
+- Common Mistakes
+
 ## Quick Decision Guide
 
 Verifying an object?
