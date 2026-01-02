@@ -18,3 +18,5 @@ SKILL.md → python.md → references/python/*.md
 This is 2 levels deep from SKILL.md, not 1. This is **intentional, not a bug**.
 
 **Why:** The three languages have very different implementations. The middle layer (python.md, nodejs.md, java.md) acts as a language router, keeping SKILL.md clean of language-specific details. Without this, SKILL.md would be polluted with implementation differences that only matter to users of specific languages.
+
+## Links shouldn't be linked from anywhere - they are for you for when you're writing the skill
