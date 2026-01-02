@@ -64,9 +64,9 @@
 
 - [ ] **Expand "Constructor connects to infrastructure"** - Add the Zero-Impact Instantiation term and link to James Shore's principle. This is a foundational concept.
 
-- [ ] **Add "Stub lives in test file" anti-pattern** - Stubs should be embedded in production code, not scattered in test files.
+- [x] **Add "Stub lives in test file" anti-pattern** - Added to Anti-Patterns section
 
-- [ ] **Add "Mocking your own code" anti-pattern** - Only wrap third-party/infrastructure code. Your own classes should just be Nullable directly or have their dependencies nulled.
+- [x] **Add "Mocking your own code" anti-pattern** - Added to Anti-Patterns section
 
 ---
 
