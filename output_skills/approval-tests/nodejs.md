@@ -74,6 +74,18 @@ approvals.verifyAndScrub(
 );
 ```
 
+### State Progressions (Storyboard pattern)
+No built-in class, but implement via string building:
+```javascript
+let story = '';
+story += 'Initial:\n' + game.toString() + '\n\n';
+game.advance();
+story += 'After move:\n' + game.toString() + '\n\n';
+game.pickUp('sword');
+story += 'After pickup:\n' + game.toString();
+verify(story);
+```
+
 ## Node.js-Specific Notes
 
 **__dirname required** - Mocha/raw API needs directory path for file location.
