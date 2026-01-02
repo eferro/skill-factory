@@ -86,8 +86,8 @@ Detect language from project files, then read the appropriate reference for inst
 - Don't write assertions for complex objects - use verify_as_json() instead
 - Don't commit .received files - they're temporary
 - Don't forget scrubbers for timestamps, GUIDs, random values
-- Don't over-verify - one approval per logical behavior
-- Don't hand-edit .approved files - always generate via test
+- Don't over-verify - one approval per logical behavior. Large approvals hide signal in noise; unrelated changes break tests.
+- Don't hand-edit .approved files - always generate via test. Hand-edited files may not match actual code output.
 - Don't use verify_all for structured data - use `verify_as_json({"items": items})`
 - Don't mix approvals with assertions - the approval captures everything
 - Don't call verify() multiple times without NamerFactory - each overwrites the same file
