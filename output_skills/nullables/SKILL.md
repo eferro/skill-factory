@@ -296,6 +296,7 @@ LoginClient.createNull({ email: "user@example.com", verified: true });
 
 See [test-patterns.md](references/test-patterns.md) for full details and examples.
 
+- **Arrange-Act-Assert**: Structure tests as setup, execute, verify
 - **Signature Shielding**: Helper functions encapsulate test setup, protecting tests from constructor changes
 - **Overlapping Tests**: Sociable tests overlap in coverage; multiple failures pinpoint shared code bugs
 - **Narrow Integration Tests**: Test wrappers against real systems in isolation to verify the real path works
