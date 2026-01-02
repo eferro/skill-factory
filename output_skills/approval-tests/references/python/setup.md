@@ -142,6 +142,12 @@ Add to `.gitignore`:
 
 Commit `.approved.*` files to version control.
 
+### Comparing Files Manually
+
+```bash
+git diff --no-index test.approved.txt test.received.txt
+```
+
 ## Python Versions
 
 Supports: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14
