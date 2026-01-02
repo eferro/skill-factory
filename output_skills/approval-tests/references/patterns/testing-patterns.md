@@ -147,20 +147,20 @@ gather_all_exceptions_and_throw(
 )
 ```
 
-See Python details: [advanced.md](../python/advanced.md)
+See Python details: [patterns.md](../python/patterns.md)
 
 ## Verifying Logs and Results
 
 When you need both log output and return value verified:
 
-**Option 1: Log the result too** (single approval file)
+Option 1 - Log the result too (single approval file):
 ```python
 with verify_logging():
     result = process_data()
     logging.info(f"result = {result}")
 ```
 
-**Option 2: Separate files**
+Option 2 - Separate files:
 ```python
 with verify_logging(options=NamerFactory.with_parameters("logs")):
     result = process_data()
@@ -171,8 +171,8 @@ See Python details: [logging.md](../python/logging.md)
 
 ## Tips
 
-1. **One approval per behavior** - Don't verify unrelated things together
-2. **Commit .approved files** - They're your test expectations
-3. **Never commit .received files** - Add `*.received.*` to .gitignore
-4. **Use scrubbers early** - Avoid flaky tests from day one
-5. **Review diffs carefully** - They show exactly what changed
+- One approval per behavior. Don't verify unrelated things together
+- Commit .approved files. They're your test expectations
+- Never commit .received files. Add `*.received.*` to .gitignore
+- Use scrubbers early. Avoid flaky tests from day one
+- Review diffs carefully. They show exactly what changed

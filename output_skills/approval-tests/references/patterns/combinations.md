@@ -142,19 +142,19 @@ CombinationApprovals.verifyAllCombinations(
 
 ## When to Use
 
-**All Combinations** - When:
+All Combinations:
 - Total combinations are manageable (<100)
 - All combinations are valid
 - You want exhaustive coverage
 
-**Pairwise (Best Covering Pairs)** - When:
+Pairwise (Best Covering Pairs):
 - Many parameters with many values
 - Most bugs involve 2-parameter interactions
 - Full combinations would be thousands
 
 ## Tips
 
-1. **Start small** - Begin with 2-3 values per parameter
-2. **Add edge cases** - Include nulls, empty strings, boundary values
-3. **Use meaningful values** - Not just "a", "b", "c"
-4. **Review the output** - Combinations reveal unexpected behaviors
+- Start small. Begin with 2-3 values per parameter
+- Add edge cases. Include nulls, empty strings, boundary values
+- Use meaningful values, not just "a", "b", "c"
+- Review the output. Combinations reveal unexpected behaviors
