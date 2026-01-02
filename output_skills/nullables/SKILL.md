@@ -194,7 +194,7 @@ Nullables enable a different approach:
 - **State-based, not interaction-based** — verify what was produced, not which methods were called
 - **Sociable, not solitary** — tests use real dependencies; only infrastructure is nulled
 - **Overlapping coverage** — when tests share real code, bugs cause multiple failures, pinpointing the problem
-- **Paranoic Telemetry** — assume everything fails; test error paths, timeouts, and network failures extensively
+- **Paranoic Telemetry** — assume everything will eventually fail. Test error paths, timeouts, and network failures as thoroughly as happy paths. Configure Nullables to return errors, simulate hanging requests, and exhaust retry limits. If your infrastructure can fail in production, test that failure mode.
 - **Collaborator-Based Isolation** — use dependencies' own tracking methods in assertions rather than hardcoding expectations; tests stay resilient when implementation changes
 
 ### Testing Techniques

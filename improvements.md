@@ -8,7 +8,7 @@
 
 - [ ] **Emphasize "production code, not test code"** — The key insight that Nullables are shippable production artifacts (useful for dry-run mode, cache warming) is mentioned once but deserves more prominence. This is the philosophical core.
 
-- [ ] **Expand Paranoic Telemetry** — Currently just a bullet point. Add brief explanation: "Assume everything fails. Test error paths, timeouts, and network failures as thoroughly as happy paths."
+- [x] **Expand Paranoic Telemetry** — Currently just a bullet point. Add brief explanation: "Assume everything fails. Test error paths, timeouts, and network failures as thoroughly as happy paths."
 
 - [ ] **Clarify Collaborator-Based Isolation** — The phrase appears in test-patterns.md but SKILL.md only hints at it. Add explicit guidance: "Use dependencies' own tracking methods in assertions rather than hardcoding expected values."
 
