@@ -34,23 +34,21 @@ To decide if something belongs inside or outside the hexagon, ask:
         Dependencies flow INWARD only
 ```
 
-| Layer | Responsibility | Contains |
-|-------|---------------|----------|
-| **Domain** | Business constraints—what CAN happen | Entities, Value Objects, Domain Services |
-| **Application** | Orchestration—HOW things happen | Use cases, Application Services |
-| **Adapters** | Translation to/from external world | Controllers, Repositories, API clients |
+**Domain** — Business constraints (what CAN happen). Contains Entities, Value Objects, Domain Services.
+
+**Application** — Orchestration (HOW things happen). Contains Use Cases, Application Services.
+
+**Adapters** — Translation to/from external world. Contains Controllers, Repositories, API clients.
 
 **Domain defines ports (interfaces). Adapters implement them.**
 
 ## Naming Conventions
 
-| Type | Pattern | Example |
-|------|---------|---------|
-| Display/response | `*View` or `*Response` | `MemberView`, `OrderResponse` |
-| Incoming request | `*Request` | `CreateMemberRequest` |
-| Database entity | `*Dbo` | `MemberDbo` |
-| Domain → DTO | `static from(domain)` | `MemberView.from(member)` |
-| DTO → Domain | `as*()` method | `request.asMember()` |
+- Display/response: `*View` or `*Response` → `MemberView`, `OrderResponse`
+- Incoming request: `*Request` → `CreateMemberRequest`
+- Database entity: `*Dbo` → `MemberDbo`
+- Domain → DTO: `static from(domain)` → `MemberView.from(member)`
+- DTO → Domain: `as*()` method → `request.asMember()`
 
 ## Anti-Patterns
 
@@ -77,11 +75,9 @@ Adapters adding logic beyond translation. Adapters should be thin—just impleme
 
 ## Testing Strategy
 
-| What | How | Test Doubles |
-|------|-----|--------------|
-| Domain | Unit tests, no doubles needed | None—pure logic |
-| Application | Unit tests with port doubles | Fake repositories, stub notifiers |
-| Adapters | Integration tests | Real database, real HTTP |
+- **Domain**: Unit tests, no doubles needed (pure logic)
+- **Application**: Unit tests with port doubles (fake repositories, stub notifiers)
+- **Adapters**: Integration tests against real infrastructure (real database, real HTTP)
 
 Ports give clean seams for test doubles. Test the domain exhaustively with fast unit tests; test adapters against real infrastructure sparingly.
 
