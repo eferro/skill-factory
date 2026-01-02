@@ -9,58 +9,79 @@ pip install approvaltests
 ## Quick Start
 
 ```python
-from approvaltests import verify, verify_as_json, verify_all
+from approvaltests import verify
 
 def test_report():
     result = generate_report()
     verify(result)
 ```
 
-**First run:** Test fails, `.received` file created. Review it, approve it (copy to `.approved`), rerun.
+First run fails and creates two files:
+- `test_file.test_report.received.txt` - actual output
+- `test_file.test_report.approved.txt` - empty (the expectation)
+
+Review `.received`, if correct, copy to `.approved`. Rerun → passes.
+
+## Recommended Imports
+
+```python
+from approvaltests import verify, verify_as_json, verify_all, Options
+from approvaltests.scrubbers import scrub_all_guids, scrub_all_dates, create_regex_scrubber
+```
 
 ## Core Patterns
 
-### verify() - Basic verification
+### verify_as_json() - Objects (preferred for structured data)
+
 ```python
-verify(result)                    # String output
+from approvaltests import verify_as_json
+
+def test_user():
+    user = get_user(123)
+    verify_as_json(user)
 ```
 
-### verify_as_json() - Objects as formatted JSON
-```python
-verify_as_json(user)              # Pretty-printed JSON
-verify_as_json({"users": users})  # Works with dicts, lists
-```
+Produces readable, diff-friendly JSON. Use this for any object, dict, or list.
 
 ### verify_all() - Collections with labels
+
 ```python
-verify_all("Users", users, lambda u: f"{u.name}: {u.email}")
+from approvaltests import verify_all
+
+def test_users():
+    users = get_all_users()
+    verify_all("Users", users, lambda u: f"{u.name}: {u.email}")
 ```
 
-### Scrubbing non-deterministic data
-```python
-from approvaltests import Options
-from approvaltests.scrubbers import scrub_all_dates
+### Scrubbing timestamps, GUIDs, random values
 
-verify(result, options=Options().with_scrubber(scrub_all_dates))
+```python
+from approvaltests import verify, Options
+from approvaltests.scrubbers import scrub_all_dates, scrub_all_guids
+
+def test_api_response():
+    response = call_api()
+    options = Options().with_scrubber(scrub_all_dates).add_scrubber(scrub_all_guids)
+    verify(response, options=options)
 ```
+
+Always add scrubbers BEFORE the first test run, not after CI fails.
 
 ### Combination testing
+
 ```python
 from approvaltests import verify_all_combinations_with_labeled_input
 
-verify_all_combinations_with_labeled_input(
-    process_order,
-    size=["S", "M", "L"],
-    color=["red", "blue"],
-    shipping=["standard", "express"],
-)
+def test_pricing():
+    verify_all_combinations_with_labeled_input(
+        calculate_price,
+        size=["S", "M", "L"],
+        color=["red", "blue"],
+        express=[True, False],
+    )
 ```
 
-## Key Rules
-
-- Use verify_as_json() for objects, not str(). JSON is stable and diff-friendly
-- Always scrub non-deterministic data. Timestamps, GUIDs, random IDs break tests
-- One approval per behavior. Don't mix unrelated verifications
+Tests all 12 combinations in one approval file.
 
 ## Git Setup
 
@@ -70,18 +91,12 @@ verify_all_combinations_with_labeled_input(
 
 Commit all `.approved.*` files.
 
-## When to Read More
+## Reference Files
 
-Need a specific verify function? → [API Reference](references/python/api.md)
-
-Testing legacy code or state machines? → [Testing Patterns](references/python/patterns.md)
-
-Testing many input combinations? → [Combination Testing](references/python/combinations.md)
-
-Dealing with timestamps, GUIDs, random values? → [Scrubbers](references/python/scrubbers.md)
-
-Want approvals in docstrings? → [Inline Approvals](references/python/inline.md)
-
-Verifying log output? → [Logging Verification](references/python/logging.md)
-
-Setting up reporters or config? → [Setup & Configuration](references/python/setup.md)
+- [api.md](references/python/api.md) - All verify functions, Options class, Storyboard, MarkdownTable
+- [scrubbers.md](references/python/scrubbers.md) - Normalizing timestamps, GUIDs, regex patterns, custom scrubbers
+- [combinations.md](references/python/combinations.md) - Testing all input combinations, pairwise testing
+- [patterns.md](references/python/patterns.md) - Characterization tests, multiple approvals per test, common mistakes
+- [inline.md](references/python/inline.md) - Storing approvals in docstrings instead of files
+- [logging.md](references/python/logging.md) - Capturing and verifying log output
+- [setup.md](references/python/setup.md) - Reporters, CI configuration, pytest integration
