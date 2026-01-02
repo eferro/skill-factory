@@ -2,15 +2,15 @@
 
 ## Contents
 
-- Installation
-- pytest Integration
-- unittest Integration
-- Dependencies
-- Reporters
-- Configuration
-- Git Configuration
-- Python Versions
-- Gotchas
+- [Installation](#installation)
+- [pytest Integration](#pytest-integration)
+- [unittest Integration](#unittest-integration)
+- [Dependencies](#dependencies)
+- [Reporters](#reporters)
+- [Configuration](#configuration)
+- [Git Configuration](#git-configuration)
+- [Python Versions](#python-versions)
+- [Gotchas](#gotchas)
 
 ## Installation
 

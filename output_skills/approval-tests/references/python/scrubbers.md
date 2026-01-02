@@ -4,14 +4,14 @@ Scrubbers normalize non-deterministic data (timestamps, GUIDs, random values) be
 
 ## Contents
 
-- Imports
-- Built-in Scrubbers
-- DateScrubber
-- Custom Regex Scrubber
-- Line Scrubber
-- Combining Scrubbers
-- Custom Scrubber Function
-- Common Patterns
+- [Imports](#imports)
+- [Built-in Scrubbers](#built-in-scrubbers)
+- [DateScrubber](#datescrubber)
+- [Custom Regex Scrubber](#custom-regex-scrubber)
+- [Line Scrubber](#line-scrubber)
+- [Combining Scrubbers](#combining-scrubbers)
+- [Custom Scrubber Function](#custom-scrubber-function)
+- [Common Patterns](#common-patterns)
 
 ## Imports
 

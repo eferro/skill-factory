@@ -4,9 +4,9 @@ Verify log output and trace method execution.
 
 ## Contents
 
-- SimpleLogger
-- verify_logging()
-- Combining Logs with Results
+- [SimpleLogger](#simplelogger)
+- [verify_logging()](#verify_logging)
+- [Combining Logs with Results](#combining-logs-with-results)
 
 ## SimpleLogger
 

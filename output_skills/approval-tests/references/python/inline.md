@@ -4,12 +4,12 @@ Inline approvals store the expected output directly in the test's docstring inst
 
 ## Contents
 
-- Basic Usage
-- InlineOptions
-- Parse Class
-- With Combinations
-- Preserving Whitespace
-- When to Use
+- [Basic Usage](#basic-usage)
+- [InlineOptions](#inlineoptions)
+- [Parse Class](#parse-class)
+- [With Combinations](#with-combinations)
+- [Preserving Whitespace](#preserving-whitespace)
+- [When to Use](#when-to-use)
 
 ## Basic Usage
 
