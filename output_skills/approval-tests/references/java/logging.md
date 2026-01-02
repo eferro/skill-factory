@@ -2,6 +2,13 @@
 
 Capture and verify console output and error streams.
 
+## Contents
+
+- [ConsoleOutput](#consoleoutput)
+- [With Options](#with-options)
+- [Getting Raw Output](#getting-raw-output)
+- [Common Patterns](#common-patterns)
+
 ## ConsoleOutput
 
 ### Basic Usage

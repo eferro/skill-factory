@@ -1,5 +1,21 @@
 # Java ApprovalTests API
 
+## Contents
+
+- [Imports](#imports)
+- [Core Methods](#core-methods)
+- [JsonApprovals](#jsonapprovals)
+- [CombinationApprovals](#combinationapprovals)
+- [Options Class](#options-class)
+- [Reporters](#reporters)
+- [Verifiable Interface](#verifiable-interface)
+- [File Operations](#file-operations)
+- [Database Results](#database-results)
+
+For scrubbers, see [scrubbers.md](scrubbers.md).
+For multiple approvals per test, see [advanced.md](advanced.md).
+For console output verification, see [logging.md](logging.md).
+
 ## Imports
 
 ```java

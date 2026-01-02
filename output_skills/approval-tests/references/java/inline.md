@@ -2,6 +2,15 @@
 
 Inline approvals store expected output directly in test code using Java text blocks (`"""`).
 
+## Contents
+
+- [Basic Usage](#basic-usage)
+- [InlineOptions Modes](#inlineoptions-modes)
+- [With Code Display](#with-code-display)
+- [Kotlin Support](#kotlin-support)
+- [How It Works](#how-it-works)
+- [When to Use Inline vs File Approvals](#when-to-use-inline-vs-file-approvals)
+
 ## Basic Usage
 
 ```java

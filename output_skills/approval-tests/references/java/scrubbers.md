@@ -2,6 +2,17 @@
 
 Scrubbers normalize dynamic data before comparison.
 
+## Contents
+
+- [Imports](#imports)
+- [Built-in Scrubbers](#built-in-scrubbers)
+- [RegExScrubber](#regexscrubber)
+- [Combining Scrubbers](#combining-scrubbers)
+- [Using with Options](#using-with-options)
+- [Custom Scrubber](#custom-scrubber)
+- [Common Patterns](#common-patterns)
+- [Built-in Utility Scrubbers](#built-in-utility-scrubbers)
+
 ## Imports
 
 ```java

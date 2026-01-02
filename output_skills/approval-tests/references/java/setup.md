@@ -1,5 +1,20 @@
 # Java ApprovalTests Setup
 
+## Contents
+
+- [Maven](#maven)
+- [Gradle](#gradle)
+- [JUnit 5 Setup](#junit-5-setup)
+- [JUnit 4 Setup](#junit-4-setup)
+- [Dynamic Tests (JUnit 5)](#dynamic-tests-junit-5)
+- [Git Configuration](#git-configuration)
+- [Reporter Selection](#reporter-selection)
+- [Options Configuration](#options-configuration)
+- [File Naming](#file-naming)
+- [Kotlin Support](#kotlin-support)
+
+For full reporter list and Options methods, see [api.md](api.md).
+
 ## Maven
 
 ```xml

@@ -1,5 +1,16 @@
 # Java Advanced Patterns
 
+## Contents
+
+- [Multiple Approvals Per Test](#multiple-approvals-per-test)
+- [Configuration](#configuration)
+- [Custom File Extensions](#custom-file-extensions)
+- [Additional Info in Filename](#additional-info-in-filename)
+- [Machine-Specific Tests](#machine-specific-tests)
+
+For inline approvals, see [inline.md](inline.md).
+For console output capture, see [logging.md](logging.md).
+
 ## Multiple Approvals Per Test
 
 By default, one `Approvals.verify()` call per test. For multiple approvals, use `NamerFactory`.
