@@ -154,13 +154,13 @@ Based on the AI patterns (limited focus, focused agent, reference docs):
 ## Files To Create
 
 ### Core
-- [ ] `SKILL.md` - Core concepts, workflow, philosophy (~300 lines)
+- [x] `SKILL.md` - Core concepts, workflow, philosophy (~300 lines)
 
 ### Python References
-- [ ] `references/python/api.md` - verify, verify_all, verify_as_json, etc.
-- [ ] `references/python/setup.md` - pip install, pytest integration
-- [ ] `references/python/inline.md` - Python inline approvals
-- [ ] `references/python/scrubbers.md` - Python scrubber patterns
+- [x] `references/python/api.md` - verify, verify_all, verify_as_json, etc.
+- [x] `references/python/setup.md` - pip install, pytest integration
+- [x] `references/python/inline.md` - Python inline approvals
+- [x] `references/python/scrubbers.md` - Python scrubber patterns
 
 ### Node.js References
 - [ ] `references/nodejs/api.md` - approvals.verify, verifyAsJSON, etc.
@@ -205,7 +205,7 @@ description: Write approval tests (snapshot testing) for Python, JavaScript/Type
 
 ## Implementation Phases
 
-- [ ] **Phase 1: Core SKILL.md** - Write main skill file with philosophy, workflow, patterns
+- [x] **Phase 1: Core SKILL.md** - Write main skill file with philosophy, workflow, patterns
 - [ ] **Phase 2: Language API References** - Extract accurate APIs from reference repos
   - Source: `/Users/ladak/workspace/knowledge/references-for-skills/approvals/`
 - [ ] **Phase 3: Setup References** - Installation and framework integration per language
