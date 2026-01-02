@@ -4,164 +4,43 @@
 
 - [Quick Decision Guide](#quick-decision-guide)
 - [Characterization Tests](#characterization-tests)
-- [JSON Verification](#json-verification)
-- [Collection Verification](#collection-verification)
-- [Scrubbing Non-Deterministic Data](#scrubbing-non-deterministic-data)
-- [Storyboard Pattern](#storyboard-pattern)
-- [Exception Verification](#exception-verification)
-- [File Verification](#file-verification)
-- [XML/HTML Pretty-Print](#xmlhtml-pretty-print)
-- [Inline Approvals](#inline-approvals)
 - [Multiple Approvals Per Test](#multiple-approvals-per-test)
-- [Custom Naming](#custom-naming)
-- [Verifying Logs and Results](#verifying-logs-and-results)
 - [Common Mistakes](#common-mistakes)
 
 ## Quick Decision Guide
 
 Verifying an object?
-- Do: `verify_as_json(obj)`
-- Not: `verify(str(obj))` or `verify(repr(obj))`
+- Use `verify_as_json(obj)` - not `verify(str(obj))`
 
-Verifying a list?
+Verifying a list of items?
 - Structured data: `verify_as_json({"items": items})`
 - Simple labels: `verify_all("Items", items, formatter)`
 
-Has timestamps/GUIDs?
-- Always add scrubbers before first run, not after CI fails
+Has timestamps, GUIDs, or random values?
+- Add scrubbers before first test run, not after CI fails
+- See [scrubbers.md](scrubbers.md)
 
 Multiple scenarios in one test?
-- Do: `NamerFactory.with_parameters()` for separate files
-- Not: Multiple `verify()` calls that overwrite each other
+- Use `NamerFactory.with_parameters()` for separate approval files
+- Not multiple `verify()` calls (they overwrite each other)
 
 ## Characterization Tests
 
 Capture existing behavior before refactoring:
 
 ```python
+from approvaltests import verify
+
 def test_legacy_billing():
     result = legacy_billing_system.calculate(test_order)
-    verify(result)  # Captures current behavior as baseline
+    verify(result)
 ```
 
-Run once to capture, then refactor with safety net.
-
-## JSON Verification
-
-For complex objects, verify as formatted JSON:
-
-```python
-verify_as_json(user)
-```
-
-Benefits:
-- Readable structure
-- Diff-friendly format
-- Catches added/removed fields
-
-## Collection Verification
-
-Verify lists with labels:
-
-```python
-verify_all("Users", users, lambda u: f"{u.name}: {u.email}")
-```
-
-Output:
-```
-Users
-[0] = Alice: alice@example.com
-[1] = Bob: bob@example.com
-```
-
-## Scrubbing Non-Deterministic Data
-
-Handle dynamic values that change between runs:
-
-```python
-verify(result, options=Options()
-    .with_scrubber(scrub_all_dates)
-    .add_scrubber(scrub_all_guids))
-```
-
-Common scrub targets:
-- Timestamps
-- UUIDs/GUIDs
-- Random IDs
-- Process IDs
-- Absolute file paths
-
-See [scrubbers.md](scrubbers.md) for full API.
-
-## Storyboard Pattern
-
-Verify sequences of states (state machines, multi-step workflows, animations):
-
-```python
-from approvaltests.storyboard import Storyboard
-
-story = Storyboard()
-story.add_description("Initial setup")
-story.add_frame(initial_state)
-story.add_frame(after_action, title="After click")
-story.add_frame(final_state, title="Final")
-verify(story)
-```
-
-Or with context manager:
-
-```python
-from approvaltests import verify_storyboard
-
-with verify_storyboard() as story:
-    story.add_frame(state1)
-    story.add_frame(state2)
-```
-
-Output stacks frames vertically for easy diffing.
-
-## Exception Verification
-
-Verify error messages:
-
-```python
-verify_exception(lambda: divide(1, 0))
-```
-
-## File Verification
-
-Verify file contents:
-
-```python
-verify_file("output/report.txt")
-```
-
-## XML/HTML Pretty-Print
-
-Auto-formats for readable diffs:
-
-```python
-verify_xml(xml_string)
-verify_html(html_string)  # requires beautifulsoup4
-```
-
-## Inline Approvals
-
-Store expected output in test docstring:
-
-```python
-def test_greeting():
-    """
-    Hello World!
-    """
-    verify(get_greeting(), options=Options().inline())
-```
-
-See [inline.md](inline.md) for advanced inline patterns.
+Run once to capture current behavior as baseline. The approval file becomes your safety net during refactoring.
 
 ## Multiple Approvals Per Test
 
-By default, one `verify()` call per test. For multiple approvals, use `NamerFactory.with_parameters()`.
+By default, one `verify()` per test. For multiple approvals, use `NamerFactory.with_parameters()`.
 
 ### Parametrized Tests (pytest)
 
@@ -191,9 +70,7 @@ def test_multiple():
     verify(result2, options=NamerFactory.with_parameters("scenario2"))
 ```
 
-### Non-Blocking Multiple Verifies
-
-Run all verifies, report all failures at once:
+### Run All, Report All Failures
 
 ```python
 from approvaltests import verify
@@ -204,48 +81,84 @@ def test_all_scenarios():
     scenarios = ["a", "b", "c", "d"]
     gather_all_exceptions_and_throw(
         scenarios,
-        lambda s: verify(
-            process(s),
-            options=NamerFactory.with_parameters(s)
-        )
+        lambda s: verify(process(s), options=NamerFactory.with_parameters(s))
     )
 ```
 
-## Custom Naming
-
-Add scenario info to filename:
+### Adding Suffix to Filename
 
 ```python
+from approvaltests import verify, Options
+
 verify(result, options=Options().for_file.with_additional_information("scenario1"))
 ```
 
 Creates: `TestClass.test_method.scenario1.approved.txt`
 
-## Verifying Logs and Results
-
-When you need both log output and return value:
-
-Option 1 - Log the result too (single approval file):
-```python
-with verify_logging():
-    result = process_data()
-    logging.info(f"result = {result}")
-```
-
-Option 2 - Separate files:
-```python
-from approvaltests.namer import NamerFactory
-
-with verify_logging(options=NamerFactory.with_parameters("logs")):
-    result = process_data()
-verify(result)  # Separate approval file
-```
-
-See [logging.md](logging.md) for more logging patterns.
-
 ## Common Mistakes
 
-- Mixing approval with assertions. The approval should capture everything. If adding assertions alongside verify(), probably testing two things
-- Over-approving. Approving entire database record when you only care about one field. Large approvals hide real changes
-- Under-scrubbing. Tests pass locally, fail in CI. If it varies by environment, scrub it
-- Hand-editing .approved files. Breaks the contract. Fix the code and regenerate instead
+### Mixing approvals with assertions
+
+The approval captures everything. If you're adding assertions alongside `verify()`, you're probably testing two things.
+
+```python
+# Not this
+def test_user():
+    user = create_user()
+    assert user.id > 0
+    verify_as_json(user)
+
+# This - the approval captures everything including id
+def test_user():
+    verify_as_json(create_user())
+```
+
+### Over-approving
+
+Approving an entire database record when you only care about one field. Large approvals hide real changes in noise.
+
+```python
+# Not this - approves 50 fields when you care about 3
+verify_as_json(full_user_record)
+
+# This - approve only what matters
+verify_as_json({
+    "name": user.name,
+    "email": user.email,
+    "status": user.status,
+})
+```
+
+### Under-scrubbing
+
+Tests pass locally, fail in CI.
+
+If it varies by environment, scrub it:
+- Timestamps
+- UUIDs/GUIDs
+- File paths
+- Hostnames
+- Process IDs
+
+### Hand-editing .approved files
+
+Breaks the contract. The approved file should only be created by running the test and approving the received output.
+
+If the output is wrong, fix the code and regenerate.
+
+### Multiple verify() without NamerFactory
+
+Each `verify()` overwrites the same file. Only the last one is tested.
+
+```python
+# Broken - only tests result2
+def test_both():
+    verify(result1)
+    verify(result2)
+
+# Fixed - separate files
+def test_both():
+    settings().allow_multiple_verify_calls_for_this_method()
+    verify(result1, options=NamerFactory.with_parameters("first"))
+    verify(result2, options=NamerFactory.with_parameters("second"))
+```
