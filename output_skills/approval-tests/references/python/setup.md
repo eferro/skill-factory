@@ -5,12 +5,10 @@
 - [Installation](#installation)
 - [pytest Integration](#pytest-integration)
 - [unittest Integration](#unittest-integration)
-- [Dependencies](#dependencies)
 - [Reporters](#reporters)
 - [Configuration](#configuration)
-- [Git Configuration](#git-configuration)
-- [Python Versions](#python-versions)
-- [Gotchas](#gotchas)
+- [Git Setup](#git-setup)
+- [CI Troubleshooting](#ci-troubleshooting)
 
 ## Installation
 
@@ -18,24 +16,22 @@
 pip install approvaltests
 ```
 
-For minimal installation (no extras):
-```bash
-pip install approvaltests-minimal
-```
+For pytest reporter selection:
 
-## pytest Integration
-
-Install the pytest plugin for reporter selection:
 ```bash
 pip install pytest-approvaltests
 ```
 
-Run tests with a reporter:
+Optional dependencies:
+
 ```bash
-pytest --approvaltests-use-reporter='PythonNative'
+pip install pyperclip        # ClipboardReporter
+pip install beautifulsoup4   # verify_html
+pip install allpairspy       # verify_best_covering_pairs
+pip install testfixtures mock  # verify_logging
 ```
 
-### Example Test
+## pytest Integration
 
 ```python
 from approvaltests import verify
@@ -43,6 +39,12 @@ from approvaltests import verify
 def test_simple():
     result = "Hello ApprovalTests"
     verify(result)
+```
+
+Run with reporter:
+
+```bash
+pytest --approvaltests-use-reporter='PythonNative'
 ```
 
 ## unittest Integration
@@ -57,24 +59,6 @@ class MyTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-```
-
-## Dependencies
-
-**Required:**
-```
-pytest>=4.0.0
-empty-files>=0.0.3
-typing_extensions>=3.6.2
-```
-
-**Optional (for specific features):**
-```
-pyperclip>=1.5.29     # ClipboardReporter
-beautifulsoup4>=4.4.0 # verify_html
-allpairspy>=2.1.0     # verify_best_covering_pairs
-testfixtures>=7.1.0   # verify_logging
-mock>=5.1.0           # verify_logging
 ```
 
 ## Reporters
@@ -95,13 +79,14 @@ from approvaltests import verify, Options
 from approvaltests.reporters import GenericDiffReporterFactory
 
 factory = GenericDiffReporterFactory()
-reporter = factory.get("BeyondCompare")  # or any configured reporter
+reporter = factory.get("BeyondCompare")
 verify("Hello", options=Options().with_reporter(reporter))
 ```
 
 ### Custom Diff Tool
 
 ```python
+from approvaltests import verify, Options
 from approvaltests.reporters import GenericDiffReporter
 
 reporter = GenericDiffReporter.create("/path/to/diff/tool")
@@ -110,39 +95,39 @@ verify("Hello", options=Options().with_reporter(reporter))
 
 ### Custom Reporter Class
 
-Extend `Reporter` for full control:
-
 ```python
+from approvaltests import verify, Options
 from approvaltests.core.reporter import Reporter
 
 class MyReporter(Reporter):
     def report(self, received_path: str, approved_path: str) -> bool:
-        # Compare files, show diff, or take custom action
-        # Return True if handled, False to try next reporter
         print(f"Mismatch: {received_path} vs {approved_path}")
         return True
-```
 
-Use it:
-```python
 verify(result, options=Options().with_reporter(MyReporter()))
 ```
 
-### Custom reporters.json
+### Default Reporter
 
-Create a JSON file:
-```json
-[
-    ["BeyondCompare4", "/path/to/BCompare"],
-    ["VSCode", "/path/to/code", "--diff"]
-]
+Set globally:
+
+```python
+from approvaltests import set_default_reporter
+from approvaltests.reporters import PythonNativeReporter
+
+set_default_reporter(PythonNativeReporter())
 ```
 
-Load it:
+Or via pytest fixture in `conftest.py`:
+
 ```python
-factory = GenericDiffReporterFactory()
-factory.load('/path/to/myreporters.json')
-reporter = factory.get_first_working()
+import pytest
+from approvaltests import set_default_reporter
+from approvaltests.reporters import PythonNativeReporter
+
+@pytest.fixture(scope="session", autouse=True)
+def configure_approvaltests():
+    set_default_reporter(PythonNativeReporter())
 ```
 
 ## Configuration
@@ -157,65 +142,67 @@ Place `approvaltests_config.json` in test directory:
 }
 ```
 
-All `.approved` and `.received` files go to `tests/approved_files/` instead of alongside tests.
-
-### Default Reporter
-
-Set globally in `tests/__init__.py`:
-
-```python
-from approvaltests import set_default_reporter
-from approvaltests.reporters import PythonNativeReporter
-
-set_default_reporter(PythonNativeReporter())
-```
-
-Or via pytest fixture in `conftest.py`:
-
-```python
-@pytest.fixture(scope="session", autouse=True)
-def configure_approvaltests():
-    set_default_reporter(PythonNativeReporter())
-```
+All `.approved` and `.received` files go to `tests/approved_files/`.
 
 ### Custom File Extensions
 
 ```python
+from approvaltests import verify, Options
+
 verify(html_content, options=Options().for_file.with_extension(".html"))
 verify(xml_content, options=Options().for_file.with_extension(".xml"))
 ```
 
-## Git Configuration
+## Git Setup
 
 Add to `.gitignore`:
+
 ```
 *.received.*
 ```
 
-Commit `.approved.*` files to version control.
+Commit all `.approved.*` files.
 
-### Comparing Files Manually
+For consistent line endings across platforms, add to `.gitattributes`:
 
-```bash
-git diff --no-index test.approved.txt test.received.txt
+```
+*.approved.* text eol=lf
 ```
 
-## Python Versions
+## CI Troubleshooting
 
-Supports: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14
+### Test passes locally, fails in CI
 
-## Gotchas
+Common causes:
 
-### PyCharm Strips Trailing Whitespace
+**Line endings** - Windows vs Unix
+
+Solution: Add `.gitattributes` rule above
+
+**Timezones** - Date output differs by environment
+
+Solution: Use scrubbers for timestamps (see [scrubbers.md](scrubbers.md))
+
+**Locale/encoding** - Character encoding differs
+
+Solution: Set `PYTHONIOENCODING=utf-8` in CI
+
+**Missing scrubber** - Environment-specific data not scrubbed
+
+Common culprits: file paths, hostnames, process IDs, timestamps
+
+### PyCharm strips trailing whitespace
 
 PyCharm auto-removes trailing whitespace on save, causing approval files to mismatch.
 
 Fix: File → Settings → Editor → General → On Save → uncheck "Remove trailing spaces"
 
-### Test Passes Locally, Fails in CI
+### Comparing files manually
 
-Common causes:
-- **Line endings** - Windows vs Unix. Add `.gitattributes`: `*.approved.* text eol=lf`
-- **Timezones** - Date output differs. Use scrubbers for timestamps.
-- **Locale/encoding** - Set `PYTHONIOENCODING=utf-8` in CI
-- **Missing scrubber** - Environment-specific data (paths, hostnames) not scrubbed
+```bash
+git diff --no-index test.approved.txt test.received.txt
+```
+
+### Supported Python versions
+
+3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14
