@@ -203,3 +203,14 @@ scrubber = combine_scrubbers(
     create_line_scrubber("TRACE"),
 )
 ```
+
+### Scrub Database Records
+
+```python
+scrubber = combine_scrubbers(
+    scrub_all_guids,  # UUIDs
+    create_regex_scrubber(r'"id":\s*\d+', '"id": <ID>'),
+    create_regex_scrubber(r'"created_at":\s*"[^"]+"', '"created_at": "<TIMESTAMP>"'),
+    create_regex_scrubber(r'"updated_at":\s*"[^"]+"', '"updated_at": "<TIMESTAMP>"'),
+)
+```
