@@ -1,6 +1,7 @@
 # Python Inline Approvals
 
 Store expected output in the test's docstring instead of separate `.approved` files.
+Helps solve the problem of "there's too many approved files" when the approved output is small.
 
 ## Contents
 
