@@ -5,6 +5,7 @@ Infrastructure wrappers isolate external systems behind clean interfaces. Each w
 ## Contents
 
 - [Structure](#structure)
+- [Common Mistakes with createNull()](#common-mistakes-with-createnull)
 - [Building a Wrapper: Step by Step](#building-a-wrapper-step-by-step)
 - [Wrapper Composition (Fake It Once You Make It)](#wrapper-composition-fake-it-once-you-make-it)
 - [Zero-Impact Instantiation](#zero-impact-instantiation)
@@ -26,6 +27,30 @@ Infrastructure wrappers isolate external systems behind clean interfaces. Each w
 │              Third-party code / External system          │
 └─────────────────────────────────────────────────────────┘
 ```
+
+## Common Mistakes with createNull()
+
+Avoid these patterns that defeat the purpose of Nullables:
+
+```javascript
+// BAD: Parameter exposes implementation (milliseconds instead of ISO string)
+static createNull(timestamp = Date.now()) {
+  return new Clock(new StubbedDate(timestamp));
+}
+
+// BAD: createNull still calls real infrastructure
+static createNull() {
+  return new Clock(Date);  // This defeats the purpose - still uses real Date
+}
+
+// BAD: No factory method - forces tests to know about StubbedDate
+const clock = new Clock(new StubbedDate("2020-01-01"));  // Leaks internals to callers
+```
+
+The correct pattern:
+- `createNull()` parameters should match the caller's abstraction level
+- `createNull()` must use a stub, never real infrastructure
+- Callers should only see `create()` and `createNull()`, never the stub class
 
 ## Building a Wrapper: Step by Step
 

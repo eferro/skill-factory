@@ -285,6 +285,10 @@ it("broadcasts messages to other clients", () => {
 
 ## Narrow Integration Tests
 
+Sociable unit tests with Nullables provide most of your coverage without slow, flaky end-to-end tests. But you still need confidence that your wrappers actually work with real infrastructure.
+
+**Avoid broad integration tests** that exercise entire flows through real systems—they're slow, flaky, and duplicate coverage you already have from sociable tests. Instead, write narrow integration tests that focus on one wrapper at a time.
+
 Test wrappers against real systems in isolation:
 
 ```javascript
