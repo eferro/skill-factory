@@ -31,6 +31,8 @@ Do NOT use when:
 - You need to verify exact interaction sequences - use mocks
 - The external system is simple enough to use directly in tests
 
+For when NOT to create a wrapper (avoiding over-engineering), see [infrastructure-wrappers.md](references/building/infrastructure-wrappers.md#when-not-to-create-a-wrapper).
+
 For codebases with existing mocks, see [migration.md](references/migration.md) for incremental conversion strategies.
 
 ## Structure Your Code: A-Frame
@@ -195,7 +197,7 @@ describe("App", () => {
 
 **Notice**: Tests exercise real `App` code. Only infrastructure I/O is neutralized. The `run()` helper encapsulates setup - this is Signature Shielding, which protects tests from constructor changes. See [test-patterns.md](references/test-patterns.md) for more testing patterns.
 
-## Three Supporting Patterns
+## Supporting Patterns
 
 ### 1. [Output Tracking](references/building/output-tracking.md)
 
@@ -246,6 +248,10 @@ class StubbedHttp {  // Implements only what HttpClient actually uses
   }
 }
 ```
+
+### 4. [Wrapper Composition](references/building/infrastructure-wrappers.md#wrapper-composition-fake-it-once-you-make-it)
+
+High-level code doesn't need its own stubs—it composes from lower-level Nullables. Only infrastructure leaves have embedded stubs; everything above just wires up `createNull()` calls.
 
 ## Anti-Patterns
 
