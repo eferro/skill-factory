@@ -13,7 +13,7 @@ STARTER_CHARACTER = 📸
 
 Approval tests verify complex output by comparing against a saved "golden master" file instead of writing individual assertions. You capture the output once, review it, approve it, and future runs compare against that approved snapshot.
 
-You don't need to know the expected output upfront. Run the code, see what it produces, approve if correct. Whoever writes the code reviews the output.
+You don't need to know the expected output upfront. Run the code, see what it produces, decide if it's correct. Approval is a judgment - you're confirming this is what the code *should* produce. Whoever writes the code reviews and approves.
 
 **Use approval tests when:**
 - Output is complex - instead of 20 assertions, one approval captures everything
