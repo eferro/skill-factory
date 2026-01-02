@@ -2,6 +2,17 @@
 
 Scrubbers normalize non-deterministic data (timestamps, GUIDs, random values) before comparison.
 
+## Contents
+
+- Imports
+- Built-in Scrubbers
+- DateScrubber
+- Custom Regex Scrubber
+- Line Scrubber
+- Combining Scrubbers
+- Custom Scrubber Function
+- Common Patterns
+
 ## Imports
 
 ```python
