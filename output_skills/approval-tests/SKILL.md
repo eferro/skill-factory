@@ -72,11 +72,6 @@ Detect language from project files, then read the appropriate reference:
 **Java** (`pom.xml`, `build.gradle`)
 → [java.md](java.md)
 
-## Cross-Language Patterns
-
-- [Combination Testing](references/patterns/combinations.md)
-- [Testing Patterns](references/patterns/testing-patterns.md)
-
 ## Anti-Patterns
 
 - Don't write assertions for complex objects - use verify_as_json() instead
