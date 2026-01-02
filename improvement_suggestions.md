@@ -3,11 +3,11 @@
 
 ## Missing Patterns from James Shore
 
-- [ ] **Add "Fake It Once You Make It" pattern** - High-level code delegates to Nullable dependencies rather than implementing its own stubs. This is the composition pattern that makes the whole system work. Currently missing entirely.
+- [x] **Add "Fake It Once You Make It" pattern** - Added as 4th supporting pattern + detailed in infrastructure-wrappers.md
 
-- [ ] **Add "Grow Evolutionary Seeds" guidance** - Start with hardcoded implementations, incrementally replace with infrastructure wrappers. Important for greenfield projects. Currently missing.
+- [x] **Add "Grow Evolutionary Seeds" guidance** - Added in Getting Started section
 
-- [ ] **Add "Paranoic Telemetry" principle** - Assume everything fails; test error handling, timeouts, and failure paths extensively. The skill mentions error testing but doesn't emphasize this mindset.
+- [x] **Add "Paranoic Telemetry" principle** - Added in Testing Philosophy section
 
 - [ ] **Emphasize "Narrow Integration Tests" more** - Currently mentioned briefly in test-patterns.md. These are critical for verifying real paths work. Consider promoting to SKILL.md or making more prominent.
 
@@ -17,16 +17,11 @@
 
 ## Structure & Length
 
-- [ ] **Move A-Frame architecture to references** - The A-Frame section is ~40 lines. Someone writing their first Nullable doesn't need this upfront. Keep brief intro ("Logic and Infrastructure are peers, coordinated by Application"), link to `references/architecture/a-frame.md`.
+- [x] **Move A-Frame architecture to references** - Condensed in SKILL.md, detailed version in `references/architecture/a-frame.md`
 
 - [ ] **Simplify the CommandLine example** - Current example is ~40 lines. The core pattern (two factory methods) could be shown in ~15 lines. Move full example to references.
 
-- [ ] **Add a Quick Start section** - 5 steps for someone wanting to try immediately:
-  1. Identify your infrastructure dependency
-  2. Create wrapper with `create()` and `createNull()`
-  3. Inject via constructor
-  4. Use `createNull()` in tests with configured responses
-  5. Track outputs to verify behavior
+- [x] **Add a Quick Start section** - Added "Getting Started" section with greenfield and existing codebase guidance
 
 - [ ] **Explain OutputListener before using it** - Line 96 imports it without explanation. Add inline note or show minimal inline version.
 
@@ -82,15 +77,15 @@
   - "External I/O is slow and flaky..." - Claude knows this. Could trim.
   - Full factory method pattern explanation - Claude knows factory patterns. Focus on what's specific: `createNull()` takes caller-level abstractions.
 
-- [ ] **Check for repeated concepts** - A-Frame architecture explained in SKILL.md and references. Consolidate.
+- [x] **Check for repeated concepts** - A-Frame consolidated (condensed in SKILL.md, details in reference)
 
 ---
 
 ## Test Patterns Reference
 
-- [ ] **Add "Signature Shielding" to SKILL.md** - This pattern is in test-patterns.md but is valuable enough to mention in main skill (helper functions encapsulate test setup).
+- [x] **Add "Signature Shielding" to SKILL.md** - Added in Testing Techniques section
 
-- [ ] **Add Behavior Simulation summary** - Event-driven.md has good content but SKILL.md barely mentions it. Add brief pointer.
+- [x] **Add Behavior Simulation summary** - Added in Testing Techniques section
 
 ---
 
@@ -98,6 +93,6 @@
 
 The following were already identified and should still be addressed:
 
-- [ ] Reorder for progressive understanding (from nullable_todo.md)
+- [x] Reorder for progressive understanding - Testing patterns merged into Testing with Nullables, Getting Started section added
 - [ ] Review each section: Does this explain something Claude wouldn't already know? (from nullable_todo.md)
 - [ ] Trim explanations of general concepts (from nullable_todo.md)
