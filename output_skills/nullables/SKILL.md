@@ -114,7 +114,7 @@ const clock = new Clock(new StubbedDate("2020-01-01"));  // Leaks internals to c
 ## Complete Example: Command Line Wrapper
 
 ```javascript
-import { OutputListener } from "./output_listener.js";  // Reusable tracking helper - see output-tracking.md
+import { OutputListener } from "./output_listener.js";  // Records what was written; see output-tracking.md for implementation
 
 export class CommandLine {
   static create() {

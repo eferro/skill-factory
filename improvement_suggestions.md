@@ -23,7 +23,7 @@
 
 - [x] **Add a Quick Start section** - Added "Getting Started" section with greenfield and existing codebase guidance
 
-- [ ] **Explain OutputListener before using it** - Line 96 imports it without explanation. Add inline note or show minimal inline version.
+- [x] **Explain OutputListener before using it** - Improved inline comment to clarify purpose
 
 ---
 
