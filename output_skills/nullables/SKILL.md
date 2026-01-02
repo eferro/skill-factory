@@ -1,6 +1,6 @@
 ---
 name: nullables
-description: Writes tests without mocks using Nullables. Use when writing tests, especially testing code with external I/O (HTTP, files, databases, clocks, random numbers), designing infrastructure wrappers or replacing mock-based tests.
+description: Writes tests without mocks using Nullables. Use when writing tests, especially testing code with external I/O (HTTP, files, databases, clocks, random numbers), designing infrastructure wrappers or replacing mocking libraries.
 ---
 
 # Nullables: Testing Without Mocks
