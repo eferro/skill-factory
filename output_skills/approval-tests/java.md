@@ -2,19 +2,21 @@
 
 ## Installation
 
+Look up latest version at https://mvnrepository.com/artifact/com.approvaltests/approvaltests
+
 ### Maven
 ```xml
 <dependency>
     <groupId>com.approvaltests</groupId>
     <artifactId>approvaltests</artifactId>
-    <version>24.9.0</version>
+    <version>VERSION</version>
     <scope>test</scope>
 </dependency>
 ```
 
 ### Gradle
 ```groovy
-testImplementation 'com.approvaltests:approvaltests:24.9.0'
+testImplementation 'com.approvaltests:approvaltests:VERSION'
 ```
 
 ## Quick Start

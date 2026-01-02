@@ -21,15 +21,17 @@ For full reporter list and Options methods, see [api.md](api.md).
 <dependency>
     <groupId>com.approvaltests</groupId>
     <artifactId>approvaltests</artifactId>
-    <version>24.9.0</version>
+    <version>VERSION</version>
     <scope>test</scope>
 </dependency>
 ```
 
+Look up latest version at https://mvnrepository.com/artifact/com.approvaltests/approvaltests
+
 ## Gradle
 
 ```groovy
-testImplementation 'com.approvaltests:approvaltests:24.9.0'
+testImplementation 'com.approvaltests:approvaltests:VERSION'
 ```
 
 ## JUnit 5 Setup
