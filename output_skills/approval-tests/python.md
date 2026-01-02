@@ -38,14 +38,21 @@ verify_all("Users", users, lambda u: f"{u.name}: {u.email}")
 
 ### Scrubbing non-deterministic data
 ```python
+from approvaltests import Options
+from approvaltests.scrubbers import scrub_all_dates
+
 verify(result, options=Options().with_scrubber(scrub_all_dates))
 ```
 
 ### Combination testing
 ```python
-verify_all_combinations(
+from approvaltests import verify_all_combinations_with_labeled_input
+
+verify_all_combinations_with_labeled_input(
     process_order,
-    [["S", "M", "L"], ["red", "blue"], ["standard", "express"]]
+    size=["S", "M", "L"],
+    color=["red", "blue"],
+    shipping=["standard", "express"],
 )
 ```
 
