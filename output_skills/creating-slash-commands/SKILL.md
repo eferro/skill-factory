@@ -42,7 +42,7 @@ Use $ARGUMENTS for all args, or $1, $2 for positional.
 
 - `description` - shown in `/help`, enables SlashCommand tool invocation
 - `argument-hint` - shows expected parameters in autocomplete
-- `allowed-tools` - tools permitted (required if using `!` bash execution)
+- `allowed-tools` - tools permitted (required if using '!' bash execution)
 - `model` - force specific model
 - `disable-model-invocation` - prevent Claude from auto-invoking this command
 
@@ -64,7 +64,7 @@ Positional parameters for structured input:
 
 ### Bash Execution
 
-Prefix with `!` to execute bash and inject output into context:
+Prefix with '!' to execute bash and inject output into context:
 ```markdown
 ---
 allowed-tools: Bash(git:*)
@@ -86,7 +86,7 @@ Review @src/main.js against @docs/style-guide.md
 
 - Creating a slash command when a skill is needed (multi-file workflows, scripts, validation steps)
 - Missing `description` field (breaks SlashCommand tool and /help display)
-- Using `!` bash without `allowed-tools` in frontmatter
+- Using '!' bash without `allowed-tools` in frontmatter
 - Overly complex multi-step logic (use a skill instead)
 - Generic names without namespace context (use subdirectories)
 
