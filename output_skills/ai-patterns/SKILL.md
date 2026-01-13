@@ -11,13 +11,13 @@ Patterns for effective AI-augmented software development by Lada Kesseler (githu
 
 Pull latest patterns:
 ```bash
-git -C /Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns pull
+git -C ~/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns pull
 ```
 If you notice some new patterns not in the list below authored by lexler, suggest to add them to this skill to the user.
 
 ## Patterns Location
 
-Base path: `/Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents`
+Base path: `~/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents`
 
 ---
 
@@ -124,9 +124,9 @@ Patterns not on the main journey but useful in practice.
 
 List patterns by category:
 ```bash
-ls /Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/patterns/
-ls /Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/anti-patterns/
-ls /Users/ladak/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/obstacles/
+ls ~/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/patterns/
+ls ~/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/anti-patterns/
+ls ~/workspace/knowledge/references-for-skills/ai-patterns-lexler/augmented-coding-patterns/documents/obstacles/
 ```
 
 ## Online
