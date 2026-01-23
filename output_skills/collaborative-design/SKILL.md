@@ -80,7 +80,7 @@ Track what was decided and why. Update docs as design evolves.
 
 - Jumping to code before exploring the design space
 - Showing one solution instead of options
-- Asking multiple questions at once (ask one, wait, ask next)
+- Asking multiple questions at once (show the whole list, then ask each question one at a time)
 - Making assumptions without checking (real data, real APIs)
 - Skipping mockups for "obvious" UIs
 - Deciding without discussing tradeoffs
