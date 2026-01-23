@@ -11,17 +11,10 @@ Stay in design mode. Resist jumping to implementation. Explore the problem space
 
 ## Core Principle: Show, Don't Tell
 
-Instead of describing what happens, show it:
+Instead of describing what happens in prose, show it visually. Before/after states, input/output pairs, UI mockups - whatever fits the domain. Visual beats prose.
 
-```
-Input:                              Expected:
-  Fix bug                             Fix bug
-
-  Co-authored-by: Claude...           Co-authored-by: Alice...
-  Co-authored-by: Alice...
-```
-
-This applies everywhere - scenarios, test cases, UI states. Visual beats prose.
+Bad: "The system strips Claude co-authors and keeps human ones"
+Good: Show the actual input and expected output side by side
 
 ## Process
 
@@ -50,33 +43,13 @@ Once the problem is understood, walk through what happens in order:
 This uncovers unknowns. Each step becomes a scenario to explore.
 
 ### 4. Show Scenarios Visually
-For each scenario, show the before/after or input/output:
+For each scenario, show the transformation or state change. Format depends on domain:
+- Config/data: show before and after
+- UI: show screen states and transitions
+- Pipelines: show input → output
+- Workflows: show steps with arrows
 
-**State changes:**
-```
-Before:                    After:
-  [x] claude                 [x] claude
-  [ ] alice                  [x] alice    ← added
-```
-
-**UI flows:**
-```
-> add github: isid█
-  ┌─────────────────────┐
-  │   isid              │
-  │ → isidore           │  ← user selects
-  └─────────────────────┘
-         ↓
-  [x] Llewellyn Falco <...>  ← added to list
-```
-
-**Data transformations:**
-```
-Input:                       Output:
-  msg + Claude co-author       msg only
-```
-
-Use domain language, stay high-level.
+Use domain language. Stay high-level. Show complete examples, don't truncate.
 
 ### 5. Surface Options, Then Decide
 Present 2-4 options with tradeoffs. Don't decide alone:
@@ -94,11 +67,12 @@ Track what was decided and why. Update docs as design evolves.
 ## Anti-patterns
 
 - Jumping to code before exploring the design space
-- Describing scenarios in prose instead of showing them
+- Describing scenarios in prose instead of showing them visually
 - Showing one solution instead of options
 - Asking multiple questions at once (show the whole list, then ask each one at a time)
 - Making assumptions without checking (real data, real APIs)
 - Skipping visuals for "obvious" cases
+- Truncating examples (show complete data)
 - Deciding without discussing tradeoffs
 
 ## When to Exit Design Mode
