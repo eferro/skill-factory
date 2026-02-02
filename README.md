@@ -39,6 +39,20 @@ Edits to `output_skills/` apply immediately since it's a symlink.
 
 **Local** (single project) — copy the skill folder to your project's `.claude/skills/` or create a symlink in your project yourself.
 
+## STARTER_CHARACTER
+
+Each skill defines a `STARTER_CHARACTER = [emoji]` at the top. This is a visual indicator that Claude has loaded the skill and is following its instructions. For example, the nullables skill uses ⭕️ and TDD uses 🔴/🌱/🌀.
+
+To activate this, add the following to your global `~/.claude/CLAUDE.md`:
+
+```
+Always start replies with STARTER_CHARACTER + space (default: 🍀). Stack emojis when requested, don't replace.
+```
+
+Pick any default emoji you like — it confirms Claude is reading your ground rules. When a skill activates, its emoji stacks on top: `🍀 ⭕️` means both your global rules and the nullables skill are active.
+
+Without this line in your global CLAUDE.md, the `STARTER_CHARACTER` lines in skills might have unpredictable behavior.
+
 ## Updating Best Practices
 
 ```bash
