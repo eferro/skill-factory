@@ -19,13 +19,13 @@ Contains all instructional material needed to create skills:
 - Quick-start guides
 
 ### Output Directory (`output_skills/`)
-Stores completed skills, each in its own dedicated folder organized by skill name.
+Stores completed skills organized by category, each skill in its own folder.
 
 ## Workflow
 
 1. Agent reads documentation from `docs/knowledge/`
 2. Agent creates new skill following best practices
-3. Skill is saved to `output_skills/[skill-name]/`
+3. Skill is saved to `output_skills/[category]/[skill-name]/`
 4. Process repeats for additional skills
 
 ## Future Enhancements

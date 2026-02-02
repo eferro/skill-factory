@@ -13,17 +13,21 @@ skill-factory/
 │   │       ├── overview.md             # What skills are, why they exist, core concepts
 │   │       ├── skills.md               # Implementation syntax, structure, usage patterns
 │   │       └── best-practices.md       # Proven patterns, common pitfalls, guidelines
-│   ├── creating-skills.md              # Instructions for creating skills
+│   ├── create_new_skill-process.md     # Instructions for creating skills
 │   ├── map.md                          # This file - repository structure
 │   └── project.md                      # Project-specific information
-└── output_skills/                      # Created skills organized by name
-    ├── tdd/
-    ├── nullables/
-    └── refactoring/
+└── output_skills/                      # Created skills organized by category
+    ├── testing/                        # tdd, nullables, approval-tests, bdd-with-approvals
+    ├── design/                         # hexagonal-architecture, event-modeling, collaborative-design
+    ├── practices/                      # refactoring, refinement-loop
+    ├── ai/                             # ai-patterns
+    │   └── claude-code/                # creating-hooks, creating-slash-commands, creating-process-files
+    ├── developer-tools/                # writing-bash-scripts, using-uv, git-worktrees
+    └── general-purpose/
 ```
 
 ## Purpose
 
 - **docs/**: Contains all instructional material the agent uses to create skills
-- **output_skills/**: Stores completed skills, each in its own folder
+- **output_skills/**: Stores completed skills, each in a category subfolder
 - **CLAUDE.md**: Provides context to the agent about this repository's purpose

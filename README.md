@@ -22,7 +22,7 @@ This keeps context lean while making rich knowledge available on demand.
 1. Open this folder in Claude Code
 2. Ask it to create a new skill
 3. Answer a few questions — point to references or ask Claude to search online
-4. Find your skill in `output_skills/[skill-name]/`
+4. Find your skill in `output_skills/[category]/[skill-name]/`
 
 ## Using Your Skill
 
@@ -65,5 +65,5 @@ Pulls latest skill patterns from Anthropic.
 
 ```
 docs/           — Skill creation knowledge and patterns
-output_skills/  — Generated skills (your output)
+output_skills/  — Generated skills organized by category
 ```

@@ -12,7 +12,8 @@ SKILL_ROOT = SCRIPT_DIR.parent
 REFERENCES_DIR = SKILL_ROOT / "references"
 
 SOURCES = [
-    ("https://code.claude.com/docs/en/slash-commands.md", "anthropic-slash-commands.md"),
+    ("https://code.claude.com/docs/en/skills.md", "anthropic-skills.md"),
+    ("https://code.claude.com/docs/en/interactive-mode.md", "anthropic-interactive-mode.md"),
 ]
 
 def fetch_docs():
