@@ -152,7 +152,10 @@ def interactive_mode(stdscr):
 
     if not skills:
         stdscr.addstr(0, 0, "No skills found in output_skills/. Press any key to exit.")
-        stdscr.getch()
+        try:
+            stdscr.getch()
+        except KeyboardInterrupt:
+            pass
         return
 
     selected = 0
@@ -172,7 +175,10 @@ def interactive_mode(stdscr):
         stdscr.addstr(len(skills) + 5, 0, "↑↓ navigate | SPACE toggle | q quit")
         stdscr.refresh()
 
-        key = stdscr.getch()
+        try:
+            key = stdscr.getch()
+        except KeyboardInterrupt:
+            break
 
         if key == ord("q"):
             break
