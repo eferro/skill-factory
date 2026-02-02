@@ -30,6 +30,5 @@ Stores completed skills organized by category, each skill in its own folder.
 
 ## Future Enhancements
 
-- Automated documentation fetching
 - Skill templates and generators
 - Validation and testing workflows

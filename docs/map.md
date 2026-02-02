@@ -20,10 +20,9 @@ skill-factory/
     ├── testing/                        # tdd, nullables, approval-tests, bdd-with-approvals
     ├── design/                         # hexagonal-architecture, event-modeling, collaborative-design
     ├── practices/                      # refactoring, refinement-loop
-    ├── ai/                             # ai-patterns
-    │   └── claude-code/                # creating-hooks, creating-slash-commands, creating-process-files
-    ├── developer-tools/                # writing-bash-scripts, using-uv, git-worktrees
-    └── general-purpose/
+    ├── ai/                             # ai-patterns, creating-process-files
+    │   └── claude-code/                # creating-hooks
+    └── developer-tools/                # writing-bash-scripts, using-uv, git-worktrees
 ```
 
 ## Purpose
