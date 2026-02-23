@@ -1,0 +1,39 @@
+Test Desiderata Skill for Claude Code
+Copyright (c) 2025
+
+This skill is based on Test Desiderata, a framework created by Kent Beck.
+
+Test Desiderata Framework:
+- Original Author: Kent Beck
+- Website: https://testdesiderata.com/
+- Original Essays: 
+  * https://medium.com/@kentbeck_7670/test-desiderata-94150638a4b3
+  * https://medium.com/@kentbeck_7670/programmer-test-principles-d01c064d7934
+
+The Test Desiderata framework and all its concepts, including the 12 properties 
+(Isolated, Composable, Deterministic, Fast, Writable, Readable, Behavioral, 
+Structure-insensitive, Automated, Specific, Predictive, and Inspiring) are the 
+intellectual property of Kent Beck.
+
+This skill provides Claude Code with the knowledge to apply these principles 
+when analyzing and improving test code. All credit for the underlying framework 
+and concepts goes to Kent Beck.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this skill software and associated documentation files (the "Software"), to 
+deal in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice, this permission notice, and the attribution to 
+Kent Beck as the creator of Test Desiderata shall be included in all copies 
+or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
