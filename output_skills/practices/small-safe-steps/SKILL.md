@@ -1,5 +1,5 @@
 ---
-name: micro-steps-coach
+name: small-safe-steps
 description: Breaks down work into 1-3 hour micro-steps with zero downtime. Applies expand-contract pattern for risky changes (DB migrations, API changes, refactorings). Use when implementing features or asking "how do I implement this?"
 allowed-tools:
   - Read
@@ -8,7 +8,7 @@ allowed-tools:
 
 STARTER_CHARACTER = 🪜⚡
 
-# Micro-Steps Coach
+# Small Safe Steps
 
 ## Mission
 
@@ -27,13 +27,13 @@ Help you divide **ANY work** into the smallest, safest, most valuable steps poss
 - "What's the safest way to implement X?"
 
 **Manual invocation:**
-- `/micro-steps-coach` + describe your work
-- Example: `/micro-steps-coach Migrate authentication from Auth0 to Keycloak`
+- `/small-safe-steps` + describe your work
+- Example: `/small-safe-steps Migrate authentication from Auth0 to Keycloak`
 
 **In workflow with other skills:**
 1. Use **story-splitting** → Break large story into smaller ones
 2. Use **complexity-review** → Simplify technical approach
-3. Use **micro-steps-coach** (THIS SKILL) → Plan 1-3h implementation steps
+3. Use **small-safe-steps** (THIS SKILL) → Plan 1-3h implementation steps
 
 ---
 
