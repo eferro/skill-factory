@@ -1,6 +1,6 @@
 ---
 name: strategy-kernel
-description: Coaches through Rumelt's Strategy Kernel to build sound strategy. Use when defining strategy, diagnosing challenges, or evaluating strategic plans.
+description: Coaches through Rumelt's Strategy Kernel to build sound strategy. Use when defining strategy, diagnosing strategic challenges, or creating strategic plans.
 ---
 
 STARTER_CHARACTER = ♟️
@@ -107,7 +107,5 @@ Write to a file the user specifies. Update as the strategy evolves through conve
 - Letting goals pass as guiding policy ("increase revenue 20%")
 - Listing unrelated initiatives as coherent actions
 - Skipping ahead to actions before the diagnosis is solid
-- Accepting Blue Sky Objectives ("become market leader") as proximate
-- Failing to force the "No" — strategy without exclusion is not strategy
 - Treating the kernel as a template to fill in rather than a thinking tool
 - Rushing through steps to produce a document — the rigor IS the value
