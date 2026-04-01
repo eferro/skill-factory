@@ -22,7 +22,7 @@ Expert in applying the Hamburger Method (by Gojko Adzic) to break down large fea
 
 **Do NOT use when:**
 - Story has obvious "and", "or", "manage" indicators (use story-splitting instead)
-- User is asking HOW to implement (use micro-steps-coach instead)
+- User is asking HOW to implement (use small-safe-steps instead)
 - Feature is already small (< 1 day work)
 
 ---
@@ -222,7 +222,7 @@ This skill works in sequence with other skills:
 1. **story-splitting**: Detect and split oversized stories with obvious red flags
 2. **hamburger-method** (THIS SKILL): For stories that are large but not obviously splittable, generate layers + options
 3. **complexity-review**: Review proposed vertical slice, simplify if needed
-4. **micro-steps-coach**: Break chosen vertical slice into 1-3h implementation steps
+4. **small-safe-steps**: Break chosen vertical slice into 1-3h implementation steps
 
 **Use this skill when:**
 - Feature is large but doesn't have obvious "and", "or", "manage" indicators
@@ -238,7 +238,7 @@ This skill works in sequence with other skills:
 - User: "Implement user notifications" (no obvious split points)
 - Apply hamburger-method → Identify 5 layers, generate options, compose smallest slice
 - Then use complexity-review → Ensure simplest slice is truly simple
-- Then use micro-steps-coach → Break slice into 1-3h steps
+- Then use small-safe-steps → Break slice into 1-3h steps
 
 ---
 
