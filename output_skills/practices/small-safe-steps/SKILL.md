@@ -1,6 +1,6 @@
 ---
 name: small-safe-steps
-description: Small Safe Steps (S3): breaks work into 1-3h increments with zero downtime. Use when asking "how do I implement/migrate/refactor", "what steps to do X", "plan safe migration", or handling risky DB/API changes. Applies expand-contract pattern for migrations, refactorings, schema changes.
+description: "Small Safe Steps (S3): breaks work into 1-3h increments with zero downtime. Use when asking \"how do I implement/migrate/refactor\", \"what steps to do X\", \"plan safe migration\", or handling risky DB/API changes. Applies expand-contract pattern for migrations, refactorings, schema changes."
 allowed-tools:
   - Read
   - AskUserQuestion

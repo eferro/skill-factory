@@ -86,11 +86,12 @@ Decide scope:
 ```yaml
 ---
 name: skill-name
-description: [What it does]. Use when [trigger context]. (drop the second part if it's redundant with the first)
+description: "[What it does]. Use when [trigger context]. (drop the second part if it's redundant with the first)"
 ---
 ```
 - Name: The essence of what the skill does. Lowercase, hyphens. Avoid verbose names.
 - Description: Lean and precise. Third person. Lead with what the skill does, follow with trigger context. This is the primary triggering mechanism — revisit step 4 guidance if needed.
+- Quote `description` when it contains `:`, quotes, or other YAML-sensitive characters. Double quotes are the safest default.
 
 **Body:**
 - Start with `STARTER_CHARACTER = [emoji]` — This signals when the skill is active. Pick an emoji that represents the skill's purpose as much as possible.

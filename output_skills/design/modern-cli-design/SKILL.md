@@ -1,6 +1,6 @@
 ---
 name: modern-cli-design
-description: Principles for building Unix-composable command-line tools in Go: stdout/stderr discipline, JSON and plain output modes, semantic exit codes, noun-verb commands, structured errors. Use when designing, building, or reviewing CLIs.
+description: "Principles for building Unix-composable command-line tools in Go: stdout/stderr discipline, JSON and plain output modes, semantic exit codes, noun-verb commands, structured errors. Use when designing, building, or reviewing CLIs."
 ---
 
 STARTER_CHARACTER = 🔧⚡
