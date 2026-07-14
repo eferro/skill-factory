@@ -19,7 +19,7 @@ skill-factory/
 └── output_skills/                      # Created skills organized by category
     ├── testing/                        # tdd, nullables, approval-tests, bdd-with-approvals
     ├── design/                         # hexagonal-architecture, event-modeling, collaborative-design
-    ├── practices/                      # refactoring, refinement-loop, code-simplifier, complexity-review, hamburger-method, small-safe-steps, story-splitting, thin-wrappers, thinkies
+    ├── practices/                      # refactoring, refinement-loop, code-simplifier, complexity-review, hamburger-method, small-safe-steps, story-splitting, thin-wrappers, thinkies, capturing-project-knowledge
     ├── strategy/                       # strategy-kernel, llm-council
     ├── tools/                          # traductor-bilingue
     ├── ai/                             # ai-patterns, creating-process-files
