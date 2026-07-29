@@ -24,7 +24,7 @@ skill-factory/
     ├── tools/                          # traductor-bilingue
     ├── ai/                             # ai-patterns, creating-process-files
     │   └── claude-code/                # creating-hooks, launching-agent-teams, refactoring-team, writing-statuslines
-    └── developer-tools/                # writing-bash-scripts, using-uv, git-worktrees
+    └── developer-tools/                # writing-bash-scripts, using-uv, git-worktrees, dockerfile-review, herdr
 ```
 
 ## Purpose
