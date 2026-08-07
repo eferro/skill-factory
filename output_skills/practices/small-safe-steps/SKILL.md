@@ -292,7 +292,7 @@ This skill works in sequence with other skills:
 1. **story-splitting**: Break down large user stories into smaller ones
 2. **hamburger-method**: Choose vertical slice to implement first
 3. **complexity-review**: Review and simplify technical approach
-4. **micro-steps-coach** (THIS SKILL): Break simplified approach into 1-3h steps
+4. **small-safe-steps** (THIS SKILL): Break simplified approach into 1-3h steps
 
 **Use this skill when:**
 - User knows WHAT to build and asks HOW to implement it
@@ -300,9 +300,9 @@ This skill works in sequence with other skills:
 - When planning execution of a story/feature/refactoring
 
 **Integration examples:**
-- Use **story-splitting** first → "Admin can create user" → Then use micro-steps-coach to plan the 1-3h steps
-- Use **hamburger-method** first → Choose slice (manual email notification) → Then use micro-steps-coach for implementation steps
-- Use **complexity-review** first → Simplify to PostgreSQL instead of Kafka → Then use micro-steps-coach for migration steps
+- Use **story-splitting** first → "Admin can create user" → Then use small-safe-steps to plan the 1-3h steps
+- Use **hamburger-method** first → Choose slice (manual email notification) → Then use small-safe-steps for implementation steps
+- Use **complexity-review** first → Simplify to PostgreSQL instead of Kafka → Then use small-safe-steps for migration steps
 
 **Do NOT use this skill when:**
 - User hasn't decided what to build yet (use story-splitting first)
