@@ -21,6 +21,7 @@ skill-factory/
     ├── design/                         # hexagonal-architecture, event-modeling, collaborative-design
     ├── practices/                      # refactoring, refinement-loop, code-simplifier, complexity-review, hamburger-method, small-safe-steps, story-splitting, thin-wrappers, thinkies, capturing-project-knowledge
     ├── strategy/                       # strategy-kernel, llm-council
+    ├── productivity/                   # handoff
     ├── tools/                          # traductor-bilingue
     ├── ai/                             # ai-patterns, creating-process-files
     │   └── claude-code/                # creating-hooks, launching-agent-teams, refactoring-team, writing-statuslines
