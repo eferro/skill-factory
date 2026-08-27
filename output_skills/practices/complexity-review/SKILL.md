@@ -80,7 +80,7 @@ Use these categories to systematically challenge technical proposals. For the co
 **Do NOT use when:**
 - Simple feature implementation (use hamburger-method or story-splitting instead)
 - Work is already planned and simple
-- User asks "how to" implement something specific (use micro-steps-coach instead)
+- User asks "how to" implement something specific (use small-safe-steps instead)
 
 ---
 
@@ -361,7 +361,7 @@ This skill works in sequence with other skills:
 **Typical workflow:**
 1. **story-splitting** or **hamburger-method**: Break down features into small slices
 2. **complexity-review** (THIS SKILL): Review proposed technical approach, simplify
-3. **micro-steps-coach**: Break simplified approach into 1-3h steps
+3. **small-safe-steps**: Break simplified approach into 1-3h steps
 
 **Use this skill when:**
 - User proposes a specific technical solution (after understanding what they want to achieve)
@@ -370,7 +370,7 @@ This skill works in sequence with other skills:
 
 **Do NOT use this skill when:**
 - The approach is already simple (single database, monolith, basic API)
-- User is asking "how to implement" (that's micro-steps-coach territory)
+- User is asking "how to implement" (that's small-safe-steps territory)
 
 ---
 
