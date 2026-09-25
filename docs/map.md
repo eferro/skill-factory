@@ -15,17 +15,18 @@ skill-factory/
 │   │       └── best-practices.md       # Proven patterns, common pitfalls, guidelines
 │   ├── create_new_skill-process.md     # Instructions for creating skills
 │   ├── map.md                          # This file - repository structure
+│   ├── upstream-skills.md              # Registry of skills imported from third-party repos
 │   └── project.md                      # Project-specific information
 └── output_skills/                      # Created skills organized by category
     ├── testing/                        # tdd, nullables, approval-tests, bdd-with-approvals
-    ├── design/                         # hexagonal-architecture, event-modeling, collaborative-design
+    ├── design/                         # hexagonal-architecture, event-modeling, collaborative-design, domain-modeling, grill-with-docs, prototype
     ├── practices/                      # refactoring, refinement-loop, code-simplifier, complexity-review, hamburger-method, small-safe-steps, story-splitting, thin-wrappers, thinkies, capturing-project-knowledge
     ├── strategy/                       # strategy-kernel, llm-council
-    ├── productivity/                   # handoff
+    ├── productivity/                   # handoff, grilling, grill-me, wait-what
     ├── tools/                          # traductor-bilingue
     ├── ai/                             # ai-patterns, creating-process-files
     │   └── claude-code/                # creating-hooks, launching-agent-teams, refactoring-team, writing-statuslines
-    └── developer-tools/                # writing-bash-scripts, using-uv, git-worktrees, dockerfile-review, herdr
+    └── developer-tools/                # writing-bash-scripts, using-uv, git-worktrees, dockerfile-review, herdr, wizard
 ```
 
 ## Purpose
