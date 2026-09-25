@@ -14,7 +14,9 @@ python ~/.claude/skills/writing-statuslines/scripts/update-docs.py
 
 ## What Status Lines Are
 
-Custom scripts that display contextual information at the bottom of Claude Code's interface. Updated when conversation messages change, at most every 300ms.
+A shell command whose stdout renders as a bar at the bottom of Claude Code, in its own row above the footer badges. With a custom status line configured, most footer keyboard hints (`esc to interrupt`, `? for shortcuts`) are no longer shown.
+
+`/statusline <natural language>` generates a script in `~/.claude/` and updates settings; `/statusline delete` removes it.
 
 ## Configuration
 
@@ -25,99 +27,81 @@ Add to `~/.claude/settings.json` (user-level) or `.claude/settings.json` (projec
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh",
-    "padding": 0
+    "padding": 2,
+    "refreshInterval": 5
   }
 }
 ```
 
-`padding` is optional. Set to 0 to let the status line reach the terminal edge.
+- `command` runs in a shell: a script path or an inline command (e.g. a `jq -r` one-liner).
+- `padding` (optional, default `0`): extra horizontal spacing added to the built-in spacing — relative indentation, not distance from the terminal edge.
+- `refreshInterval` (optional, seconds, min `1`): also re-run on a timer. Set it for clocks or when background subagents change state while the session is idle; leave unset to run only on events.
+- `hideVimModeIndicator` (optional): `true` hides the built-in `-- INSERT --` when the script renders `vim.mode` itself.
 
 ## How It Works
 
-- Claude Code passes session context as JSON via stdin to the script
-- First line of stdout becomes the status line text
-- ANSI color codes supported
-- Script must be executable (`chmod +x`)
-- Only stdout is used (not stderr)
+- Claude Code passes session JSON via stdin; the script prints to stdout
+- **Every line of stdout is a row** — multi-line status lines are supported
+- ANSI colors supported; OSC 8 escape sequences make text clickable (iTerm2, Kitty, WezTerm; not Terminal.app)
+- Terminal size is in `COLUMNS` / `LINES` env vars — `tput cols` cannot see the terminal because output is captured
+- Script must be executable (`chmod +x`); only stdout is used
+- Runs under workspace trust, like hooks: blank until the folder is trusted
 
-## JSON Input Schema
+### When it runs
 
-The script receives this via stdin:
+Once at session start/resume, then on: new assistant message, `/compact` finishing, permission mode change, vim mode toggle, `command` change, `refreshInterval` tick, a `rate_limits.*.resets_at` passing, a warm `prompt_cache.expires_at` passing.
 
-```json
-{
-  "hook_event_name": "Status",
-  "session_id": "abc123...",
-  "transcript_path": "/path/to/transcript.json",
-  "cwd": "/current/working/directory",
-  "model": {
-    "id": "claude-opus-4-1",
-    "display_name": "Opus"
-  },
-  "workspace": {
-    "current_dir": "/current/working/directory",
-    "project_dir": "/original/project/directory"
-  },
-  "version": "1.0.80",
-  "output_style": {
-    "name": "default"
-  },
-  "cost": {
-    "total_cost_usd": 0.01234,
-    "total_duration_ms": 45000,
-    "total_api_duration_ms": 2300,
-    "total_lines_added": 156,
-    "total_lines_removed": 23
-  },
-  "context_window": {
-    "total_input_tokens": 15234,
-    "total_output_tokens": 4521,
-    "context_window_size": 200000,
-    "used_percentage": 42.5,
-    "remaining_percentage": 57.5,
-    "current_usage": {
-      "input_tokens": 8500,
-      "output_tokens": 1200,
-      "cache_creation_input_tokens": 5000,
-      "cache_read_input_tokens": 2000
-    }
-  }
-}
-```
-
-`context_window.current_usage` may be `null` if no messages have been sent yet.
+Updates are **debounced at 300ms**: rapid changes batch into one run after they stop. A new trigger **cancels an in-flight script**, so a slow script may never finish.
 
 ## Key Fields
 
+Full schema, field table, and which fields may be absent or `null`: see "Available data" in the reference.
+
 - `model.display_name` — short model name ("Opus", "Sonnet")
-- `workspace.current_dir` / `workspace.project_dir` — may differ when working in subdirectories
-- `cost.total_cost_usd` — cumulative session cost
-- `context_window.used_percentage` / `remaining_percentage` — pre-calculated, ready to display
-- `context_window.current_usage` — raw token counts from the last API call
+- `workspace.current_dir` / `workspace.project_dir` — may differ when working in subdirectories; `workspace.repo.{host,owner,name}` from `origin`; `workspace.git_worktree` in linked worktrees
+- `context_window.used_percentage` / `remaining_percentage` — pre-calculated from input tokens only; may be `null` early
+- `context_window.current_usage` — raw token counts from the last API call; `null` before the first call and right after `/compact`
+- `cost.total_cost_usd` — estimated at list price, resets on `/clear`
+- `rate_limits.five_hour` / `seven_day` — `used_percentage`, `resets_at` (Pro/Max only; each window may be absent)
+- `prompt_cache.warm`, `prompt_cache.hit_ratio` — cache state for the main conversation
+- `effort.level`, `thinking.enabled`, `fast_mode`, `vim.mode`, `agent.name`
+- `pr.number` / `pr.url` / `pr.review_state` — open PR (or GitLab MR, `pr.kind: "mr"`) for the branch
+- `session_id` — stable per session; use it to key cache files
+- `session_name`, `worktree.*` — present only when set
+
+Optional objects (`vim`, `agent`, `pr`, `worktree`, `rate_limits`, `prompt_cache`, `effort`, `workspace.repo`…) are missing, not `null`, when they don't apply. Always use fallbacks: `jq -r '.rate_limits.five_hour.used_percentage // empty'`.
 
 ## Constraints
 
-- Output exactly one line
-- Runs every 300ms at most — expensive operations must be cached
-- Keep it scannable: glanceable in under a second
-- Script must exit cleanly and quickly
+- Keep it scannable: glanceable in under a second, short enough not to truncate on narrow terminals (notifications share the row)
+- Exit cleanly and quickly — non-zero exit or empty output blanks the status line
+- Cache expensive operations (git, network) in a file keyed by `session_id`; never by `$$`/PID, which changes every run
 
 ## Anti-Patterns
 
-- Cramming too much info — pick 3-4 data points max
+- Cramming too much info — pick 3-4 data points per line
 - Not consuming stdin (script must read it even if it doesn't use all fields)
 - Expensive uncached operations (git commands, API calls) on every invocation
-- Multiple output lines (only first line is used)
+- Cache files keyed by PID, or shared across sessions
+- Reading fields without null/absent fallbacks
+- Using `tput cols` for width instead of `COLUMNS`
+- `echo -e` for OSC 8 links — use `printf '%b'`
 - Forgetting `chmod +x`
 - Writing to stderr instead of stdout
+
+## Subagent Rows
+
+`subagentStatusLine` (same shape as `statusLine`) customizes each subagent row in the agent panel. It receives a `tasks` array plus `columns` on stdin, and prints one JSON line per row to override: `{"id": "<task id>", "content": "<row body>"}`. Omit an id to keep the default; empty `content` hides the row. Details in the reference.
 
 ## Testing
 
 Test scripts manually with mock JSON:
 ```bash
-echo '{"model":{"display_name":"Sonnet"},"workspace":{"current_dir":"/test"},"cost":{"total_cost_usd":0.05},"context_window":{"used_percentage":42.5}}' | ./statusline.sh
+echo '{"model":{"display_name":"Opus"},"workspace":{"current_dir":"/test"},"cost":{"total_cost_usd":0.05},"context_window":{"used_percentage":42.5},"session_id":"test-session"}' | COLUMNS=80 ./statusline.sh
 ```
+
+Not appearing? Check `chmod +x`, stdout vs stderr, workspace trust, `disableAllHooks` / `allowManagedHooksOnly`, and run `claude --debug` for the exit code and stderr of the first invocation.
 
 ## Reference
 
-- [references/anthropic-statusline.md](references/anthropic-statusline.md) - Complete reference with examples in bash, python, and node
+- [references/anthropic-statusline.md](references/anthropic-statusline.md) - Complete reference: full JSON schema, prompt cache fields, examples (context bar, git with colors, cost, multi-line, clickable links, rate limits, caching, Windows) in bash, python, and node, and troubleshooting
