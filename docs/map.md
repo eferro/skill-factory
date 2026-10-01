@@ -21,7 +21,7 @@ skill-factory/
     ├── testing/                        # tdd, nullables, approval-tests, bdd-with-approvals
     ├── design/                         # hexagonal-architecture, event-modeling, collaborative-design, domain-modeling, grill-with-docs, prototype
     ├── practices/                      # refactoring, refinement-loop, code-simplifier, complexity-review, hamburger-method, small-safe-steps, story-splitting, thin-wrappers, thinkies, capturing-project-knowledge
-    ├── strategy/                       # strategy-kernel, llm-council
+    ├── strategy/                       # strategy-kernel, customer-okrs, llm-council
     ├── productivity/                   # handoff, grilling, grill-me, wait-what
     ├── tools/                          # traductor-bilingue
     ├── ai/                             # ai-patterns, creating-process-files
