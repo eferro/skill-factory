@@ -1,5 +1,5 @@
 ---
-name: customer-okrs
+name: behavior-okrs
 description: Coaches teams to write OKRs that measure customer behavior change ("Who does what by how much", Gothelf and Seiden) instead of tasks, outputs, or system metrics. Use when writing, reviewing, or fixing OKRs, key results, or quarterly team goals.
 ---
 

@@ -7,7 +7,7 @@ This directory contains skills focused on strategic thinking, decision-making, a
 | Skill | What it is for |
 | --- | --- |
 | [`strategy-kernel`](./strategy-kernel/SKILL.md) | Coaches through Rumelt's Strategy Kernel (diagnosis, guiding policy, coherent action) to build sound strategy. |
-| [`customer-okrs`](./customer-okrs/SKILL.md) | Coaches teams to write OKRs as customer behavior change (Who does what by how much, Gothelf and Seiden) rather than tasks, outputs, or system metrics. |
+| [`behavior-okrs`](./behavior-okrs/SKILL.md) | Coaches teams to write OKRs as customer behavior change (Who does what by how much, Gothelf and Seiden) rather than tasks, outputs, or system metrics. |
 | [`llm-council`](./llm-council/SKILL.md) | Runs a question through 5 AI advisors with different thinking styles, anonymous peer review, and chairman synthesis to pressure-test decisions with stakes. |
 
 ## Skill Origins
