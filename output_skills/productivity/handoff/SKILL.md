@@ -27,6 +27,7 @@ The value of a handoff is the context that exists nowhere else. Prioritise accor
 - **Constraints** — deadlines, compatibility requirements, things the user asked not to touch, environment quirks discovered the hard way.
 - **References** — paths, URLs, ticket IDs, branch names, and the exact commands used to build, run, or test.
 - **Suggested skills** — skills the next agent should invoke, and for which part of the work.
+- **Scheduled jobs** — run CronList first. A session cron keeps firing after `/clear`. For each job, either delete it with CronDelete and tell the next session to recreate it, or record that it is still running so the next session does not create a second copy.
 
 ## What to leave out
 
