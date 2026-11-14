@@ -23,6 +23,7 @@ Mode: **verbatim** = imported as-is plus repo conventions (sync by re-copying);
 | design/prototype | mattpocock/skills | skills/engineering/prototype | c55ee46 | 2026-09-25 | verbatim | MIT |
 | developer-tools/wizard | mattpocock/skills | skills/engineering/wizard | c55ee46 | 2026-09-25 | verbatim | MIT |
 | developer-tools/herdr | ogulcancelik/herdr | SKILL.md (now skills/herdr/SKILL.md) | 0f161fa | 2026-07-29 | verbatim | Apache-2.0 |
+| ai/ce-retro (on trial) | [EveryInc/compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin/tree/main/skills/ce-retro) | skills/ce-retro | d6d0062 | 2026-11-14 | verbatim | MIT |
 
 ### Checking for upstream changes
 

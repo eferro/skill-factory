@@ -24,7 +24,7 @@ skill-factory/
     ├── strategy/                       # strategy-kernel, behavior-okrs, llm-council
     ├── productivity/                   # handoff, grilling, grill-me, wait-what
     ├── tools/                          # traductor-bilingue
-    ├── ai/                             # ai-patterns, creating-process-files
+    ├── ai/                             # ai-patterns, creating-process-files, ce-retro
     │   └── claude-code/                # creating-hooks, launching-agent-teams, refactoring-team, writing-statuslines
     └── developer-tools/                # writing-bash-scripts, using-uv, git-worktrees, dockerfile-review, herdr, wizard
 ```
