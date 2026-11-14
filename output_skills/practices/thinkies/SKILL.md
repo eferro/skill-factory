@@ -44,7 +44,7 @@ Suggest 3-5 relevant Thinkies. Present each with name, pattern, transformation, 
 - **Half in Half**: Ask "which half in half the time?"
 
 **For complex situations or more options:**
-Reference `references/catalog.md` for 80+ Thinkies organized by category.
+Reference `references/catalog.md` for 90+ Thinkies. It is large: grep for a name or keyword (e.g. `grep -n -A4 "
 
 **For examples:**
 Reference `references/examples.md` for product and software development scenarios.
